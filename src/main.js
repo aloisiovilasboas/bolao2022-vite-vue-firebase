@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from "./router"
-import store from './store'
+
 
 
 
@@ -14,19 +14,19 @@ import 'primeicons/primeicons.css';                           //icons
 
 import './style.css';
 
-// import { initializeApp } from "firebase/app";
-// import { firebaseConfig } from './firebaseConfig';
+ import { initializeApp } from "firebase/app";
+ import { firebaseConfig } from './firebaseConfig';
 
 
 // Initialize Firebase
-// initializeApp(firebaseConfig);
+
+initializeApp(firebaseConfig);
 
 const app = createApp(App);
 
 
 
 app.use(router);
-app.use(store);
 app.use(PrimeVue);
 app.mount('#app')
 
