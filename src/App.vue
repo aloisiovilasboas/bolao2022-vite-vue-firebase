@@ -34,7 +34,6 @@
 <script setup>
 
 import Toolbar from 'primevue/toolbar';
-import Dock from 'primevue/dock';
 
 import { onMounted, ref } from "vue";
 import { getAuth, onAuthStateChanged, signOut } from "@firebase/auth";
@@ -56,6 +55,7 @@ onMounted(() => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       isLoggedIn.value = true;
+      console.log(document)
     } else {
       isLoggedIn.value = false;
     }
@@ -69,9 +69,6 @@ const handleSignOut = () =>{
   });
 
 };
-
-
-
 
 </script>
 

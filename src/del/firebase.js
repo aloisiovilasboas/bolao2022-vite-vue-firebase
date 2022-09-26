@@ -16,7 +16,7 @@ import { db } from "firebase/firestore";
 //import { fs } from "firebase"
  */
 
-import { firebaseConfig } from './firebaseConfig';
+import { firebaseConfig } from '../firebaseConfig';
 initializeApp(firebaseConfig);
 
 const app = initializeApp(firebaseConfig);
