@@ -4,6 +4,7 @@
   <Card style="width: 25em">
             <template #header>
                 <img src="https://cf.shopee.com.br/file/35c7f1f5f0de28f54931c406432540ba"  />
+            <!--     <img src="../assets/imgs/rascunho.png"  /> -->
             </template>
             <template #title>
                 Bolão do AFC - 2022

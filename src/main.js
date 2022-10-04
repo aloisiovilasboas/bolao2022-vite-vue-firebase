@@ -15,15 +15,30 @@ import 'primeicons/primeicons.css';                           //icons
 
 import './style.css';
 
- import { initializeApp } from "firebase/app";
+import { inicializarFirebase } from "../src/services/firebase"
+
+ /* import { initializeApp } from "firebase/app";
+ import { getFirestore } from "firebase/firestore";
+
  import { firebaseConfig } from './firebaseConfig';
 
 
 // Initialize Firebase
 
-initializeApp(firebaseConfig);
+const fireapp = initializeApp(firebaseConfig);
 
-const pinia = createPinia()
+const db = getFirestore(fireapp); */
+
+inicializarFirebase();
+
+const pinia = createPinia();
+
+if (localStorage.getItem("state")){
+    pinia.state.value = JSON.parse(localStorage.getItem("state"));
+}
+  
+
+
 const app = createApp(App);
 
 
@@ -31,5 +46,12 @@ const app = createApp(App);
 app.use(router);
 app.use(PrimeVue);
 app.use(pinia)
+
+
+
 app.mount('#app')
+
+
+
+
 

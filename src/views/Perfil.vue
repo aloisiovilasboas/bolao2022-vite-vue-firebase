@@ -1,12 +1,26 @@
 <script setup>
 import { ref } from 'vue'
 import { addDoc, collection } from "firebase/firestore"; 
+import { db } from "../services/firebase"
+
+
+import { useUserStore } from "../stores/user";
 
 defineProps({
   msg: String
 })
 
+const store = useUserStore();
+//store.user.name
+//store.user.email = 'asdasd@asdas'
+//store.website
+//store.changeName ('jose')
 const count = ref(0)
+const nameInput = ref("")
+const handleSubmit = () =>{
+  store.changeName(nameInput.value);
+  nameInput.value="";
+}
 
 async function teste(){
 try {
@@ -27,6 +41,17 @@ try {
 
 <template>
 
+  <h1> Name is {{ store.user.name }}</h1>
+  <h2> Name is {{ store.user.email }}</h2>
+  <h2> Name is {{ store.website }} </h2>
+
+  <input
+   type="text"
+   placeholder="Novo nome"
+   v-model ="nameInput"
+  >
+  <button @click ="handleSubmit">muda nome</button>
+  <button @click ="teste">teste</button>
 <div class="card">
     <div class="card-container blue-container flex align-items-center justify-content-start">
         <div class="hidden w-4rem h-4rem bg-blue-500 text-white font-bold p-4 border-round mr-3">1</div>

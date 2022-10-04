@@ -4,18 +4,21 @@ import { getAuth, onAuthStateChanged } from "@firebase/auth";
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: "/", component: () => import("../views/Home.vue")},
-        { 
-            path: "/perfil",
-            component: () => import("../views/Perfil.vue"),
+        { path: "/", component: () => import("../views/Home.vue")},   
+        { path: "/register", component: () => import("../views/Register.vue")},
+        { path: "/sign-in", component: () => import("../views/SignIn.vue")},
+        { path: "/perfil", component: () => import("../views/Perfil.vue"),
             meta: {
                 requiresAuth: true,
             }
         },
-            
-        { path: "/register", component: () => import("../views/Register.vue")},
-        { path: "/sign-in", component: () => import("../views/SignIn.vue")},
-        { path: "/testedb", component: () => import("../del/testedb.vue")},
+        {
+            path: "/admin",
+            component: () => import("../views/Admin.vue"),
+            meta: {
+                requiresAuth: true,
+            }
+        },
         
     ],
 })
