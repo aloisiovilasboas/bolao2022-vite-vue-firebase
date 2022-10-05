@@ -1,5 +1,11 @@
 import { ref, computed, watch } from "vue";
 import { defineStore } from "pinia";
+import { inicializarFirebase, auth, db, fs } from "../services/firebase";
+
+import { collection, doc, getFirestore, limit, orderBy, query } from 'firebase/firestore'
+import { useFirestore } from '@vueuse/firebase/useFirestore'
+
+const usuarios = useFirestore(collection(db, 'usuarios'))
 
 export const useUserStore = defineStore ("user" , () => {
     const user = ref({
