@@ -11,10 +11,16 @@
     })
     
     const store = useUserStore();
+    
     //store.user.name
     //store.user.email = 'asdasd@asdas'
     //store.website
     //store.changeName ('jose')
+
+    const cadastroRealizado = ref(false);
+
+    
+    const linkCadastro = ref("")
     const count = ref(0)
     const nameInput = ref("")
     const emailInput = ref("")
@@ -28,16 +34,18 @@ console.log(store.user.name+ " " +store.user.email+ " " +store.website+" "+1912 
 }
 
     async function cadastraPlayer(){
-    try {
-      const docRef = await addDoc(collection(db, "usuarios"), {
-        nome: nameInput.value,
-        usuario: emailInput.value
-      });
-      console.log(docRef);
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
+      try {
+        const docRef = await addDoc(collection(db, "usuarios"), {
+          nome: nameInput.value,
+          usuario: emailInput.value
+        });
+        console.log(docRef);
+        console.log("Document written with ID: ", docRef.id);
+        cadastroRealizado.value = true
+        linkCadastro.value = docRef.id
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
     }
     async function teste(){
     try {
@@ -57,27 +65,44 @@ console.log(store.user.name+ " " +store.user.email+ " " +store.website+" "+1912 
     </script>
     
     <template>
-    
-      <h1> Name is {{ store.user.name }}</h1>
+    <div>
+      <h1> Cadastrar Participante</h1>
+    </div>
+   <!--  <div>
       <h2> Name is {{ store.user.email }}</h2>
+    </div>
       <h2> Name is {{ store.website }} </h2>
-    
+    -->
+      <div> 
       <input
        type="text"
        placeholder="Nome"
        v-model ="nameInput"
       >
-
+    </div>
+    <!-- <div>
       <input
        type="text"
        placeholder="Email"
        v-model ="emailInput"
       >
-
+    </div> -->
+    <div>
+      <h2></h2>
+    </div>
       <button @click ="cadastraPlayer">Cadastrar</button>
-      <button @click ="handleSubmit">muda nome</button>
+    <div></div>
+    <div v-if="cadastroRealizado">
+      <h2> Link: </h2>
+      <a href="http://127.0.0.1:5173/users/{{linkCadastro}}"> http://127.0.0.1:5173/users/{{linkCadastro}}</a>
+    </div>
+
+      
+   <!--    <button @click ="handleSubmit">muda nome</button>
       <button @click ="teste">teste</button>
-      <button @click ="log">log</button>
+      <button @click ="log">log</button> -->
+
+      <!-- 
     <div class="card">
         <div class="card-container blue-container flex align-items-center justify-content-start">
             <div class="hidden w-4rem h-4rem bg-blue-500 text-white font-bold p-4 border-round mr-3">1</div>
@@ -108,7 +133,7 @@ console.log(store.user.name+ " " +store.user.email+ " " +store.website+" "+1912 
       <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
     
     
-    
+     -->
     
     
     </template>
