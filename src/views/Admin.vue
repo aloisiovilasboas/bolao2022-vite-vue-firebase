@@ -1,7 +1,10 @@
 <script setup>
-    import { ref } from 'vue'
-    import { addDoc, collection } from "firebase/firestore"; 
+    import { ref, onMounted  } from 'vue'
+    import { addDoc, collection,  getDoc } from "firebase/firestore"; 
     import { db } from "../services/firebase"
+
+    import DataTable from 'primevue/dataTable';
+    import Column from 'primevue/column';
     
     
     import { useUserStore } from "../stores/user";
@@ -9,8 +12,15 @@
     defineProps({
       msg: String
     })
+
+    
     
     const store = useUserStore();
+    
+
+
+
+    
     
     //store.user.name
     //store.user.email = 'asdasd@asdas'
@@ -18,12 +28,24 @@
     //store.changeName ('jose')
 
     const cadastroRealizado = ref(false);
+    const playersFetched = ref(false);
 
-    
+    const usuarios = ref([]);
     const linkCadastro = ref("")
     const count = ref(0)
     const nameInput = ref("")
     const emailInput = ref("")
+
+    const handleFetchUsers = () =>{
+      store.fetchUsuarios();
+      
+      usuarios.value = store.usuarios.lista
+      console.log(usuarios.value)
+      playersFetched.value=true
+      
+
+    }
+
     const handleSubmit = () =>{
       store.changeName(nameInput.value);
       nameInput.value="";
@@ -37,7 +59,7 @@ console.log(store.user.name+ " " +store.user.email+ " " +store.website+" "+1912 
       try {
         const docRef = await addDoc(collection(db, "usuarios"), {
           nome: nameInput.value,
-          usuario: emailInput.value
+          email: '-'
         });
         console.log(docRef);
         console.log("Document written with ID: ", docRef.id);
@@ -48,23 +70,45 @@ console.log(store.user.name+ " " +store.user.email+ " " +store.website+" "+1912 
       }
     }
     async function teste(){
-    try {
-      const docRef = await addDoc(collection(db, "users"), {
-        first: store.user.name,
-        middle: store.user.email,
-        last: store.website,
-        born: 1912
-      });
-      console.log(docRef);
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
+      try {
+        const docRef = await addDoc(collection(db, "users"), {
+          first: store.user.name,
+          middle: store.user.email,
+          last: store.website,
+          born: 1912
+        });
+        console.log(docRef);
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
     }
-    }
+
+    onMounted(() => {
+      handleFetchUsers()
+    })
     
+    
+  
+  
+
+
     </script>
     
     <template>
+ 
+        <template>
+            <div v-if="playersFetched">
+                <DataTable :value=usuarios responsiveLayout="scroll">
+                    <Column field="nome" header="Code"></Column>
+                    <Column field="email" header="Name"></Column>
+                    
+                </DataTable>
+            </div>
+        </template>
+
+
+
     <div>
       <h1> Cadastrar Participante</h1>
     </div>
@@ -94,9 +138,12 @@ console.log(store.user.name+ " " +store.user.email+ " " +store.website+" "+1912 
     <div></div>
     <div v-if="cadastroRealizado">
       <h2> Link: </h2>
-      <a href="http://127.0.0.1:5173/users/{{linkCadastro}}"> http://127.0.0.1:5173/users/{{linkCadastro}}</a>
+      
+      <a href="http://127.0.0.1:5173/users/asdasd"> http://127.0.0.1:5173/users/{{linkCadastro}}</a>
     </div>
 
+    <button @click ="handleFetchUsers">handleFetchUsers</button>
+    
       
    <!--    <button @click ="handleSubmit">muda nome</button>
       <button @click ="teste">teste</button>
