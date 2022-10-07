@@ -22,6 +22,14 @@ import { inicializarFirebase } from "../src/services/firebase"
 
  import { firebaseConfig } from './firebaseConfig';
 
+ import PrimeVue from 'primevue/config'
+import Column from 'primevue/column'
+import Dialog from 'primevue/dialog'
+ 
+appInstance.component('Column', Column)
+appInstance.component('Dialog', Dialog)
+appInstance.component('Datatable', DataTable)
+
 
 // Initialize Firebase
 
@@ -45,6 +53,14 @@ const app = createApp(App);
 
 app.use(router);
 app.use(PrimeVue);
+
+import DataTable from 'primevue/dataTable';
+import Column from 'primevue/column'
+import Dialog from 'primevue/dialog'
+app.component('Column', Column)
+app.component('Dialog', Dialog)
+app.component('DataTable', DataTable)
+
 app.use(pinia)
 
 
