@@ -1,12 +1,14 @@
 import { ref, computed, watch } from "vue";
 import { defineStore } from "pinia";
+import { addDoc, collection,  getDocs, getDoc, doc } from "firebase/firestore"; 
+import { db } from "../services/firebase"
+
 //import { inicializarFirebase, auth, db, fs } from "../services/firebase";
 
 //import { collection, doc, getDocs, getFirestore, limit, orderBy, query } from 'firebase/firestore'
 //import { useFirestore } from '@vueuse/firebase/useFirestore'
 
-import { addDoc, collection,  getDocs } from "firebase/firestore"; 
-import { db } from "../services/firebase"
+
 
 // import { db } from "../services/firebase"
 
@@ -15,20 +17,26 @@ import { db } from "../services/firebase"
 export const useUserStore = defineStore ("user" ,{
         state: () => {
             const usuarios = ref([])
+            const idCadastro = ''
             const user = ref({
                 id:'nulo',
                 name: "nome",
                 email: "email",
+                nomePreCadastro: "",
+                nome: ""
             });
 
         //    const website = computed(() => user.value.email.substring(user.value.email.lastIndexOf("@") +1 ));
-            const changeId = ( newid) => {
+
+            const changeId = (newid) => {
                 user.value.id = newid;
             }
-
+            /*
             const changeName = ( newname) => {
                 user.value.name = newname;
-            }
+            } */
+
+            
 
             const fetchUsuarios = () => {
                 const colRef = collection(db, 'usuarios')
@@ -57,7 +65,7 @@ export const useUserStore = defineStore ("user" ,{
             return {
                 user,
                 //website,
-                changeName,
+               // changeName,
                 changeId,
                 usuarios,
                 fetchUsuarios
@@ -77,7 +85,24 @@ export const useUserStore = defineStore ("user" ,{
                 } catch (e) {
                   console.error("Error adding document: ", e);
                 }
+            },
+            async fetchUsuarioById(id){
+                const docRef = doc(db, "usuarios", id);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    console.log("Document data:", docSnap.data());
+                    this.user.email = docSnap.data().email
+                    this.user.nomePreCadastro = docSnap.data().nomePreCadastro
+                    this.user.id = id
+                    return true
+                  } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                    return false
+                  }
             }
+
+            
 
         }
     });

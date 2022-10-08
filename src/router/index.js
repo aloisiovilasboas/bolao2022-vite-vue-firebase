@@ -12,7 +12,7 @@ const router = createRouter({
         beforeEnter: (to, from) => {
             let usuario = '';
             const userStore = useUserStore();
-            usuario = userStore.changeId(to.params.id);
+            let linkValido = userStore.fetchUsuarioById(to.params.id);
         },
 
 
