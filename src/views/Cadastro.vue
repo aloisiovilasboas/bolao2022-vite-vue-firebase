@@ -21,11 +21,11 @@
     import { doc, getDoc } from "firebase/firestore";
     import { useUserStore } from "../stores/user";
 
-    import { defineProps, reactive } from "vue";
+    //import { defineProps, reactive } from "vue";
 
-    const props = defineProps({
+    /* const props = defineProps({
       id: String,
-    });
+    }); */
     
 
     /* const docRef = doc(db, "usuarios", this.$route.params.id);

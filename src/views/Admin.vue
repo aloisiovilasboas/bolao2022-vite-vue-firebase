@@ -1,6 +1,6 @@
 <script>
 
-  import { ref, onMounted  } from 'vue'
+  import { ref, onMounted, onBeforeMount  } from 'vue'
   import { addDoc, collection,  getDoc } from "firebase/firestore"; 
   import { db } from "../services/firebase"
   import { useUserStore } from "../stores/user"
@@ -27,46 +27,47 @@
       const store = useUserStore();
       const cadastroRealizado = ref(false);
       const products = ref();
-      const usuarios = ref();
-      const linkCadastro = ref("")
       const nameInput = ref("")
+      const emailInput = ref("")
       
       
 
       const handleFetchUsers = () =>{        
         store.fetchUsuarios();
         
-        usuarios.value = store.usuarios.lista
-        //usuarios.value = d.data
-        console.log(usuarios.value)
-        //playersFetched.value=true
          
       }
-
+/* 
       const handleSubmit = () =>{
         store.changeName(nameInput.value);
         nameInput.value="";
-      }
+      } */
       
       function log() {
           console.log(store.user.name+ " " +store.user.email+ " " +store.website+" "+1912 );
       }
 
-      async function cadastraPlayer(){
+       async function cadastraPlayer2(){
+        store.cadastraPlayer({nomePreCadastro: nameInput.value, email: emailInput.value}) 
+      } 
+
+      /* async function cadastraPlayer(){
         try {
           const docRef = await addDoc(collection(db, "usuarios"), {
-            nome: nameInput.value,
-            email: '-'
+            nomePreCadastro: nameInput.value,
+            email: emailInput.value
           });
           console.log(docRef);
           console.log("Document written with ID: ", docRef.id);
+          store.usuarios.push({nomePreCadastro: nameInput.value, email: emailInput.value, id: docRef.id })
+          
           cadastroRealizado.value = true
-          linkCadastro.value = docRef.id
+          // linkCadastro.value = docRef.id
         } catch (e) {
           console.error("Error adding document: ", e);
         }
-      }
-      async function teste(){
+      } */
+     /*  async function teste(){
         try {
           const docRef = await addDoc(collection(db, "users"), {
             first: store.user.name,
@@ -80,6 +81,10 @@
           console.error("Error adding document: ", e);
         }
       }    
+ */
+      onBeforeMount(() => {
+        handleFetchUsers()
+      })
 
       onMounted(() => {
 
@@ -100,9 +105,9 @@
         // productService.value.getProductsSmall().then(data => products.value = data);
         products.value =d.data 
         console.log( 'products.vaule: '+products.value)
-        // handleFetchUsers()
+        //handleFetchUsers()
       })
-      return { products, usuarios, nameInput, cadastroRealizado, cadastraPlayer, handleFetchUsers }
+      return { products, nameInput, emailInput, cadastroRealizado, cadastraPlayer2, handleFetchUsers, store }
     }
   }
 
@@ -110,19 +115,31 @@
   
   <template>
 
-   <div>
+   <!-- <div>
         <DataTable :value="products" >
             <Column field="code" header="Code"></Column>
             <Column field="name" header="Name"></Column>
             <Column field="category" header="Category"></Column>
             <Column field="quantity" header="Quantity"></Column>
         </DataTable>
-	</div>
+	</div> -->
   <div >
-      <DataTable :value=usuarios >
-          <Column field="email" header="email"></Column>
-          <Column field="nome" header="nome"></Column>
-          
+      <DataTable :value=store.usuarios >
+         <!--  <Column field="email" header="email"></Column> -->
+          <Column field="nomePreCadastro" header="nome"></Column>
+          <Column field="email" header="email">
+                <template #body="slotProps">
+                  {{slotProps.data.email}}
+                </template>
+            </Column>
+            
+          <!-- <Column field="linkCadastro" header="linkCadastro"></Column>
+           -->
+           <Column field="id" header="linkCadastro">
+                <template #body="slotProps">
+                  {{"http://127.0.0.1:5173/users/"+slotProps.data.id}}
+                </template>
+            </Column>
       </DataTable>
   </div> 
   <div>
@@ -140,6 +157,13 @@
       v-model ="nameInput"
     >
   </div>
+  <div> 
+    <input
+      type="text"
+      placeholder="Email"
+      v-model ="emailInput"
+    >
+  </div>
   <!-- <div>
     <input
       type="text"
@@ -150,12 +174,12 @@
   <div>
     <h2></h2>
   </div>
-    <button @click ="cadastraPlayer">Cadastrar</button>
+    <button @click ="cadastraPlayer2">Cadastrar</button>
   <div></div>
   <div v-if="cadastroRealizado">
-    <h2> Link: </h2>
     
-    <a href="http://127.0.0.1:5173/users/asdasd"> http://127.0.0.1:5173/users/{{linkCadastro}}</a>
+    
+   <!--  <a href="http://127.0.0.1:5173/users/asdasd"> http://127.0.0.1:5173/users/{{linkCadastro}}</a> -->
   </div>
 
   <button @click ="handleFetchUsers">handleFetchUsers</button>
