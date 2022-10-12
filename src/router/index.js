@@ -14,15 +14,7 @@ const router = createRouter({
             const userStore = useUserStore();
             let linkValido = userStore.fetchUsuarioById(to.params.id);
         },
-
-
         component: () => import("../views/cadastro.vue") 
-        
-        
-        
-        
-        
-        
         },
         { path: "/register", component: () => import("../views/Register.vue")},
         { path: "/sign-in", component: () => import("../views/SignIn.vue")},
@@ -54,6 +46,42 @@ const getCurrentUser = () => {
         )
     })
 };
+
+const lazyLoadRoute = AsyncView => {
+    const AsyncHandler = () => ({
+        component: AsyncView,
+        loading: Spinner
+    });
+
+    return Promise.resolve({
+        functional: true,
+        render(h, {data, children}) {
+            // Transparently pass any props or children
+            // to the view component.
+            return h(AsyncHandler, data, children);
+        }
+    });
+};
+
+
+const isUserListed = () => {
+    return new Promise ((resolve, reject) => {
+        
+
+
+
+
+        /* const removeListener =  onAuthStateChanged(
+            getAuth(),
+            (user) => {
+                removeListener();
+                resolve(user);
+            },
+            reject
+        ) */
+    })
+};
+
 
 router.beforeEach(async (to, from ,next) => {
     if (to.matched.some(record => record.meta.requiresAuth)){

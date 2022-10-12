@@ -22,7 +22,7 @@ export const useUserStore = defineStore ("user" ,{
                 id:'nulo',
                 name: "nome",
                 email: "email",
-                nomePreCadastro: "",
+                nomePreCadastro: "nan",
                 nome: ""
             });
 
@@ -101,9 +101,6 @@ export const useUserStore = defineStore ("user" ,{
                     return false
                   }
             }
-
-            
-
         }
     });
 
