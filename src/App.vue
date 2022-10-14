@@ -1,18 +1,16 @@
 
 <template>
-  <div>
-    <div class="card">
-    <div>
+  <div >
       <router-view/>  
-    </div>
-  </div>
+  </div>    
+  
     <div class="cssmenu">
     <Toolbar  fixed>
       <template #start>
         <Button icon="pi pi-bars" class="p-button-rounded p-button-Primary p-button-text"  @click="visibleLeft = true" /><h4> Bolão do AFC 2022</h4>
       </template>
     </Toolbar>
-</div>
+
 <div class="card">
   <Sidebar v-model:visible="visibleLeft">
     <div class="card">
@@ -79,7 +77,14 @@ const handleSignOut = () =>{
 </script>
 
 <style>
+  .app {
+    width: 100%;
+  }
+
   .button-sidebar {
+    width: 100%;
+  }
+  .routerview{
     width: 100%;
   }
   .cssmenu {
@@ -89,7 +94,7 @@ const handleSignOut = () =>{
       width: 100%;
   }
 </style>
-
+<!-- 
 <style lang="scss" scoped>
   .p-button {
       margin-right: .5rem;
@@ -130,3 +135,4 @@ const handleSignOut = () =>{
   }
   </style>
   
+ -->
