@@ -8,13 +8,13 @@ const router = createRouter({
     routes: [
         { path: "/", component: () => import("../views/Home.vue")},   
         {
-        path: '/users/:id',
-        beforeEnter: (to, from) => {
-            let usuario = '';
-            const userStore = useUserStore();
-            let linkValido = userStore.fetchUsuarioById(to.params.id);
-        },
-        component: () => import("../views/cadastro.vue") 
+            path: '/users/:id',
+            beforeEnter: (to, from) => {
+                let usuario = '';
+                const userStore = useUserStore();
+                let linkValido = userStore.fetchUsuarioById(to.params.id);
+            },
+            component: () => import("../views/confirmarCadastro.vue") 
         },
         { path: "/register", component: () => import("../views/Register.vue")},
         { path: "/sign-in", component: () => import("../views/SignIn.vue")},
@@ -30,7 +30,6 @@ const router = createRouter({
                 requiresAuth: true,
             }
         },
-        
     ],
 })
 

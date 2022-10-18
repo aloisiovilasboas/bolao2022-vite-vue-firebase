@@ -1,7 +1,8 @@
 
 
 <template>
-  <Card style="width: 25em">
+    <div >
+  <Card class="inscricao" >
             <template #header>
                 <img src="https://cf.shopee.com.br/file/35c7f1f5f0de28f54931c406432540ba"  />
             <!--     <img src="../assets/imgs/rascunho.png"  /> -->
@@ -22,7 +23,7 @@
                 <Button icon="pi pi-times" label="Cancel" class="p-button-secondary" style="margin-left: .5em" />
             </template>
         </Card>
-
+    </div>
   
 
   

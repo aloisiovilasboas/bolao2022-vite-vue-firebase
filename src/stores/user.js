@@ -20,10 +20,8 @@ export const useUserStore = defineStore ("user" ,{
             const idCadastro = ''
             const user = ref({
                 id:'nulo',
-                name: "nome",
                 email: "email",
-                nomePreCadastro: "nan",
-                nome: ""
+                nome: "nan",
             });
 
         //    const website = computed(() => user.value.email.substring(user.value.email.lastIndexOf("@") +1 ));

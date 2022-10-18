@@ -1,32 +1,30 @@
 
 <template>
-  <div >
+    
+    <div class="cssrouterview">
       <router-view/>  
-  </div>    
-  
+    </div>    
     <div class="cssmenu">
-    <Toolbar  fixed>
-      <template #start>
-        <Button icon="pi pi-bars" class="p-button-rounded p-button-Primary p-button-text"  @click="visibleLeft = true" /><h4> Bolão do AFC 2022</h4>
-      </template>
-    </Toolbar>
-
-<div class="card">
-  <Sidebar v-model:visible="visibleLeft">
-    <div class="card">
-      <div class="card-container yellow-container">
-        <router-link to="/"> <Button label="Home" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link>
-        <router-link to="/perfil"> <Button label="Perfil" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
-        <router-link to="/register"> <Button label="Register" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
-        <router-link to="/sign-in"> <Button label="Login" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
-        <router-link to="/admin"> <Button label="Admin" class="p-button-text button-sidebar" icon="pi pi-check" v-if="isLoggedIn" /> </router-link> 
-        <Button label="Sair" class="p-button-text button-sidebar" icon="pi pi-check" @click="handleSignOut" v-if="isLoggedIn" />  
+      <Toolbar  fixed class="barra">
+        <template #start>
+          <Button icon="pi pi-bars" class="p-button-rounded p-button-Primary p-button-text"  @click="visibleLeft = true" /><h4> Bolão do AFC 2022</h4>
+        </template>
+      </Toolbar>      
+      <div class="card">
+        <Sidebar v-model:visible="visibleLeft">
+          <div class="card">
+            <div class="card-container yellow-container">
+              <router-link to="/"> <Button label="Home" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link>
+              <router-link to="/perfil"> <Button label="Perfil" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
+              <router-link to="/register"> <Button label="Register" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
+              <router-link to="/sign-in"> <Button label="Login" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
+              <router-link to="/admin"> <Button label="Admin" class="p-button-text button-sidebar" icon="pi pi-check" v-if="isLoggedIn" /> </router-link> 
+              <Button label="Sair" class="p-button-text button-sidebar" icon="pi pi-check" @click="handleSignOut" v-if="isLoggedIn" />  
+            </div>
+          </div>
+        </Sidebar>   
       </div>
     </div>
-  </Sidebar>
-  
-</div>
-</div>
 </template>
 
 <script setup>
@@ -93,6 +91,7 @@ const handleSignOut = () =>{
       top: 0;
       width: 100%;
   }
+  
 </style>
 <!-- 
 <style lang="scss" scoped>
