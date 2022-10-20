@@ -1,17 +1,15 @@
 <template>
+    <div v-if="userStore.user.loading"><h3>Loading...</h3></div>
+    <div v-else-if ="userStore.user.valido==false"><h1>Esse link não é válido</h1></div>
+    <div v-else>
      <h4>Bem vindo, {{ userStore.user.nomePreCadastro }} </h4> 
     <div >
   <Card class="inscricao" >
             <template #header>
                 <img src="https://cf.shopee.com.br/file/35c7f1f5f0de28f54931c406432540ba"  />
-            <!--     <img src="../assets/imgs/rascunho.png"  /> -->
+            
             </template>
-            <!-- <template #title>
-                Bolão do AFC - 2022
-            </template>
-            <template #subtitle>
-                Bem vindo
-            </template> -->
+            
             <template #content>
                 <p>O Bolão do AFC é um jogo de entretenimento entre amigos e não tem nenhum fim lucrativo. Presente desde a Copa do Mundo FIFA 2002, o Bolão do AFC encara a sua 6ª Copa do Mundo promovendo grande interação entre os participantes e tornando o mundial ainda mais gostoso de se assistir. Leia atentamente as regras, cadastre os seus palpites e divirta-se!</p>
                 <p>Deseja se inscrever no Bolão do AFC 2022?</p>
@@ -74,6 +72,7 @@
 
     <!-- <p><button @click="signInWithGoogle">Entrar com o google</button></p> -->
 
+    </div>
 </template>
 
 <script setup>
@@ -115,6 +114,7 @@
         )
 
     const nomeUsuario = ref("")
+    const loading = ref(true)
 
     const email = ref("");
     const password = ref("");
@@ -166,9 +166,9 @@
     } */
 
     onMounted(() => {
-        
+        console.log(userStore.user.nomePreCadastro)
         userStore.fetchUsuarioById(userStore.user.id)
-        nomeUsuario.value = userStore.user.nomePreCadastro
-        //console.log(userStore.user.id)
+        console.log(userStore.user.nomePreCadastro)
+        loading.value = false
     })
 </script>

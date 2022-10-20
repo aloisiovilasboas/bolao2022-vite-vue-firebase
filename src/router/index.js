@@ -30,6 +30,11 @@ const router = createRouter({
                 requiresAuth: true,
             }
         },
+        {
+            path: "/:pathmatch(.*)*",
+            name: 'naoEncontrado',
+            component: () => import("../views/naoEncontrado.vue")
+        }
     ],
 })
 

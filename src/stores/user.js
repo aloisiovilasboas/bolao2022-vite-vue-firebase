@@ -19,6 +19,8 @@ export const useUserStore = defineStore ("user" ,{
             const usuarios = ref([])
             const idCadastro = ''
             const user = ref({
+                valido:false,
+                loading:true,
                 id:'nulo',
                 email: "email",
                 nome: "nan",
@@ -92,8 +94,12 @@ export const useUserStore = defineStore ("user" ,{
                     this.user.email = docSnap.data().email
                     this.user.nomePreCadastro = docSnap.data().nomePreCadastro
                     this.user.id = id
+                    this.user.valido = true
+                    this.user.loading = false
                     return true
                   } else {
+                    this.user.loading = false
+                   // this.user.valido = false
                     // doc.data() will be undefined in this case
                     console.log("No such document!");
                     return false
