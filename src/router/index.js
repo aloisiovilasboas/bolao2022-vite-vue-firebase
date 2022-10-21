@@ -18,6 +18,8 @@ const router = createRouter({
         },
         { path: "/register", component: () => import("../views/Register.vue")},
         { path: "/sign-in", component: () => import("../views/SignIn.vue")},
+        { path: "/Regras", component: () => import("../views/Regras.vue")},
+        { path: "/Sobre", component: () => import("../views/Sobre.vue")},
         { path: "/perfil", component: () => import("../views/Perfil.vue"),
             meta: {
                 requiresAuth: true,
