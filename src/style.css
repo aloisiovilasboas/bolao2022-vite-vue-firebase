@@ -81,9 +81,25 @@ button:focus-visible {
   max-width: 25em;
 }
 
+.formulario {
+  width: 100%;
+}
+.formularioDiv {
+  text-align: left;
+  
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.p-password input {
+  width: 100%;
+}
+
 .p-toolbar {
   padding: 0.2em;
 }
+
+
 
 #app {
   width: 100%;

@@ -2,24 +2,44 @@
     <div v-if="userStore.user.loading"><h3>Loading...</h3></div>
     <div v-else-if ="userStore.user.valido==false"><h1>Esse link não é válido</h1></div>
     <div v-else>
-     <h4>Bem vindo, {{ userStore.user.nomePreCadastro }} </h4> 
+     
     <div >
   <Card class="inscricao" >
             <template #header>
-                <img src="https://cf.shopee.com.br/file/35c7f1f5f0de28f54931c406432540ba"  />
+                <img src="../assets/fifa_world_cup_2022_official_cartoon_poster.png" />
+                
+            </template>
+            <template #title>
+                Bem vindo, {{ userStore.user.nomePreCadastro }}
+            </template>
             
+            <template #subtitle>
+                Conclua o cadastro para participar do bolão
             </template>
             
             <template #content>
-                <p>O Bolão do AFC é um jogo de entretenimento entre amigos e não tem nenhum fim lucrativo. Presente desde a Copa do Mundo FIFA 2002, o Bolão do AFC encara a sua 6ª Copa do Mundo promovendo grande interação entre os participantes e tornando o mundial ainda mais gostoso de se assistir. Leia atentamente as regras, cadastre os seus palpites e divirta-se!</p>
-                <p>Deseja se inscrever no Bolão do AFC 2022?</p>
+                
+        
+        <div class="formularioDiv">
+            
+            <InputText class="formulario" id="email" type="text" v-model="emailCadastro" placeholder="E-mail" />
+            <p></p>
+            <Password class="formulario" v-model="senhaCadastro" toggleMask  placeholder="Senha" :feedback="false" />
+            <p v-if="errMsg"></p>
+            <InlineMessage class="formulario" severity="error" v-if="errMsg">{{errMsg}}</InlineMessage >
+            
+            
+        </div>
+        
             </template>
             <template #footer>
-                <Button icon="pi pi-check" label="Save" />
-                <Button icon="pi pi-times" label="Cancel" class="p-button-secondary" style="margin-left: .5em" />
+                <Button icon="pi pi-check" label="Cadastrar" @click="register" />
             </template>
         </Card>
     </div>
+
+
+    
     <div class="container col-12" >
 
         <div class="flex flex-wrap align-items-center justify-content-center card-container yellow-container">
@@ -77,6 +97,11 @@
 
 <script setup>
 
+import InlineMessage  from 'primevue/inlinemessage ';
+
+    import InputText from 'primevue/inputtext';
+    import Password from 'primevue/password';
+    
 
     import Card from 'primevue/card';
     import Button from 'primevue/button';
@@ -95,6 +120,8 @@
             signInWithPopup,
         } from "firebase/auth";
     import { useRouter } from "vue-router";
+
+    const errMsg = ref() // ERROR MESSSAGE
     const tabs = ref([
                 {
                     title: 'Header I',
@@ -112,9 +139,12 @@
     const scrollableTabs = ref(
             Array.from({ length: 50 }, (_, i) => ({ title: `Tab ${i + 1}`, content: `Tab ${i + 1} Content` }))
         )
-
+    
+    const emailCadastro = ref("")
+    const senhaCadastro = ref("")
     const nomeUsuario = ref("")
     const loading = ref(true)
+    const value3 = ref("")
 
     const email = ref("");
     const password = ref("");
@@ -123,27 +153,38 @@
     const userStore = useUserStore();
 
     const register = () => {
-        if(password.value = passwordConfirmation.value && useUserStore ){
-          createUserWithEmailAndPassword(getAuth(), email.value, password.value)
-            .then((data) => {
+        createUserWithEmailAndPassword(getAuth(), emailCadastro.value, senhaCadastro.value)
+        .then((data) => {
             console.log("Registrado com Sucesso")
             router.push('/perfil')
-        })}
-        else {
-          console.log('senhas diferentes')
-        } 
-        
-    };
-    const signInWithGoogle = () => {
-        const provider = new GoogleAuthProvider();
-        signInWithPopup(getAuth(),provider)
-        .then((result) => {
-            console.log(result.user);
-            router.push("/perfil");
         }).catch((error) => {
-
-        });
-    };
+        console.log(error.code);
+                switch (error.code) {
+                    case "auth/invalid-email":
+                        errMsg.value = "Email inválido";
+                        break;
+                    case "auth/user-not-found":
+                        errMsg.value = "Não foi encontrada nenhuma conta com esse email";
+                        break;
+                    case "auth/wrong-password":
+                        errMsg.value = "Senha incorreta";
+                        break;
+                    case "auth/weak-password":
+                        errMsg.value = "A senha deve ter ao menos 6 caracteres";
+                        break;
+                    case "auth/email-already-in-use":
+                        errMsg.value = "Esse email já está cadastrado";
+                        break;
+                    case "auth/user-disabled":
+                        errMsg.value = "Usuário desabilitado";
+                        break;
+                    default:
+                        errMsg.value = "Não foi possivel fazer o cadastro: "+error.code ;
+                        break;
+                }
+            })
+        };
+    
 
 
     //import { defineProps, reactive } from "vue";
@@ -172,3 +213,8 @@
         loading.value = false
     })
 </script>
+<!-- <style lang="scss" scoped>
+::v-deep(.p-password input) {
+    width: 15rem
+}
+</style> -->

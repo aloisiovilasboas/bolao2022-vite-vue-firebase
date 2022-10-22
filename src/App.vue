@@ -15,8 +15,8 @@
           <div class="card">
             <div class="card-container yellow-container">
               <router-link to="/"> <Button label="Home" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link>
-              <router-link to="/perfil"> <Button label="Perfil" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
-              <router-link to="/register"> <Button label="Register" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
+               <router-link to="/perfil"> <Button label="Perfil" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link>  
+               <router-link to="/register"> <Button label="Register" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link>  
               <router-link to="/sign-in"> <Button label="Login" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
               <router-link to="/regras"> <Button label="Regras" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
               <router-link to="/sobre"> <Button label="Sobre" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
