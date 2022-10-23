@@ -36,7 +36,7 @@ const signInWithGoogle = () => {
         console.log(result.user);
         router.push("/perfil");
     }).catch((error) => {
-
+        console.log("erro logando com o google");
     });
 };
 
