@@ -1,32 +1,68 @@
 
 <template>
-  
-    <nav>
-      <router-link to="/"> Home </router-link> |
-      <router-link to="/perfil"> Perfil </router-link> |
-      <router-link to="/register"> Register </router-link> |
-      <router-link to="/sign-in"> Login </router-link> 
-      <button @click="handleSignOut" v-if="isLoggedIn" >Sign out</button>
-    </nav>
-    <router-view/>
-  
+    
+    <div class="cssrouterview">
+      <router-view/>  
+    </div>    
+    <div class="cssmenu">
+      <Toolbar  fixed class="barra">
+        <template #start>
+          <Button icon="pi pi-bars" class="p-button-rounded p-button-Primary p-button-text"  @click="visibleLeft = true" /><h4> Bolão do AFC 2022</h4>
+        </template>
+      </Toolbar>      
+      <div class="card">
+        <Sidebar v-model:visible="visibleLeft">
+          <div class="card">
+            <div class="card-container yellow-container">
+              <router-link to="/"> <Button label="Home" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link>
+               <router-link to="/perfil"> <Button label="Perfil" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link>  
+               <router-link to="/register"> <Button label="Register" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link>  
+              <router-link to="/sign-in"> <Button label="Login" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
+              <router-link to="/regras"> <Button label="Regras" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
+              <router-link to="/sobre"> <Button label="Sobre" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
+
+              <router-link to="/admin"> <Button label="Admin" class="p-button-text button-sidebar" icon="pi pi-check" v-if="isLoggedIn" /> </router-link> 
+              <Button label="Sair" class="p-button-text button-sidebar" icon="pi pi-check" @click="handleSignOut" v-if="isLoggedIn" />  
+            </div>
+          </div>
+        </Sidebar>   
+      </div>
+    </div>
 </template>
 
 <script setup>
+
+import Toolbar from 'primevue/toolbar';
+
 import { onMounted, ref } from "vue";
 import { getAuth, onAuthStateChanged, signOut } from "@firebase/auth";
+import { useUserStore } from "./stores/user"
 import router from "./router";
+import Sidebar from 'primevue/sidebar';
+import Button from 'primevue/button';
 
+ let visibleLeft = ref(false);
 const isLoggedIn = ref(false);
+const store = useUserStore();
+
+
+
+
+
 
 let auth;
+
 onMounted(() => {
+  store.fetchUsuarios();
   auth = getAuth();
   onAuthStateChanged(auth, (user) => {
     if (user) {
       isLoggedIn.value = true;
+   //   console.log(document)
+   //   console.log(user)
     } else {
       isLoggedIn.value = false;
+   
     }
   });
 });
@@ -38,18 +74,67 @@ const handleSignOut = () =>{
   });
 
 };
+
 </script>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+<style>
+  .app {
+    width: 100%;
+  }
+
+  .button-sidebar {
+    width: 100%;
+  }
+  .routerview{
+    width: 100%;
+  }
+  .cssmenu {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+  }
+  
 </style>
+<!-- 
+<style lang="scss" scoped>
+  .p-button {
+      margin-right: .5rem;
+  }
+  
+  .p-buttonset {
+      .p-button {
+          margin-right: 0;
+      }
+  }
+  
+  .sizes {
+      .button {
+          margin-bottom: .5rem;
+          display: block;
+  
+          &:last-child {
+              margin-bottom: 0;
+          }
+      }
+  }
+  
+  @media screen and (max-width: 640px) {
+      .p-button {
+          margin-bottom: .5rem;
+  
+          &:not(.p-button-icon-only) {
+              display: flex;
+              width: 100%;
+          }
+      }
+  
+      .p-buttonset {
+          .p-button {
+              margin-bottom: 0;
+          }
+      }
+  }
+  </style>
+  
+ -->
