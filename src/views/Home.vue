@@ -14,7 +14,7 @@
                 Bem vindo
             </template>
             <template #content>
-                <p>Plis play</p>
+                <p>Plis Play</p>
                 <p>Deseja se inscrever no bolão?</p>
                 
             </template>
