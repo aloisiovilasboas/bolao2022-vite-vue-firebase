@@ -1,6 +1,6 @@
 import { ref, computed, watch } from "vue";
 import { defineStore } from "pinia";
-import { addDoc, collection,  getDocs, getDoc, doc } from "firebase/firestore"; 
+import { addDoc, collection,  getDocs, getDoc, doc, updateDoc } from "firebase/firestore"; 
 import { db } from "../services/firebase"
 
 //import { inicializarFirebase, auth, db, fs } from "../services/firebase";
@@ -72,6 +72,19 @@ export const useUserStore = defineStore ("user" ,{
             }
         },
         actions:{
+            async cadastraEmail(u){
+   //             import { doc, updateDoc } from "firebase/firestore";
+                try{
+                    const usuarioref = doc(db, "usuarios", this.user.id);
+                    // Set the "capital" field of the city 'DC'
+                    await updateDoc(usuarioref, {
+                        email: u.email
+                    });
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                }
+                    
+            },
             async cadastraPlayer(u){
                 try {
                   const docRef = await addDoc(collection(db, "usuarios"), {

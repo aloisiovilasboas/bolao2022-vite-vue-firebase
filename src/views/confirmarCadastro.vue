@@ -1,6 +1,7 @@
 <template>
     <div v-if="userStore.user.loading"><h3>Loading...</h3></div>
     <div v-else-if ="userStore.user.valido==false"><h1>Esse link não é válido</h1></div>
+    <div v-else-if ="userStore.user.email!='nao cadastrado'"><h1>Ja cadastrado</h1></div>
     <div v-else>
      
     <div >
@@ -109,7 +110,7 @@ import InlineMessage  from 'primevue/inlinemessage ';
 
     import TabView from 'primevue/TabView'
     import TabPanel from 'primevue/TabPanel'
-    import { ref, onMounted } from 'vue'
+    import { ref, onMounted, onBeforeMount } from 'vue'
     import { useUserStore } from "../stores/user";
 
         
@@ -120,6 +121,7 @@ import InlineMessage  from 'primevue/inlinemessage ';
             signInWithPopup,
         } from "firebase/auth";
     import { useRouter } from "vue-router";
+import { storeToRefs } from 'pinia';
 
     const errMsg = ref() // ERROR MESSSAGE
     const tabs = ref([
@@ -142,13 +144,7 @@ import InlineMessage  from 'primevue/inlinemessage ';
     
     const emailCadastro = ref("")
     const senhaCadastro = ref("")
-    const nomeUsuario = ref("")
     const loading = ref(true)
-    const value3 = ref("")
-
-    const email = ref("");
-    const password = ref("");
-    const passwordConfirmation = ref("");
     const router = useRouter()
     const userStore = useUserStore();
 
@@ -156,6 +152,7 @@ import InlineMessage  from 'primevue/inlinemessage ';
         createUserWithEmailAndPassword(getAuth(), emailCadastro.value, senhaCadastro.value)
         .then((data) => {
             console.log("Registrado com Sucesso")
+            userStore.cadastraEmail({email:emailCadastro.value})
             router.push('/perfil')
         }).catch((error) => {
         console.log(error.code);
@@ -206,7 +203,7 @@ import InlineMessage  from 'primevue/inlinemessage ';
       console.log("No such document!");
     } */
 
-    onMounted(() => {
+    onBeforeMount(() => {
         console.log(userStore.user.nomePreCadastro)
         userStore.fetchUsuarioById(userStore.user.id)
         console.log(userStore.user.nomePreCadastro)
