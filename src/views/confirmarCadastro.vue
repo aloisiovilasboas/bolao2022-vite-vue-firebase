@@ -1,17 +1,18 @@
 <template>
-    <div v-if="userStore.user.loading"><h3>Loading...</h3></div>
+    <div v-if="userStore.user.loading"><h3>Carregando...</h3> <ProgressSpinner /></div>
     <div v-else-if ="userStore.user.valido==false"><h1>Esse link não é válido</h1></div>
-    <div v-else-if ="userStore.user.email!='nao cadastrado'"><h1>Ja cadastrado</h1></div>
+    <div v-else-if ="userStore.user.email!='nao cadastrado'"><h1>Já cadastrado</h1></div>
     <div v-else>
      
     <div >
-  <Card class="inscricao" >
+        <Card class="inscricao" >
             <template #header>
                 <img src="../assets/fifa_world_cup_2022_official_cartoon_poster.png" />
                 
             </template>
             <template #title>
-                Bem vindo, {{ userStore.user.nomePreCadastro }}
+                Bem vindo, {{ userStore.user.nome}}
+                
             </template>
             
             <template #subtitle>
@@ -91,14 +92,13 @@
         
     </div>
 
-    <!-- <p><button @click="signInWithGoogle">Entrar com o google</button></p> -->
 
     </div>
 </template>
 
 <script setup>
 
-import InlineMessage  from 'primevue/inlinemessage ';
+    import InlineMessage  from 'primevue/inlinemessage ';
 
     import InputText from 'primevue/inputtext';
     import Password from 'primevue/password';
@@ -121,7 +121,7 @@ import InlineMessage  from 'primevue/inlinemessage ';
             signInWithPopup,
         } from "firebase/auth";
     import { useRouter } from "vue-router";
-import { storeToRefs } from 'pinia';
+    import { storeToRefs } from 'pinia';
 
     const errMsg = ref() // ERROR MESSSAGE
     const tabs = ref([
@@ -144,7 +144,7 @@ import { storeToRefs } from 'pinia';
     
     const emailCadastro = ref("")
     const senhaCadastro = ref("")
-    const loading = ref(true)
+    // const loading = ref(true)
     const router = useRouter()
     const userStore = useUserStore();
 
@@ -153,7 +153,7 @@ import { storeToRefs } from 'pinia';
         .then((data) => {
             console.log("Registrado com Sucesso")
             userStore.cadastraEmail({email:emailCadastro.value})
-            router.push('/perfil')
+            router.push('/')
         }).catch((error) => {
         console.log(error.code);
                 switch (error.code) {
@@ -181,37 +181,4 @@ import { storeToRefs } from 'pinia';
                 }
             })
         };
-    
-
-
-    //import { defineProps, reactive } from "vue";
-
-    /* const props = defineProps({
-      id: String,
-    }); */
-    
-
-    /* const docRef = doc(db, "usuarios", this.$route.params.id);
-    const docSnap = await getDoc(docRef);
-
-    
-
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    } */
-
-    onBeforeMount(() => {
-        console.log(userStore.user.nomePreCadastro)
-        userStore.fetchUsuarioById(userStore.user.id)
-        console.log(userStore.user.nomePreCadastro)
-        loading.value = false
-    })
 </script>
-<!-- <style lang="scss" scoped>
-::v-deep(.p-password input) {
-    width: 15rem
-}
-</style> -->

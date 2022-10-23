@@ -16,7 +16,6 @@ import { db } from "../services/firebase"
 
 export const useUserStore = defineStore ("user" ,{
         state: () => {
-            const usuarios = ref([])
             const idCadastro = ''
             const user = ref({
                 valido:false,
@@ -31,81 +30,34 @@ export const useUserStore = defineStore ("user" ,{
             const changeId = (newid) => {
                 user.value.id = newid;
             }
-            /*
-            const changeName = ( newname) => {
-                user.value.name = newname;
-            } */
-
             
-
-            const fetchUsuarios = () => {
-                const colRef = collection(db, 'usuarios')
-                getDocs(colRef)
-                .then((snapshot) => {
-                    usuarios.value = []
-                    snapshot.docs.forEach((doc) => {
-                        usuarios.value.push({...doc.data(), id: doc.id})
-                    })
-                }).catch( err=> {
-                    console.log(err.message)
-                })
-            }
-        /* 
-            if (localStorage.getItem("user")){
-                user.value = JSON.parse(localStorage.getItem("user"));
-            }
-            
-            watch(
-                user, (userVal) => {
-                    localStorage.setItem("user", JSON.stringify(userVal));
-                },
-                {deep: true}
-            );
-        */
             return {
                 user,
-                //website,
-               // changeName,
                 changeId,
-                usuarios,
-                fetchUsuarios
+            
             }
         },
         actions:{
+            
             async cadastraEmail(u){
-   //             import { doc, updateDoc } from "firebase/firestore";
                 try{
                     const usuarioref = doc(db, "usuarios", this.user.id);
-                    // Set the "capital" field of the city 'DC'
-                    await updateDoc(usuarioref, {
+                     await updateDoc(usuarioref, {
                         email: u.email
-                    });
+                    }); 
                 } catch (e) {
                     console.error("Error adding document: ", e);
                 }
                     
             },
-            async cadastraPlayer(u){
-                try {
-                  const docRef = await addDoc(collection(db, "usuarios"), {
-                    nomePreCadastro: u.nomePreCadastro,
-                    email: u.email
-                  });
-                  console.log(docRef);
-                  console.log("Document written with ID: ", docRef.id);
-                  this.usuarios.push({nomePreCadastro: u.nomePreCadastro, email: u.email, id: docRef.id })
-                  // linkCadastro.value = docRef.id
-                } catch (e) {
-                  console.error("Error adding document: ", e);
-                }
-            },
+            
             async fetchUsuarioById(id){
                 const docRef = doc(db, "usuarios", id);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     console.log("Document data:", docSnap.data());
                     this.user.email = docSnap.data().email
-                    this.user.nomePreCadastro = docSnap.data().nomePreCadastro
+                    this.user.nome = docSnap.data().nome
                     this.user.id = id
                     this.user.valido = true
                     this.user.loading = false
@@ -114,7 +66,7 @@ export const useUserStore = defineStore ("user" ,{
                     this.user.loading = false
                    // this.user.valido = false
                     // doc.data() will be undefined in this case
-                    console.log("No such document!");
+                    console.log("nao existe usuario com esse id:"+id);
                     return false
                   }
             }

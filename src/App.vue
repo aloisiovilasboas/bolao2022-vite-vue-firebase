@@ -2,7 +2,8 @@
 <template>
     
     <div class="cssrouterview">
-      <router-view/>  
+      <div v-if="loadingstore.loading"><h3>Carregando...</h3> <ProgressSpinner /></div>
+      <router-view v-else/>  
     </div>    
     <div class="cssmenu">
       <Toolbar  fixed class="barra">
@@ -15,12 +16,11 @@
           <div class="card">
             <div class="card-container yellow-container">
               <router-link to="/"> <Button label="Home" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link>
-               <router-link to="/perfil"> <Button label="Perfil" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link>  
-               <router-link to="/register"> <Button label="Register" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link>  
-              <router-link to="/sign-in"> <Button label="Login" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
+              <!--  <router-link to="/perfil"> <Button label="Perfil" class="p-button-text button-sidebar" icon="pi pi-check" v-if="isLoggedIn"/> </router-link>   -->
+               <!-- <router-link to="/register"> <Button label="Register" class="p-button-text button-sidebar" icon="pi pi-check" v-if="!isLoggedIn"/> </router-link>   -->
+              <router-link to="/sign-in"> <Button label="Login" class="p-button-text button-sidebar" icon="pi pi-check" v-if="!isLoggedIn"/> </router-link> 
               <router-link to="/regras"> <Button label="Regras" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
               <router-link to="/sobre"> <Button label="Sobre" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
-
               <router-link to="/admin"> <Button label="Admin" class="p-button-text button-sidebar" icon="pi pi-check" v-if="isLoggedIn" /> </router-link> 
               <Button label="Sair" class="p-button-text button-sidebar" icon="pi pi-check" @click="handleSignOut" v-if="isLoggedIn" />  
             </div>
@@ -32,37 +32,33 @@
 
 <script setup>
 
+import ProgressSpinner from 'primevue/progressspinner';
+
 import Toolbar from 'primevue/toolbar';
 
 import { onMounted, ref } from "vue";
 import { getAuth, onAuthStateChanged, signOut } from "@firebase/auth";
 import { useUserStore } from "./stores/user"
+import { useLoadingStore } from "./stores/loading"
 import router from "./router";
 import Sidebar from 'primevue/sidebar';
 import Button from 'primevue/button';
 
  let visibleLeft = ref(false);
 const isLoggedIn = ref(false);
-const store = useUserStore();
-
-
-
-
-
+const loading = ref(false);
+//const store = useUserStore();
+const loadingstore = useLoadingStore();
 
 let auth;
 
 onMounted(() => {
-  store.fetchUsuarios();
   auth = getAuth();
   onAuthStateChanged(auth, (user) => {
     if (user) {
       isLoggedIn.value = true;
-   //   console.log(document)
-   //   console.log(user)
     } else {
       isLoggedIn.value = false;
-   
     }
   });
 });
@@ -72,7 +68,6 @@ const handleSignOut = () =>{
   signOut(auth).then(()=>{
     router.push("/");
   });
-
 };
 
 </script>
@@ -96,45 +91,3 @@ const handleSignOut = () =>{
   }
   
 </style>
-<!-- 
-<style lang="scss" scoped>
-  .p-button {
-      margin-right: .5rem;
-  }
-  
-  .p-buttonset {
-      .p-button {
-          margin-right: 0;
-      }
-  }
-  
-  .sizes {
-      .button {
-          margin-bottom: .5rem;
-          display: block;
-  
-          &:last-child {
-              margin-bottom: 0;
-          }
-      }
-  }
-  
-  @media screen and (max-width: 640px) {
-      .p-button {
-          margin-bottom: .5rem;
-  
-          &:not(.p-button-icon-only) {
-              display: flex;
-              width: 100%;
-          }
-      }
-  
-      .p-buttonset {
-          .p-button {
-              margin-bottom: 0;
-          }
-      }
-  }
-  </style>
-  
- -->

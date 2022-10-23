@@ -1,7 +1,7 @@
 import { ref, computed, watch } from "vue";
 import { defineStore } from "pinia";
 
-export const loadingStateStore = defineStore ("loadingState" ,{
+export const useLoadingStore = defineStore ("loading" ,{
     state: () => {
         
         const loading = ref(false)
