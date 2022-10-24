@@ -17,6 +17,7 @@ import { db } from "../services/firebase"
 export const useUserStore = defineStore ("user" ,{
         state: () => {
             const idCadastro = ''
+            const authuser = ref()
             const user = ref({
                 valido:false,
                 loading:true,
@@ -27,6 +28,10 @@ export const useUserStore = defineStore ("user" ,{
 
         //    const website = computed(() => user.value.email.substring(user.value.email.lastIndexOf("@") +1 ));
 
+        const setAuthUser = (au) => {
+            authuser.value = au;
+        }
+            
             const changeId = (newid) => {
                 user.value.id = newid;
             }
@@ -34,6 +39,8 @@ export const useUserStore = defineStore ("user" ,{
             return {
                 user,
                 changeId,
+                authuser,
+                setAuthUser
             
             }
         },

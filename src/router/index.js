@@ -1,6 +1,5 @@
 import {createRouter , createWebHistory, createWebHashHistory } from "vue-router";
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
-import Home from '../views/Home.vue';
 import { useLoadingStore} from "../stores/loading"
 import { useUsuariosStore } from "../stores/usuarios";
 import { useUserStore } from "../stores/user";
@@ -14,14 +13,13 @@ const router = createRouter({
         { path: "/",
         beforeEnter: async (to, from) => {
             const userStore = useUserStore();
-
             const u = await getCurrentUser()
-            if (u==null){
-
+            if (u!=null){
+                userStore.setAuthUser(u)
+                console.log(userStore.authuser)
             } else {
-                
+                userStore.setAuthUser(null)
             }
-            console.log(u)
             // const usuariosStore =useUsuariosStore();
             //console.log(usuariosStore)
             // let linkValido = userStore.fetchUsuarioById(to.params.id);

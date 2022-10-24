@@ -47,7 +47,7 @@
     const visibleLeft = ref(false);
     const isLoggedIn = ref(false);
     const loading = ref(false);
-    //const store = useUserStore();
+    const userStore = useUserStore();
     const loadingstore = useLoadingStore();
 
     const InlineButtonClickHandler = () =>{
@@ -71,6 +71,7 @@
     const handleSignOut = () =>{
       
       signOut(auth).then(()=>{
+        userStore.setAuthUser(null)
         router.push("/");
         visibleLeft.value=!visibleLeft.value
       });
