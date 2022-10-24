@@ -56,11 +56,8 @@ export const useUserStore = defineStore ("user" ,{
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     console.log("Document data:", docSnap.data());
-                    this.user.email = docSnap.data().email
-                    this.user.nome = docSnap.data().nome
-                    this.user.id = id
-                    this.user.valido = true
-                    this.user.loading = false
+                    this.user = {...docSnap.data(), id: id, valido: true, loading: false}
+                    console.log(this.user)
                     return true
                   } else {
                     this.user.loading = false

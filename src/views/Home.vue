@@ -2,6 +2,12 @@
 
 <template>
     <div >
+        <div>
+            <Button icon="pi pi-check" label="Cadastrar Apostas" />
+            <Button icon="pi pi-times" label="Regras" class="p-button-secondary" style="margin-left: .5em" />
+            <Button icon="pi pi-times" label="Sobre" class="p-button-secondary" style="margin-left: .5em" />
+        </div>
+        <p></p>
   <Card class="inscricao" >
             <template #header>
                 <img src="https://cf.shopee.com.br/file/35c7f1f5f0de28f54931c406432540ba"  />

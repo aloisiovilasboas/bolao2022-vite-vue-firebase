@@ -1,4 +1,4 @@
-import {createRouter , createWebHistory } from "vue-router";
+import {createRouter , createWebHistory, createWebHashHistory } from "vue-router";
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
 import Home from '../views/Home.vue';
 import { useLoadingStore} from "../stores/loading"
@@ -9,9 +9,25 @@ import { useUserStore } from "../stores/user";
 
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes: [
-        { path: "/", component: () => import("../views/Home.vue")},   
+        { path: "/",
+        beforeEnter: async (to, from) => {
+            const userStore = useUserStore();
+
+            const u = await getCurrentUser()
+            if (u==null){
+
+            } else {
+                
+            }
+            console.log(u)
+            // const usuariosStore =useUsuariosStore();
+            //console.log(usuariosStore)
+            // let linkValido = userStore.fetchUsuarioById(to.params.id);
+            // usuariosStore.fetchUsuarios();
+        },
+         component: () => import("../views/Home.vue")},   
         {
             path: '/cadastro/:id',
             beforeEnter: (to, from) => {
@@ -40,16 +56,35 @@ const router = createRouter({
         { path: "/sign-in", component: () => import("../views/SignIn.vue")},
         { path: "/Regras", component: () => import("../views/Regras.vue")},
         { path: "/Sobre", component: () => import("../views/Sobre.vue")},
-        { path: "/perfil", component: () => import("../views/Perfil.vue"),
+        { 
+            path: "/perfil",
+            beforeEnter: async (to, from) => {
+                const u = await getCurrentUser()
+                console.log(u)
+                // const usuariosStore =useUsuariosStore();
+                //console.log(usuariosStore)
+                // let linkValido = userStore.fetchUsuarioById(to.params.id);
+                // usuariosStore.fetchUsuarios();
+            },
+            component: () => import("../views/Perfil.vue"),
             meta: {
                 requiresAuth: true,
             }
         },
         {
+            // path: "*",
+            path: "/:catchAll(.*)",
+            name: "NotFound",
+            component: () => import("../views/naoEncontrado.vue"),
+            meta: {
+              requiresAuth: false
+            }
+          }
+        /* {
             path: "/:pathmatch(.*)*",
             name: 'naoEncontrado',
             component: () => import("../views/naoEncontrado.vue")
-        }
+        } */
     ],
 })
 
@@ -87,7 +122,7 @@ const lazyLoadRoute = AsyncView => {
 router.beforeEach(async (to, from ,next) => {
     const loadingStore =useLoadingStore();
     loadingStore.loading = true
-    console.log(loadingStore.loading)
+    // console.log(loadingStore.loading)
     if (to.matched.some(record => record.meta.requiresAuth)){
         if (await getCurrentUser()) {
             next();

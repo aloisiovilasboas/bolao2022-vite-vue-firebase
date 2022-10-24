@@ -7,11 +7,16 @@
                     {{slotProps.data.email}}
                   </template>
               </Column>
-            <Column field="id" header="linkCadastro">
-                  <template #body="slotProps">
-                    {{"http://127.0.0.1:5173/cadastro/"+slotProps.data.id}}
+            <Column  field="link" header="linkCadastro">
+                  <template #body="slotProps"  >
+                    <div >
+                      <!-- <input  type="text" class="linktext" v-model=slotProps.data.link readonly="true" /> -->
+                      <InputText class="linktext" type="text" v-model=slotProps.data.link readonly="true" />
+                      <Button icon="pi pi-copy" class="p-button" @click="copyLink(slotProps.data)" />
+                    </div>
                   </template>
               </Column>
+              
               <Column :exportable="false" style="min-width:8rem">
                     <template #body="slotProps">
                         <Button icon="pi pi-trash" class="p-button-rounded p-button-warning" @click="confirmDeleteUsuario(slotProps.data)" />
@@ -68,8 +73,21 @@
       const nameInput = ref("");
       const deleteUsuarioDialog = ref(false);
       const uDelete =ref({});
+      
+
+      
           
-           
+      const copyLink = (u) => {
+        console.log(u.link)
+        try {
+            navigator.clipboard.writeText(u.link).then(() => {
+              alert('Copied');
+            } );
+          } catch($e) {
+            alert('Cannot copy');
+          }
+        }
+      
       
       const confirmDeleteUsuario = (u) => {
             uDelete.value = u;
@@ -90,7 +108,7 @@
        
       const cadastraPlayer = () => {
         store.cadastraPlayer({nome: nameInput.value, email: 'nao cadastrado'}) 
-      } 
+      }
       const handleFetchUsers = () => {
         store.fetchUsuarios()
       }

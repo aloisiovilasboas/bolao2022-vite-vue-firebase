@@ -99,7 +99,7 @@
 <script setup>
 
     import InlineMessage  from 'primevue/inlinemessage ';
-
+    import ProgressSpinner from 'primevue/progressspinner';
     import InputText from 'primevue/inputtext';
     import Password from 'primevue/password';
     
@@ -152,6 +152,7 @@
         createUserWithEmailAndPassword(getAuth(), emailCadastro.value, senhaCadastro.value)
         .then((data) => {
             console.log("Registrado com Sucesso")
+            console.log(data.user.uid)
             userStore.cadastraEmail({email:emailCadastro.value})
             router.push('/')
         }).catch((error) => {

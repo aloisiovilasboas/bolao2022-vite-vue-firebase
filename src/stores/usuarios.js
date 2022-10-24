@@ -6,13 +6,15 @@ import { db } from "../services/firebase"
 export const useUsuariosStore = defineStore ("usuarios" ,{
         state: () => {
             const usuarios = ref([])
+             const dominio = ref("http://127.0.0.1:5173/#/cadastro/")
+            /* const dominio = ref("https://bolaoafc2022.firebaseapp.com/#/cadastro/") */
             const fetchUsuarios = () => {
                 const colRef = collection(db, 'usuarios')
                 getDocs(colRef)
                 .then((snapshot) => {
                     usuarios.value = []
                     snapshot.docs.forEach((doc) => {
-                        usuarios.value.push({...doc.data(), id: doc.id})
+                        usuarios.value.push({...doc.data(), id: doc.id, link: dominio.value+doc.id})
                     })
                 }).catch( err=> {
                     console.log(err.message)
@@ -20,7 +22,8 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
             }
             return {
                 usuarios,
-                fetchUsuarios
+                fetchUsuarios,
+                dominio
             }
         },
         actions:{
@@ -32,12 +35,14 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
                   });
                   console.log(docRef);
                   console.log("Document written with ID: ", docRef.id);
-                  this.usuarios.push({nome: u.nome, email: u.email, id: docRef.id })
+                  this.usuarios.push({nome: u.nome, email: u.email, id: docRef.id, link: this.dominio+docRef.id })
                   // linkCadastro.value = docRef.id
                 } catch (e) {
                   console.error("Error adding document: ", e);
                 }
             },
+
+            
             async cadastraEmail(u){
                 try{
                     const usuarioref = doc(db, "usuarios", this.user.id);
