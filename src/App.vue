@@ -15,12 +15,12 @@
             <Sidebar v-model:visible="visibleLeft">
               <div class="card">
                 <div class="card-container yellow-container">
-                  <router-link to="/" @click.native="InlineButtonClickHandler"> <Button label="Home" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link>
+                  <!-- <router-link to="/" @click.native="InlineButtonClickHandler"> <Button label="Home" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> -->
                   <!--  <router-link to="/perfil"> <Button label="Perfil" class="p-button-text button-sidebar" icon="pi pi-check" v-if="isLoggedIn"/> </router-link>   -->
                   <!-- <router-link to="/register"> <Button label="Register" class="p-button-text button-sidebar" icon="pi pi-check" v-if="!isLoggedIn"/> </router-link>   -->
                   <router-link to="/sign-in" @click.native="InlineButtonClickHandler"> <Button label="Login" class="p-button-text button-sidebar" icon="pi pi-check" v-if="!isLoggedIn"/> </router-link> 
-                  <router-link to="/regras" @click.native="InlineButtonClickHandler"> <Button label="Regras" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
-                  <router-link to="/sobre" @click.native="InlineButtonClickHandler"> <Button label="Sobre" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> 
+                  <router-link to="/regras" @click.native="InlineButtonClickHandler"> <Button label="Regras" class="p-button-text button-sidebar" icon="pi pi pi-book"/> </router-link> 
+                  <router-link to="/sobre" @click.native="InlineButtonClickHandler"> <Button label="Sobre" class="p-button-text button-sidebar" icon="pi pi-info-circle"/> </router-link> 
                   <router-link to="/admin" @click.native="InlineButtonClickHandler"> <Button label="Admin" class="p-button-text button-sidebar" icon="pi pi-check" v-if="isLoggedIn" /> </router-link> 
                   <Button label="Sair" class="p-button-text button-sidebar" icon="pi pi-check" @click="handleSignOut" v-if="isLoggedIn" />  
                 </div>

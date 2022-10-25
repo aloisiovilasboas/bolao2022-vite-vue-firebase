@@ -22,15 +22,15 @@
         <div class="col-12">
             <!--   <Button label="Primary" class="p-button-outlined" /> -->
             <div v-if="userStore.authuser!=null">
-                <Button  icon="pi pi-check" label="Cadastrar Apostas" />
+                <Button   label="⚽ Cadastrar Apostas" />
             </div>
             <p></p>
             <div>
-                <Button @click="irParaRegras" icon="pi pi-times" label="Regras" class="p-button-secondary" style="margin-left: .5em"  />
+                <Button @click="irParaRegras" icon="pi pi-book" label="Regras" class="p-button-secondary" style="margin-left: .5em"  />
             </div>
             <p></p>
             <div>
-                <Button @click="irParaSobre" icon="pi pi-times" label="Sobre" class="p-button-secondary" style="margin-left: .5em" />
+                <Button @click="irParaSobre" icon="pi pi-info-circle" label="Sobre" class="p-button-secondary" style="margin-left: .5em" />
             </div>
         </div>
                 
