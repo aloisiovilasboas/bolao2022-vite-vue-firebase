@@ -1,7 +1,7 @@
 
 <template>
     <div >
-        <Card class="inscricao" >
+        <Card class="regras" >
             <template #header>
                 <img src="../assets/fifa_world_cup_2022_official_cartoon_poster.png" />
                 
@@ -33,3 +33,7 @@
         </Card>
     </div>
 </template>
+
+<script setup>
+    import Card from 'primevue/card';
+</script>

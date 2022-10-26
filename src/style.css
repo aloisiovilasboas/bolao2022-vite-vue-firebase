@@ -78,6 +78,8 @@ button:focus-visible {
   margin-bottom: 20px;
 }
 
+
+
 .p-component.inscricao {
   margin-left: auto;
   margin-right: auto;
@@ -116,6 +118,84 @@ button:focus-visible {
 
   text-align: center;
 }
+
+.painelDeApostas {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+/* .championship-schedule__title {
+  height: 19px;
+  margin-bottom: 16px;
+} */
+.agenda {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.agenda__game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.nomeDoJogo {
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  font-size: smaller;
+}
+.agenda__game__container {
+  display: flex;
+  width: 100%;
+  /* justify-content: space-evenly; */
+}
+
+
+.agenda__game__team--left {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  margin-right: 8px;
+  
+}
+.agenda__game__info {
+  text-align: center;
+  /* flex: 1; */
+}
+.agenda__game__info__time {
+  padding-top: 2px;
+  text-align: center;
+  align-items: center;
+  font-size: smaller;
+}
+.cssmenu .card {
+  width: 0;
+  height: 0;
+  padding: 0;
+}
+.agenda__game__team--right {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  margin-left: 8px;
+}
+.agenda__game__team--left {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-right: 8px;
+}
+.agenda__game__team__shield {
+  display: flex;
+  width: 32px;
+  height: 32px;
+}
+.agenda__game__team__name {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
 
 /* @media (prefers-color-scheme: light) {
   :root {
