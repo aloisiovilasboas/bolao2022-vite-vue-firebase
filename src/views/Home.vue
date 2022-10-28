@@ -22,7 +22,7 @@
         <div class="col-12">
             <!--   <Button label="Primary" class="p-button-outlined" /> -->
             <div v-if="userStore.authuser!=null">
-                <Button   label="⚽ Cadastrar Apostas" />
+                <Button   @click="irParaCadastrarApostas" label="⚽ Cadastrar Apostas" />
             </div>
             <p></p>
             <div>
@@ -67,6 +67,9 @@ import { useUserStore } from '../stores/user';
   }
   const irParaSobre = () => {
     router.push("/Sobre");
+    }
+    const irParaCadastrarApostas = () => {
+    router.push("/CadastrarApostas");
     }
 
 </script>
