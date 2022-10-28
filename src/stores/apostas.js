@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 
 export const useApostasStore = defineStore ("apostas" ,{
     state: () => {
+        const linksBandeiras =ref([])
         const apostas = ref([{letra:'a'}])
         //const apostas = ref([{letra:'',jogos:[],classificacao:[]}])
         /* 
