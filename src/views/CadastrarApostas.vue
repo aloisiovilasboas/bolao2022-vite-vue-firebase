@@ -15,6 +15,7 @@
                                         <!-- <div v-html="'<img src = src/assets/imgs/flags/' + jogo.homeFlag + '.png>'"
                                             layout="responsive" class="agenda__game__team__shield">
                                         </div> -->
+
                                         <div v-html="'<img src =' + jogo.homeFlagurl + '>'" layout="responsive"
                                             class="agenda__game__team__shield">
                                         </div>
@@ -33,7 +34,8 @@
                                     </div>
                                     <div class="agenda__game__team--right col-4">
                                         <div class="agenda__game__team__shield">
-                                            <div v-html="'<img src = src/assets/imgs/flags/' + jogo.awayFlag + '.png>'"
+
+                                            <div v-html="'<img src =' + jogo.awayFlagurl + '>'"
                                                 layout="responsive" class="agenda__game__team__shield">
                                             </div>
                                         </div>
@@ -58,7 +60,7 @@
                         <Column header="Classificação" style="min-width:12rem">
                             <template #body="{ data }">
                                 <div class="nomeEbandeira">
-                                    <div v-html="'<img src = src/assets/imgs/flags/' + data.bandeira + '.png>'"
+                                    <div v-html="'<img src = ' + data.bandeira + '>'"
                                         layout="responsive" class="agenda__game__team__shield">
                                     </div>
                                     <span class="image-text agenda__game__team__name">{{ data.nome }}</span>
@@ -81,31 +83,29 @@
 
 import { getStorage, getDownloadURL } from "firebase/storage";
 import { ref as ref2 } from "firebase/storage"
-import { onBeforeMount, ref, onServerPrefetch } from 'vue';
+import { onBeforeMount, ref, onServerPrefetch, onMounted, reactive } from 'vue';
 import InputText from 'primevue/inputtext';
+import Image from "primevue/image";
 import Card from 'primevue/card';
 import TabPanel from 'primevue/TabPanel';
 import TabView from 'primevue/TabView';
 import jogos from '../assets/jogosdacopa.json';
 import paises from '../assets/nomepaises.json';
+import bandeiras from '../assets/linksBandeiras.json';
 import { useApostasStore } from "../stores/apostas";
 
 const todosOsJogos = jogos.jogos;
 const todosOsPaises = paises.paises
-
-const gruposTabs = ref([])
-const bandeiras = ref([])
+const todasAsBandeiras = bandeiras.bandeiras
+const loading = ref(true)
+const gruposTabs = reactive([])
+//const bandeiras = ref([])
 const apostasStore = useApostasStore();
 const storage = getStorage();
 
-/* onServerPrefetch(async () => {
-  // component is rendered as part of the initial request
-  // pre-fetch data on server as it is faster than on the client
-  //geraGrupos()
-   
-}) */
-    
-onBeforeMount(async () => {
+
+
+onMounted(async () => {
     // console.log('todos');
     /* 
     await todosOsPaises.forEach(element => {  
@@ -114,22 +114,37 @@ onBeforeMount(async () => {
         
     });
     console.log(bandeiras); */
-
+    /* await pegaBandeiras().then( () => {
+        console.log()
+        geraGrupos()
+        
+    }) */
     geraGrupos()
-})
 
+})
+/* onMounted ( () => {
+    geraGrupos()
+}) 
+ */
 
 
 const pegaBandeiras = () => {
-    return new Promise ((resolve, reject) => {
-        const removeListener =  onAuthStateChanged(
-            getAuth(),
-            (user) => {
-                removeListener();
-                resolve(bandeiras);
-            },
-            reject
-        )
+    return new Promise((resolve, reject) => {
+
+        todosOsPaises.forEach(pais => {
+            const pathReference = ref2(storage, 'flags/' + pais + '.png');
+            getDownloadURL(pathReference)
+                .then((url) => {
+                    bandeiras.value.push({ 'pais': pais, 'bandeira': url })
+                    //        console.log(bandeiras.value)
+                })
+                .catch((error) => {
+                    reject(console.log(error.code))
+                });
+        });
+
+        resolve(bandeiras)
+        console.log('resolveu');
     })
 };
 
@@ -148,7 +163,7 @@ const pegaBandeiras2 = (() => {
 })
 
 const pegaBandeira = ((pais) => {
-    
+
     const pathReference = ref2(storage, 'flags/' + pais + '.png');
     getDownloadURL(pathReference)
         .then((url) => {
@@ -159,9 +174,32 @@ const pegaBandeira = ((pais) => {
             console.log(error.code)
         });
 })
-const pegaBandeira2 = ((partida) => {
-    
+
+const pegaBandeira3 = ((partida) => {
+
     const pathReference = ref2(storage, 'flags/' + partida.homeFlag + '.png');
+    getDownloadURL(pathReference)
+        .then((url) => {
+            partida.homeFlagurl = url
+            bandeiras.value.push({ 'pais': pais, 'url': url })
+            if (bandeiras.value.length === 32) {
+                console.log('uhu')
+            }
+
+        })
+        .catch((error) => {
+            console.log(error.code)
+        });
+})
+
+
+const pegaBandeira2 = ((partida) => {
+    //   console.log(bandeiras.value)
+    //   console.log(partida.homeFlag)
+    console.log(bandeiras.value[0])
+    partida.homeFlagurl = bandeiras.value[0]
+
+    /* const pathReference = ref2(storage, 'flags/' + partida.homeFlag + '.png');
     getDownloadURL(pathReference)
         .then((url) => {
             partida.homeFlagurl = url
@@ -170,7 +208,7 @@ const pegaBandeira2 = ((partida) => {
         })
         .catch((error) => {
             console.log(error.code)
-        });
+        }); */
 })
 
 function retira_acentos(str) {
@@ -201,27 +239,25 @@ const geraGrupos = () => {
     gruposTabs.value = letrasGrupos.map((nomeGrupo) => {
         return { letra: nomeGrupo, jogos: {}, classificacao: [] }
     })
-
     let jogosPorGrupo = { 'Grupo A': [], 'Grupo B': [], 'Grupo C': [], 'Grupo D': [], 'Grupo E': [], 'Grupo F': [], 'Grupo G': [], 'Grupo H': [] }
-
     let timesPorGrupo = { 'Grupo A': [], 'Grupo B': [], 'Grupo C': [], 'Grupo D': [], 'Grupo E': [], 'Grupo F': [], 'Grupo G': [], 'Grupo H': [] }
     //console.log(todosOsJogos)   
     todosOsJogos.forEach(element => {
         element.homeFlag = retira_acentos(element.homeTeam);
         element.homeFlag = element.homeFlag.replace(/\s/g, '').toLowerCase();
-        
         element.awayFlag = retira_acentos(element.awayTeam);
         element.awayFlag = element.awayFlag.replace(/\s/g, '').toLowerCase();
-        
+
         if (element.group) {
-           // console.log(bandeiras.value)
-          //  element.homeFlagurl =bandeiras.value[element.homeFlag]
-          element.homeFlagurl = pegaBandeira2(element)
+
+            console.log(todasAsBandeiras.find(bandeira => bandeira.pais === element.homeFlag))
+            element.homeFlagurl = todasAsBandeiras.find(bandeira => bandeira.pais === element.homeFlag).bandeira
+            element.awayFlagurl = todasAsBandeiras.find(bandeira => bandeira.pais === element.awayFlag).bandeira
             jogosPorGrupo[element.group].push(element)
             if (!timesPorGrupo[element.group].includes(element.homeTeam)) {
-                
+
                 timesPorGrupo[element.group].push(element.homeTeam)
-                
+
             }
         }
     });
@@ -232,27 +268,24 @@ const geraGrupos = () => {
         grupo.jogos = jogosPorGrupo[grupo.letra]
         grupo.classificacao = timesPorGrupo[grupo.letra].map((nometime) => {
             let b = nometime.replace(/\s/g, '')
-            return { nome: nometime, bandeira: retira_acentos(b), p: 0, v: 0, e: 0, d: 0, s: 0, gp: 0, gc: 0 }
+            return { nome: nometime, bandeira: todasAsBandeiras.find(bandeira => bandeira.pais === retira_acentos(b).replace(/\s/g, '').toLowerCase()).bandeira, p: 0, v: 0, e: 0, d: 0, s: 0, gp: 0, gc: 0 }
         })
     })
     apostasStore.setApostas(gruposTabs.value)
-    /* 
-    grupoTabs = [{letra:'Grupo A', jogos:[-jogosPorGrupoA-], classificacao:[{nome:Qatar,bandeira:qatar,p:0,v:0,s:0,gp:0},{nome...}] }]
-    */
+    
 }
 
 
 const updatePartida = ((nometime1, nometime2, nomegrupo) => {
-    //    console.log(nometime,nomegrupo)
-    //    console.log(gruposTabs.value.find(grupo => grupo.letra === nomegrupo).classificacao);
+    console.log(bandeiras.value)
+    
     let grupoIndex = gruposTabs.value.findIndex(grupo => grupo.letra === nomegrupo)
-    //console.log(gruposTabs.value[grupoIndex])
     let timeIndex1 = gruposTabs.value[grupoIndex].classificacao.findIndex(time => time.nome === nometime1)
     let timeIndex2 = gruposTabs.value[grupoIndex].classificacao.findIndex(time => time.nome === nometime2)
     calculaPontuacao(timeIndex1, grupoIndex)
     calculaPontuacao(timeIndex2, grupoIndex)
     ordenaTabela(grupoIndex)
-    //  console.log('partida'+jogo.resultA)
+
 })
 const ordenaTabela = ((grupoIndex) => {
     let partidas = gruposTabs.value[grupoIndex].jogos
@@ -289,7 +322,7 @@ const calculaPontuacao = ((timeIndex, grupoIndex) => {
     let time = gruposTabs.value[grupoIndex].classificacao[timeIndex]
 
     // console.log(jogos)
-    
+
     time.p = 0
     time.v = 0
     time.e = 0

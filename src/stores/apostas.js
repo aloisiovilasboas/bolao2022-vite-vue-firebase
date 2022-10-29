@@ -15,7 +15,7 @@ export const useApostasStore = defineStore ("apostas" ,{
         
         const setApostas = (newvalue) => {
             apostas.value = newvalue;
-            console.log(apostas)
+           // console.log(apostas)
         }
         return {
             apostas,
