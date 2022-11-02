@@ -578,7 +578,7 @@
     },
     {
       "matchNumber": 49,
-      "roundNumber": "Round of 16",
+      "roundNumber": "Oitavas",
       "date": "03/12 -  12:00",
       "stadium": "Internacional Khalifa",
       "Location": "Al Rayyan",
@@ -589,7 +589,7 @@
     },
     {
       "matchNumber": 50,
-      "roundNumber": "Round of 16",
+      "roundNumber": "Oitavas",
       "date": "03/12 -  16:00",
       "stadium": "Ahmad bin Ali",
       "Location": "Al Rayyan",
@@ -600,7 +600,7 @@
     },
     {
       "matchNumber": 52,
-      "roundNumber": "Round of 16",
+      "roundNumber": "Oitavas",
       "date": "04/12 -  12:00",
       "stadium": "Al Thumama",
       "Location": "Doha",
@@ -611,7 +611,7 @@
     },
     {
       "matchNumber": 51,
-      "roundNumber": "Round of 16",
+      "roundNumber": "Oitavas",
       "date": "04/12 -  16:00",
       "stadium": "Al Bayt",
       "Location": "Al Khor",
@@ -622,7 +622,7 @@
     },
     {
       "matchNumber": 53,
-      "roundNumber": "Round of 16",
+      "roundNumber": "Oitavas",
       "date": "05/12 -  12:00",
       "stadium": "Al Janoub",
       "Location": "Al Wakrah",
@@ -633,7 +633,7 @@
     },
     {
       "matchNumber": 54,
-      "roundNumber": "Round of 16",
+      "roundNumber": "Oitavas",
       "date": "05/12 -  16:00",
       "stadium": "Estádio 974",
       "Location": "Doha",
@@ -644,7 +644,7 @@
     },
     {
       "matchNumber": 55,
-      "roundNumber": "Round of 16",
+      "roundNumber": "Oitavas",
       "date": "06/12 -  12:00",
       "stadium": "Cidade da Educação",
       "Location": "Al Rayyan",
@@ -655,7 +655,7 @@
     },
     {
       "matchNumber": 56,
-      "roundNumber": "Round of 16",
+      "roundNumber": "Oitavas",
       "date": "06/12 -  16:00",
       "stadium": "Lusail Iconic",
       "Location": "Lusail",
@@ -666,7 +666,7 @@
     },
     {
       "matchNumber": 58,
-      "roundNumber": "Quarter Finals",
+      "roundNumber": "Quartas",
       "date": "09/12 -  12:00",
       "stadium": "Cidade da Educação",
       "Location": "Al Rayyan",
@@ -677,7 +677,7 @@
     },
     {
       "matchNumber": 57,
-      "roundNumber": "Quarter Finals",
+      "roundNumber": "Quartas",
       "date": "09/12 -  16:00",
       "stadium": "Lusail Iconic",
       "Location": "Lusail",
@@ -688,7 +688,7 @@
     },
     {
       "matchNumber": 60,
-      "roundNumber": "Quarter Finals",
+      "roundNumber": "Quartas",
       "date": "10/12 -  12:00",
       "stadium": "Al Thumama",
       "Location": "Doha",
@@ -699,7 +699,7 @@
     },
     {
       "matchNumber": 59,
-      "roundNumber": "Quarter Finals",
+      "roundNumber": "Quartas",
       "date": "10/12 -  16:00",
       "stadium": "Al Bayt",
       "Location": "Al Khor",
@@ -710,7 +710,7 @@
     },
     {
       "matchNumber": 61,
-      "roundNumber": "Semi Finals",
+      "roundNumber": "Semifinais",
       "date": "13/12 -  16:00",
       "stadium": "Lusail Iconic",
       "Location": "Lusail",
@@ -721,7 +721,7 @@
     },
     {
       "matchNumber": 62,
-      "roundNumber": "Semi Finals",
+      "roundNumber": "Semifinais",
       "date": "14/12 -  16:00",
       "stadium": "Al Bayt",
       "Location": "Al Khor",
@@ -732,7 +732,7 @@
     },
     {
       "matchNumber": 63,
-      "roundNumber": "Finals",
+      "roundNumber": "Terceiro",
       "date": "17/12 -  12:00",
       "stadium": "Internacional Khalifa",
       "Location": "Al Rayyan",
@@ -743,7 +743,7 @@
     },
     {
       "matchNumber": 64,
-      "roundNumber": "Finals",
+      "roundNumber": "Final",
       "date": "18/12 -  12:00",
       "stadium": "Lusail Iconic",
       "Location": "Lusail",

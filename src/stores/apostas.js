@@ -4,7 +4,8 @@ import { defineStore } from "pinia";
 export const useApostasStore = defineStore ("apostas" ,{
     state: () => {
         const linksBandeiras =ref([])
-        const apostas = ref([{letra:'a'}])
+        const mataMata = ref([])
+        const grupos = ref([{letra:'a'}])
         //const apostas = ref([{letra:'',jogos:[],classificacao:[]}])
         /* 
         grupoTabs = [{letra:'Grupo A', jogos:[-jogosPorGrupoA-], classificacao:[{nome:Qatar,bandeira:qatar,p:0,v:0,s:0,gp:0},{nome...}] }]
@@ -13,13 +14,19 @@ export const useApostasStore = defineStore ("apostas" ,{
         
         */
         
-        const setApostas = (newvalue) => {
-            apostas.value = newvalue;
+        const setGrupos = (newvalue) => {
+            grupos.value = newvalue;
+           // console.log(apostas)
+        }
+        const setMatamata = (newvalue) => {
+            mataMata.value = newvalue;
            // console.log(apostas)
         }
         return {
-            apostas,
-            setApostas
+            setMatamata,
+            mataMata,
+            grupos,
+            setGrupos
         }
     }
 });

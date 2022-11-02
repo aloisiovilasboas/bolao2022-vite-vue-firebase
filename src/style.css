@@ -186,6 +186,12 @@ button:focus-visible {
   white-space: nowrap
   /* flex: 1; */
 }
+.agenda__game__info2 {
+  display: flex;
+  justify-content: space-evenly;
+  white-space: nowrap
+  /* flex: 1; */
+}
 .agenda__game__info__time {
   /* padding-top: 2px; */
   text-align: center;
@@ -208,6 +214,7 @@ button:focus-visible {
   margin-left: 8px;
   margin-right: 8px;
 }
+
 
 
 /* @media (prefers-color-scheme: light) {
