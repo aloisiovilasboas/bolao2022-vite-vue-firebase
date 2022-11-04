@@ -1,6 +1,6 @@
-import {createRouter , createWebHistory, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory, createWebHashHistory } from "vue-router";
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
-import { useLoadingStore} from "../stores/loading"
+import { useLoadingStore } from "../stores/loading"
 import { useUsuariosStore } from "../stores/usuarios";
 import { useUserStore } from "../stores/user";
 
@@ -10,22 +10,24 @@ import { useUserStore } from "../stores/user";
 const router = createRouter({
     history: createWebHashHistory(),
     routes: [
-        { path: "/",
-        beforeEnter: async (to, from) => {
-            const userStore = useUserStore();
-            const u = await getCurrentUser()
-            if (u!=null){
-                userStore.setAuthUser(u)
-                console.log(userStore.authuser)
-            } else {
-                userStore.setAuthUser(null)
-            }
-            // const usuariosStore =useUsuariosStore();
-            //console.log(usuariosStore)
-            // let linkValido = userStore.fetchUsuarioById(to.params.id);
-            // usuariosStore.fetchUsuarios();
+        {
+            path: "/",
+            beforeEnter: async (to, from) => {
+                const userStore = useUserStore();
+                const u = await getCurrentUser()
+                if (u != null) {
+                    userStore.setAuthUser(u)
+                    console.log(userStore.authuser)
+                } else {
+                    userStore.setAuthUser(null)
+                }
+                // const usuariosStore =useUsuariosStore();
+                //console.log(usuariosStore)
+                // let linkValido = userStore.fetchUsuarioById(to.params.id);
+                // usuariosStore.fetchUsuarios();
+            },
+            component: () => import("../views/Home.vue")
         },
-         component: () => import("../views/Home.vue")},   
         {
             path: '/cadastro/:id',
             beforeEnter: (to, from) => {
@@ -35,12 +37,12 @@ const router = createRouter({
             component: () => import("../views/confirmarCadastro.vue"),
             meta: {
                 requiresDeslogado: true,
-            } 
+            }
         },
         {
             path: "/admin",
             beforeEnter: (to, from) => {
-                const usuariosStore =useUsuariosStore();
+                const usuariosStore = useUsuariosStore();
                 console.log(usuariosStore)
                 // let linkValido = userStore.fetchUsuarioById(to.params.id);
                 usuariosStore.fetchUsuarios();
@@ -50,12 +52,18 @@ const router = createRouter({
                 requiresAuth: true,
             }
         },
-        { path: "/register", component: () => import("../views/Register.vue")},
-        { path: "/cadastrarApostas", component: () => import("../views/CadastrarApostas.vue")},
-        { path: "/sign-in", component: () => import("../views/SignIn.vue")},
-        { path: "/Regras", component: () => import("../views/Regras.vue")},
-        { path: "/Sobre", component: () => import("../views/Sobre.vue")},
-        { 
+        { path: "/register", component: () => import("../views/Register.vue") },
+        {
+            path: "/cadastrarApostas",
+            meta: {
+                requiresAuth: true,
+            },
+            component: () => import("../views/CadastrarApostas.vue")
+        },
+        { path: "/sign-in", component: () => import("../views/SignIn.vue") },
+        { path: "/Regras", component: () => import("../views/Regras.vue") },
+        { path: "/Sobre", component: () => import("../views/Sobre.vue") },
+        {
             path: "/perfil",
             beforeEnter: async (to, from) => {
                 const u = await getCurrentUser()
@@ -76,9 +84,9 @@ const router = createRouter({
             name: "NotFound",
             component: () => import("../views/naoEncontrado.vue"),
             meta: {
-              requiresAuth: false
+                requiresAuth: false
             }
-          }
+        }
         /* {
             path: "/:pathmatch(.*)*",
             name: 'naoEncontrado',
@@ -88,8 +96,8 @@ const router = createRouter({
 })
 
 const getCurrentUser = () => {
-    return new Promise ((resolve, reject) => {
-        const removeListener =  onAuthStateChanged(
+    return new Promise((resolve, reject) => {
+        const removeListener = onAuthStateChanged(
             getAuth(),
             (user) => {
                 removeListener();
@@ -118,36 +126,36 @@ const lazyLoadRoute = AsyncView => {
 
 
 
-router.beforeEach(async (to, from ,next) => {
-    const loadingStore =useLoadingStore();
+router.beforeEach(async (to, from, next) => {
+    const loadingStore = useLoadingStore();
     loadingStore.loading = true
     // console.log(loadingStore.loading)
-    if (to.matched.some(record => record.meta.requiresAuth)){
+    if (to.matched.some(record => record.meta.requiresAuth)) {
         if (await getCurrentUser()) {
             next();
-            
+
         } else {
             alert("Você não está logado");
             next("/");
-            
+
         }
-    } else if (to.matched.some(record => record.meta.requiresDeslogado)){
+    } else if (to.matched.some(record => record.meta.requiresDeslogado)) {
         if (await getCurrentUser()) {
             alert("Você já está logado");
             next("/");
-            
+
         } else {
             next();
-            
+
         }
     } else {
         next();
-        
+
     }
 });
 
 router.afterEach(() => {
-    const loadingStore =useLoadingStore();
+    const loadingStore = useLoadingStore();
     loadingStore.loading = false
 })
 

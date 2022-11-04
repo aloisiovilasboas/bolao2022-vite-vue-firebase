@@ -3,7 +3,7 @@
         <div>
             <!-- //para o tabview v-model:activeIndex="active2"  -->
             <TabView :scrollable="true">
-                <TabPanel v-for="tab in apostasStore.grupos" :key="tab.letra" :header="tab.letra">
+                <TabPanel v-for="tab in apostasStore.grupos" :key="tab.letra" :header="tab.completo">
                     <div class="painelDeApostas">
                         <div class="agenda">
                             <div v-for="jogo in tab.jogos" :key="jogo.matchNumber" class="agenda__game">
@@ -242,6 +242,7 @@ const geraGrupos = () => {
 
     gruposTabs.value.forEach((grupo) => {
         grupo.jogos = jogosPorGrupo[grupo.letra]
+        grupo.completo = grupo.letra
         grupo.classificacao = timesPorGrupo[grupo.letra].map((nometime) => {
             let b = nometime.replace(/\s/g, '')
             return { nome: nometime, bandeira: todasAsBandeiras.find(bandeira => bandeira.pais === retira_acentos(b).replace(/\s/g, '').toLowerCase()).bandeira, p: 0, v: 0, e: 0, d: 0, s: 0, gp: 0, gc: 0 }
@@ -265,6 +266,7 @@ const geraGrupos = () => {
 const updatePartida = ((nometime1, nometime2, nomegrupo) => {
     // console.log(bandeiras.value)
 
+    
     let grupoIndex = gruposTabs.value.findIndex(grupo => grupo.letra === nomegrupo)
     let timeIndex1 = gruposTabs.value[grupoIndex].classificacao.findIndex(time => time.nome === nometime1)
     let timeIndex2 = gruposTabs.value[grupoIndex].classificacao.findIndex(time => time.nome === nometime2)
@@ -280,8 +282,10 @@ const updatePartida = ((nometime1, nometime2, nomegrupo) => {
     })
     if (completo) {
         updateOitavas(grupoIndex)
+        gruposTabs.value[grupoIndex].completo = '✓ '+gruposTabs.value[grupoIndex].letra
     } else {
         desmarcaOitavas(grupoIndex)
+        gruposTabs.value[grupoIndex].completo = gruposTabs.value[grupoIndex].letra
     }
 })
 
@@ -327,7 +331,7 @@ const updatePartidaMatamata = ((jogo, fase) => {
             matamataTabs.value[numFase + 1].jogos[jogoindex].awayFlagurl = winner.flagurl
             matamataTabs.value[numFase + 1].jogos[jogoindex].winner = null
         }
-        //console.log(matamataTabs.value[numFase + 1].jogos[jogoindex])
+    
         desmarcaFasesSeguintes(matamataTabs.value[numFase + 1].jogos[jogoindex], numFase + 1)
     }
 })
@@ -335,7 +339,7 @@ const updatePartidaMatamata = ((jogo, fase) => {
 const desmarcaFasesSeguintes = ((jogo, numFase) => {
 
     let matchNumber = jogo.matchNumber
-    console.log(jogo);
+    
     if (numFase <= 2) {
         //ve se o ganhador eh home ou away
         let home = true
@@ -440,7 +444,7 @@ const calculaPontuacao = ((timeIndex, grupoIndex) => {
     let time = gruposTabs.value[grupoIndex].classificacao[timeIndex]
 
     // console.log(jogos)
-
+    
     time.p = 0
     time.v = 0
     time.e = 0
@@ -449,7 +453,7 @@ const calculaPontuacao = ((timeIndex, grupoIndex) => {
     time.gc = 0
     time.sg = 0
     jogos.forEach(partida => {
-        if ((partida.resultA !== '' && partida.resultB !== '') && (partida.resultA !== null && partida.resultB !== null)) {
+        if (((partida.resultA !== '' && partida.resultB !== '') && (partida.resultA !== null && partida.resultB !== null)) && (!isNaN(partida.resultA) && !isNaN(partida.resultB))  ) {
             if (time.nome === partida.homeTeam) {
                 time.gp += Number(partida.resultA)
                 time.gc += Number(partida.resultB)
@@ -474,6 +478,12 @@ const calculaPontuacao = ((timeIndex, grupoIndex) => {
                 } else {
                     time.d += 1
                 }
+            }
+        }else{
+            if (isNaN(partida.resultA)){
+                partida.resultA = ''
+            } else if(isNaN(partida.resultB)) {
+                partida.resultB = ''
             }
         }
     })
