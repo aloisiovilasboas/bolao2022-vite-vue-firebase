@@ -74,10 +74,10 @@
                     </DataTable>
                     <!--  </div> -->
                 </TabPanel>
-                <TabPanel v-for="tab in apostasStore.mataMata" :key="tab.fase" :header="tab.fase">
+                <TabPanel v-for="tab in apostasStore.mataMata" :key="tab.fase" :header="tab.completo">
                     <div class="painelDeApostas">
                         <div class="agenda">
-                            <div v-for="jogo in tab.jogos" :key="jogo.matchNumber" class="agenda__game">
+                            <div v-for="jogo, indexj in tab.jogos" :key="jogo.matchNumber" class="agenda__game">
                                 <div class="nomeDoJogo">
                                     <span>{{ jogo.stadium }}</span>
                                 </div>
@@ -98,10 +98,12 @@
                                         </div>
                                     </div>
                                     <div class="agenda__game__info2 col-4">
-                                        <RadioButton inputId=jogo.inputidhome name=jogo.matchNumber value=home :disabled="((jogo.homeFlagurl === undefined )||(jogo.awayFlagurl === undefined )||(jogo.homeFlagurl === null )||(jogo.awayFlagurl === null ))"
+                                        <RadioButton inputId=jogo.inputidhome name=jogo.matchNumber value=home
+                                            :disabled="((jogo.homeFlagurl === undefined) || (jogo.awayFlagurl === undefined) || (jogo.homeFlagurl === null) || (jogo.awayFlagurl === null))"
                                             @change="updatePartidaMatamata(jogo, tab.fase)" v-model="jogo.winner" />
                                         <div>X</div>
-                                        <RadioButton inputId=jogo.inputidaway name=jogo.matchNumber value=away :disabled="((jogo.homeFlagurl === undefined )||(jogo.awayFlagurl === undefined )||(jogo.homeFlagurl === null )||(jogo.awayFlagurl === null ))"
+                                        <RadioButton inputId=jogo.inputidaway name=jogo.matchNumber value=away
+                                            :disabled="((jogo.homeFlagurl === undefined) || (jogo.awayFlagurl === undefined) || (jogo.homeFlagurl === null) || (jogo.awayFlagurl === null))"
                                             @change="updatePartidaMatamata(jogo, tab.fase)" v-model=jogo.winner />
                                     </div>
                                     <div class="agenda__game__team--right col-4">
@@ -121,12 +123,29 @@
 
                                 <div class="agenda__game__info__time">{{ jogo.date }}</div>
                                 <div class="col-10">
-                                    <hr>
+                                    <hr v-if="indexj != tab.jogos.length - 1">
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div v-if="(tab.fase === 'Final' && apostasStore.campeao[0].flagurl != null)">
+                        <Panel>
+                            <template #header>
+                                Campeão
+                            </template>
+                            <div class="campeao">
+                                <div class="agenda__game__team__shield__center">
+                                    <div v-html="'<img src =' + apostasStore.campeao[0].flagurl + '>'"
+                                        layout="responsive" class="agenda__game__team__shield">
+                                    </div>
+                                </div>
+                                <div class="agenda__game__team__name"> {{ apostasStore.campeao[0].team }}
+                                </div>
+                            </div>
+                        </Panel>
+                    </div>
                 </TabPanel>
+
             </TabView>
 
         </div>
@@ -143,6 +162,7 @@ import Image from "primevue/image";
 import Card from 'primevue/card';
 import RadioButton from 'primevue/radiobutton'
 import TabPanel from 'primevue/TabPanel';
+import Panel from 'primevue/panel'
 import TabView from 'primevue/TabView';
 import jogos from '../assets/jogosdacopa.json';
 import paises from '../assets/nomepaises.json';
@@ -156,6 +176,7 @@ const todasAsBandeiras = bandeiras.bandeiras
 const loading = ref(true)
 const gruposTabs = reactive([])
 const matamataTabs = reactive([])
+const campeao = reactive([])
 //const bandeiras = ref([])
 const apostasStore = useApostasStore();
 const storage = getStorage();
@@ -250,14 +271,19 @@ const geraGrupos = () => {
     })
     matamataTabs.value.forEach((etapa) => {
         etapa.jogos = jogosmataMata[etapa.fase]
+        etapa.completo = etapa.fase
+        // etapa.completo = jogosmataMata[etapa.fase].length
+        // console.log(etapa.fase + ': ' + etapa.completo);
         /* grupo.classificacao = timesPorGrupo[grupo.letra].map((nometime) => {
             let b = nometime.replace(/\s/g, '')
             return { nome: nometime, bandeira: todasAsBandeiras.find(bandeira => bandeira.pais === retira_acentos(b).replace(/\s/g, '').toLowerCase()).bandeira, p: 0, v: 0, e: 0, d: 0, s: 0, gp: 0, gc: 0 }
         }) */
     })
+    campeao.value = [{ flagurl: null }]
     apostasStore.setGrupos(gruposTabs.value)
     apostasStore.setMatamata(matamataTabs.value)
-    // console.log(matamataTabs.value);
+    apostasStore.setCampeao(campeao.value)
+    console.log(campeao.value);
 
 
 }
@@ -266,7 +292,7 @@ const geraGrupos = () => {
 const updatePartida = ((nometime1, nometime2, nomegrupo) => {
     // console.log(bandeiras.value)
 
-    
+
     let grupoIndex = gruposTabs.value.findIndex(grupo => grupo.letra === nomegrupo)
     let timeIndex1 = gruposTabs.value[grupoIndex].classificacao.findIndex(time => time.nome === nometime1)
     let timeIndex2 = gruposTabs.value[grupoIndex].classificacao.findIndex(time => time.nome === nometime2)
@@ -282,7 +308,7 @@ const updatePartida = ((nometime1, nometime2, nomegrupo) => {
     })
     if (completo) {
         updateOitavas(grupoIndex)
-        gruposTabs.value[grupoIndex].completo = '✓ '+gruposTabs.value[grupoIndex].letra
+        gruposTabs.value[grupoIndex].completo = '✓ ' + gruposTabs.value[grupoIndex].letra
     } else {
         desmarcaOitavas(grupoIndex)
         gruposTabs.value[grupoIndex].completo = gruposTabs.value[grupoIndex].letra
@@ -290,9 +316,8 @@ const updatePartida = ((nometime1, nometime2, nomegrupo) => {
 })
 
 const updatePartidaMatamata = ((jogo, fase) => {
-
     let matchNumber = jogo.matchNumber
-    let numFase = 3
+    let numFase = -1
     if (fase === 'Oitavas') {
         numFase = 0
     }
@@ -301,47 +326,63 @@ const updatePartidaMatamata = ((jogo, fase) => {
     }
     else if (fase === 'Semifinais') {
         numFase = 2
-    } else {
+    } else if (fase === 'Final') {
         numFase = 3
     }
-    if (numFase <= 2) {
-        //ve se o ganhador eh home ou away
-        let home = true
-        let jogoindex = matamataTabs.value[numFase + 1].jogos.findIndex((jogo) => jogo.inputidhome.slice(-1) === matchNumber.toString().slice(-1));
-        if (jogoindex === -1) {
-            home = false
-            jogoindex = matamataTabs.value[numFase + 1].jogos.findIndex((jogo) => jogo.inputidaway.slice(-1) === matchNumber.toString().slice(-1));
-        }
-
+    if (numFase <= 3 && numFase >= 0) {
+        //pega o vencedor
         let winner = null
         if (jogo.winner === 'home') {
             winner = { 'team': jogo.homeTeam, 'flagurl': jogo.homeFlagurl }
         } else if (jogo.winner === 'away') {
             winner = { 'team': jogo.awayTeam, 'flagurl': jogo.awayFlagurl }
         }
-
-        //ve se a posicao do ganhador na prox fase eh home ou away
-        if (home) {
-            matamataTabs.value[numFase + 1].jogos[jogoindex].homeTeam = winner.team
-            matamataTabs.value[numFase + 1].jogos[jogoindex].homeFlagurl = winner.flagurl
-            matamataTabs.value[numFase + 1].jogos[jogoindex].winner = null
+        //calcula completo
+        let completo = true
+        matamataTabs.value[numFase].jogos.forEach((jogofase) => {
+            if (jogofase.winner === null) {
+                completo = false
+            }
+        })
+        if (completo) {
+            matamataTabs.value[numFase].completo = '✓ ' + matamataTabs.value[numFase].fase
         } else {
-            //console.log(matamataTabs.value[numFase + 1].jogos[jogoindex])
-            matamataTabs.value[numFase + 1].jogos[jogoindex].awayTeam = winner.team
-            matamataTabs.value[numFase + 1].jogos[jogoindex].awayFlagurl = winner.flagurl
-            matamataTabs.value[numFase + 1].jogos[jogoindex].winner = null
+            matamataTabs.value[numFase].completo = matamataTabs.value[numFase].fase
         }
-    
-        desmarcaFasesSeguintes(matamataTabs.value[numFase + 1].jogos[jogoindex], numFase + 1)
+        if (numFase <= 2) {
+            //ve se o ganhador eh home ou away na prox fase
+            let home = true
+            let jogoindex = matamataTabs.value[numFase + 1].jogos.findIndex((jogo) => jogo.inputidhome.slice(-1) === matchNumber.toString().slice(-1));
+            if (jogoindex === -1) {
+                home = false
+                jogoindex = matamataTabs.value[numFase + 1].jogos.findIndex((jogo) => jogo.inputidaway.slice(-1) === matchNumber.toString().slice(-1));
+            }
+            if (home) {
+                matamataTabs.value[numFase + 1].jogos[jogoindex].homeTeam = winner.team
+                matamataTabs.value[numFase + 1].jogos[jogoindex].homeFlagurl = winner.flagurl
+                matamataTabs.value[numFase + 1].jogos[jogoindex].winner = null
+            } else {
+                matamataTabs.value[numFase + 1].jogos[jogoindex].awayTeam = winner.team
+                matamataTabs.value[numFase + 1].jogos[jogoindex].awayFlagurl = winner.flagurl
+                matamataTabs.value[numFase + 1].jogos[jogoindex].winner = null
+            }
+            //desmarca prox fase como completo e chama pra as proximas
+            matamataTabs.value[numFase + 1].completo = matamataTabs.value[numFase + 1].fase
+            desmarcaFasesSeguintes(matamataTabs.value[numFase + 1].jogos[jogoindex], numFase + 1)
+        } else {
+            console.log('final decidida')
+            console.log(winner)
+            campeao.value[0].team = winner.team
+            campeao.value[0].flagurl = winner.flagurl
+        }
     }
 })
 
 const desmarcaFasesSeguintes = ((jogo, numFase) => {
-
+    // todo campeao
     let matchNumber = jogo.matchNumber
-    
     if (numFase <= 2) {
-        //ve se o ganhador eh home ou away
+        //ve se o ganhador eh home ou away na prox fase
         let home = true
         let jogoindex = matamataTabs.value[numFase + 1].jogos.findIndex((j) => j.inputidhome.slice(-1) === matchNumber.toString().slice(-1));
         if (jogoindex === -1) {
@@ -349,8 +390,10 @@ const desmarcaFasesSeguintes = ((jogo, numFase) => {
             jogoindex = matamataTabs.value[numFase + 1].jogos.findIndex((j) => j.inputidaway.slice(-1) === matchNumber.toString().slice(-1));
         }
 
+        //desmarca jogo e fasecompleto da seguinte
         let jogoSeguinte = matamataTabs.value[numFase + 1].jogos[jogoindex]
         jogoSeguinte.winner = null
+        //desmarca home ou away da fase seguinte
         if (home) {
             jogoSeguinte.homeTeam = jogoSeguinte.inputidhome
             jogoSeguinte.homeFlagurl = null
@@ -358,8 +401,12 @@ const desmarcaFasesSeguintes = ((jogo, numFase) => {
             jogoSeguinte.awayTeam = jogoSeguinte.inputidaway
             jogoSeguinte.awayFlagurl = null
         }
-        //matamataTabs.value[numFase + 1].jogos[jogoindex].winner = null
+        matamataTabs.value[numFase + 1].completo = matamataTabs.value[numFase + 1].fase
         desmarcaFasesSeguintes(matamataTabs.value[numFase + 1].jogos[jogoindex], numFase + 1)
+
+    } else if (numFase === 3) {
+        campeao.value[0].team = null
+        campeao.value[0].flagurl = null
     }
 
 })
@@ -383,8 +430,10 @@ const updateOitavas = ((grupoIndex) => {
     matamataTabs.value[0].jogos[jogoindex2].awayFlagurl = grupo.classificacao[1].bandeira
     matamataTabs.value[0].jogos[jogoindex2].winner = null
 
-    desmarcaFasesSeguintes(matamataTabs.value[0].jogos[jogoindex1],0)
-    desmarcaFasesSeguintes(matamataTabs.value[0].jogos[jogoindex2],0)
+    matamataTabs.value[0].completo = matamataTabs.value[0].fase
+    desmarcaFasesSeguintes(matamataTabs.value[0].jogos[jogoindex1], 0)
+    desmarcaFasesSeguintes(matamataTabs.value[0].jogos[jogoindex2], 0)
+
     //matamataTabs.value.findIndex(grupo => grupo.letra === nomegrupo.slice(-1))
 
 })
@@ -402,8 +451,9 @@ const desmarcaOitavas = ((grupoIndex) => {
     matamataTabs.value[0].jogos[jogoindex2].awayFlagurl = null
     matamataTabs.value[0].jogos[jogoindex2].winner = null
 
-    desmarcaFasesSeguintes(matamataTabs.value[0].jogos[jogoindex1],0)
- //   desmarcaFasesSeguintes(matamataTabs.value[0].jogos[jogoindex2],0)
+    matamataTabs.value[0].completo = matamataTabs.value[0].fase
+    desmarcaFasesSeguintes(matamataTabs.value[0].jogos[jogoindex1], 0)
+    //   desmarcaFasesSeguintes(matamataTabs.value[0].jogos[jogoindex2],0)
 
 })
 
@@ -444,7 +494,7 @@ const calculaPontuacao = ((timeIndex, grupoIndex) => {
     let time = gruposTabs.value[grupoIndex].classificacao[timeIndex]
 
     // console.log(jogos)
-    
+
     time.p = 0
     time.v = 0
     time.e = 0
@@ -453,7 +503,7 @@ const calculaPontuacao = ((timeIndex, grupoIndex) => {
     time.gc = 0
     time.sg = 0
     jogos.forEach(partida => {
-        if (((partida.resultA !== '' && partida.resultB !== '') && (partida.resultA !== null && partida.resultB !== null)) && (!isNaN(partida.resultA) && !isNaN(partida.resultB))  ) {
+        if (((partida.resultA !== '' && partida.resultB !== '') && (partida.resultA !== null && partida.resultB !== null)) && (!isNaN(partida.resultA) && !isNaN(partida.resultB))) {
             if (time.nome === partida.homeTeam) {
                 time.gp += Number(partida.resultA)
                 time.gc += Number(partida.resultB)
@@ -479,10 +529,10 @@ const calculaPontuacao = ((timeIndex, grupoIndex) => {
                     time.d += 1
                 }
             }
-        }else{
-            if (isNaN(partida.resultA)){
+        } else {
+            if (isNaN(partida.resultA)) {
                 partida.resultA = ''
-            } else if(isNaN(partida.resultB)) {
+            } else if (isNaN(partida.resultB)) {
                 partida.resultB = ''
             }
         }

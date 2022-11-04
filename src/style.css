@@ -140,6 +140,16 @@ button:focus-visible {
   flex-direction: column;
   justify-content: center;
 }
+.p-panel .p-panel-header {
+  display: flex;
+  justify-content: center;
+}
+
+.campeao {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
 .agenda__game {
     display: flex;
     flex-direction: column;
@@ -207,6 +217,12 @@ button:focus-visible {
 
 .agenda__game__team__shield {
   display: flex;
+  width: 32px;
+  height: 32px;
+}
+.agenda__game__team__shield__center {
+  display: flex;
+  align-self: center;
   width: 32px;
   height: 32px;
 }
