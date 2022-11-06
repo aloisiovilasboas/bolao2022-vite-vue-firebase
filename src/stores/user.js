@@ -50,7 +50,9 @@ export const useUserStore = defineStore ("user" ,{
                 try{
                     const usuarioref = doc(db, "usuarios", this.user.id);
                      await updateDoc(usuarioref, {
-                        email: u.email
+                        email: u.email,
+                        uid: u.uid,
+                        isAdmin: false
                     }); 
                 } catch (e) {
                     console.error("Error adding document: ", e);

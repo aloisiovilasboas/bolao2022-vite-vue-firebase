@@ -1,5 +1,18 @@
 <template>
-    <div>
+    <div style="display: flex ; flex-direction: column ;">
+        <div style="display: flex ; justify-content: center;  flex-direction: row; padding: 15px">
+            <div style="padding: 10px;">
+                <Button label="Limpar Apostas" disabled="disabled" />
+            </div>
+            <div  style="padding: 10px;">
+                <Button label="Carregar Apostas" />
+            </div>
+            <div style="padding: 10px;">
+                <Button label="Cadastrar Apostas" disabled="disabled" />
+            </div>
+            
+        </div>
+
         <div>
             <!-- //para o tabview v-model:activeIndex="active2"  -->
             <TabView :scrollable="true">
@@ -51,12 +64,14 @@
                         </div>
                     </div>
 
-                    <!--  <div class="card"> -->
-                    <DataTable :value="tab.classificacao" class="p-datatable-sm" responsiveLayout="scroll">
 
-                        <!-- <template #header>
-                                Small Table
-                            </template> -->
+                    <DataTable :value="tab.classificacao" class="p-datatable-sm" responsiveLayout="scroll">
+                        <Column header="">
+                            <template #body="{ data }">
+                                {{data.colocacao}}
+                            </template>
+                        </Column>
+
                         <Column header="Classificação" style="min-width:12rem">
                             <template #body="{ data }">
                                 <div class="nomeEbandeira">
@@ -158,6 +173,7 @@ import { getStorage, getDownloadURL } from "firebase/storage";
 import { ref as ref2 } from "firebase/storage"
 import { onBeforeMount, ref, onServerPrefetch, onMounted, reactive } from 'vue';
 import InputText from 'primevue/inputtext';
+import Button from "primevue/button";
 import Image from "primevue/image";
 import Card from 'primevue/card';
 import RadioButton from 'primevue/radiobutton'
@@ -264,20 +280,15 @@ const geraGrupos = () => {
     gruposTabs.value.forEach((grupo) => {
         grupo.jogos = jogosPorGrupo[grupo.letra]
         grupo.completo = grupo.letra
-        grupo.classificacao = timesPorGrupo[grupo.letra].map((nometime) => {
+        
+        grupo.classificacao = timesPorGrupo[grupo.letra].map((nometime,index) => {
             let b = nometime.replace(/\s/g, '')
-            return { nome: nometime, bandeira: todasAsBandeiras.find(bandeira => bandeira.pais === retira_acentos(b).replace(/\s/g, '').toLowerCase()).bandeira, p: 0, v: 0, e: 0, d: 0, s: 0, gp: 0, gc: 0 }
+            return { nome: nometime, colocacao:index+1+'º', bandeira: todasAsBandeiras.find(bandeira => bandeira.pais === retira_acentos(b).replace(/\s/g, '').toLowerCase()).bandeira, p: 0, v: 0, e: 0, d: 0, s: 0, gp: 0, gc: 0 }        
         })
     })
     matamataTabs.value.forEach((etapa) => {
         etapa.jogos = jogosmataMata[etapa.fase]
         etapa.completo = etapa.fase
-        // etapa.completo = jogosmataMata[etapa.fase].length
-        // console.log(etapa.fase + ': ' + etapa.completo);
-        /* grupo.classificacao = timesPorGrupo[grupo.letra].map((nometime) => {
-            let b = nometime.replace(/\s/g, '')
-            return { nome: nometime, bandeira: todasAsBandeiras.find(bandeira => bandeira.pais === retira_acentos(b).replace(/\s/g, '').toLowerCase()).bandeira, p: 0, v: 0, e: 0, d: 0, s: 0, gp: 0, gc: 0 }
-        }) */
     })
     campeao.value = [{ flagurl: null }]
     apostasStore.setGrupos(gruposTabs.value)
@@ -486,6 +497,10 @@ const ordenaTabela = ((grupoIndex) => {
             }
         }
     })
+    tabela.forEach((time,index) =>{
+        time.colocacao=index+1+'º'
+    })
+
 
 })
 

@@ -8,10 +8,14 @@
 
 ✓ card campeão
 
-marcar dois primeiros classificados dos grupos
+✓ marcar dois primeiros classificados dos grupos
 
-if user is admin
+user admin
 
-colula 'pago' no admin
+    regras database
+
+cadastrar, ler, limpar apostas na nuvem
+
+refazer senha
 
 ranking

@@ -7,12 +7,19 @@
                     {{slotProps.data.email}}
                   </template>
               </Column>
-            <Column  field="link" header="linkCadastro">
+            <Column  field="link" header="link">
                   <template #body="slotProps"  >
                     <div >
                       <!-- <input  type="text" class="linktext" v-model=slotProps.data.link readonly="true" /> -->
                       <InputText class="linktext" type="text" v-model=slotProps.data.link readonly="true" />
                       <Button icon="pi pi-copy" class="p-button" @click="copyLink(slotProps.data)" />
+                    </div>
+                  </template>
+              </Column>
+              <Column  field="isAdmin" header="Admin">
+                  <template #body="slotProps"  >
+                    <div>
+                      {{slotProps.data.isAdmin}}
                     </div>
                   </template>
               </Column>

@@ -21,10 +21,7 @@ const router = createRouter({
                 } else {
                     userStore.setAuthUser(null)
                 }
-                // const usuariosStore =useUsuariosStore();
-                //console.log(usuariosStore)
-                // let linkValido = userStore.fetchUsuarioById(to.params.id);
-                // usuariosStore.fetchUsuarios();
+                
             },
             component: () => import("../views/Home.vue")
         },
@@ -32,7 +29,7 @@ const router = createRouter({
             path: '/cadastro/:id',
             beforeEnter: (to, from) => {
                 const userStore = useUserStore();
-                let linkValido = userStore.fetchUsuarioById(to.params.id);
+                let linkValido = userStore.fetchUsuarioById(to.params.id); 
             },
             component: () => import("../views/confirmarCadastro.vue"),
             meta: {
@@ -44,7 +41,7 @@ const router = createRouter({
             beforeEnter: (to, from) => {
                 const usuariosStore = useUsuariosStore();
                 console.log(usuariosStore)
-                // let linkValido = userStore.fetchUsuarioById(to.params.id);
+                
                 usuariosStore.fetchUsuarios();
             },
             component: () => import("../views/Admin.vue"),
@@ -68,10 +65,7 @@ const router = createRouter({
             beforeEnter: async (to, from) => {
                 const u = await getCurrentUser()
                 console.log(u)
-                // const usuariosStore =useUsuariosStore();
-                //console.log(usuariosStore)
-                // let linkValido = userStore.fetchUsuarioById(to.params.id);
-                // usuariosStore.fetchUsuarios();
+                
             },
             component: () => import("../views/Perfil.vue"),
             meta: {
@@ -133,24 +127,19 @@ router.beforeEach(async (to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (await getCurrentUser()) {
             next();
-
         } else {
             alert("Você não está logado");
             next("/");
-
         }
     } else if (to.matched.some(record => record.meta.requiresDeslogado)) {
         if (await getCurrentUser()) {
             alert("Você já está logado");
             next("/");
-
         } else {
             next();
-
         }
     } else {
         next();
-
     }
 });
 

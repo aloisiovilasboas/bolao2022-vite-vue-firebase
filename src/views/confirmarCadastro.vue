@@ -10,16 +10,13 @@
         <h1>Já cadastrado</h1>
     </div>
     <div v-else>
-
         <div>
             <Card class="inscricao">
                 <template #header>
                     <img src="../assets/fifa_world_cup_2022_official_cartoon_poster.png" />
-
                 </template>
                 <template #title>
                     Bem vindo, {{ userStore.user.nome }}
-
                 </template>
 
                 <template #subtitle>
@@ -48,11 +45,6 @@
                 </template>
             </Card>
         </div>
-
-
-
-
-
     </div>
 </template>
 
@@ -99,7 +91,7 @@ const register = () => {
         .then((data) => {
             console.log("Registrado com Sucesso")
             console.log(data.user.uid)
-            userStore.cadastraEmail({ email: emailCadastro.value })
+            userStore.cadastraEmail({ email: emailCadastro.value, uid:data.user.uid })
             router.push('/')
         }).catch((error) => {
             console.log(error.code);
