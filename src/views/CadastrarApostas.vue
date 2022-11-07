@@ -1,16 +1,16 @@
 <template>
     <div style="display: flex ; flex-direction: column ;">
         <div style="display: flex ; justify-content: center;  flex-direction: row; padding: 15px">
-            <div style="padding: 10px;">
+           <!--  <div style="padding: 10px;">
                 <Button label="Limpar Apostas" disabled="disabled" />
             </div>
-            <div  style="padding: 10px;">
-                <Button label="Carregar Apostas" disabled="disabled"/>
-            </div>
             <div style="padding: 10px;">
-                <Button label="Cadastrar Apostas"  @click="cadastraApostas"  />
+                <Button label="Carregar Apostas" @click="carregarApostas"  />
+            </div> -->
+            <div style="padding: 10px;">
+                <Button label="Cadastrar Apostas" :disabled="!apostasStore.completo" @click="cadastraApostas" />
             </div>
-            
+
         </div>
 
         <div>
@@ -68,7 +68,7 @@
                     <DataTable :value="tab.classificacao" class="p-datatable-sm" responsiveLayout="scroll">
                         <Column header="">
                             <template #body="{ data }">
-                                {{data.colocacao}}
+                                {{ data.colocacao }}
                             </template>
                         </Column>
 
@@ -194,6 +194,7 @@ const loading = ref(true)
 const gruposTabs = reactive([])
 const matamataTabs = reactive([])
 const campeao = reactive([])
+const completo =ref(false)
 //const bandeiras = ref([])
 const userStore = useUserStore()
 const apostasStore = useApostasStore();
@@ -202,27 +203,10 @@ const storage = getStorage();
 
 
 onMounted(async () => {
-    // console.log('todos');
-    /* 
-    await todosOsPaises.forEach(element => {  
-     //   console.log(element);
-        bandeiras.value[element] = pegaBandeira(element)
-        
-    });
-    console.log(bandeiras); */
-    /* await pegaBandeiras().then( () => {
-        console.log()
-        geraGrupos()
-        
-    }) */
+
     geraGrupos()
 
 })
-/* onMounted ( () => {
-    geraGrupos()
-}) 
- */
-
 
 
 function retira_acentos(str) {
@@ -282,10 +266,10 @@ const geraGrupos = () => {
     gruposTabs.value.forEach((grupo) => {
         grupo.jogos = jogosPorGrupo[grupo.letra]
         grupo.completo = grupo.letra
-        
-        grupo.classificacao = timesPorGrupo[grupo.letra].map((nometime,index) => {
+
+        grupo.classificacao = timesPorGrupo[grupo.letra].map((nometime, index) => {
             let b = nometime.replace(/\s/g, '')
-            return { nome: nometime, colocacao:index+1+'º', bandeira: todasAsBandeiras.find(bandeira => bandeira.pais === retira_acentos(b).replace(/\s/g, '').toLowerCase()).bandeira, p: 0, v: 0, e: 0, d: 0, s: 0, gp: 0, gc: 0 }        
+            return { nome: nometime, colocacao: index + 1 + 'º', bandeira: todasAsBandeiras.find(bandeira => bandeira.pais === retira_acentos(b).replace(/\s/g, '').toLowerCase()).bandeira, p: 0, v: 0, e: 0, d: 0, s: 0, gp: 0, gc: 0 }
         })
     })
     matamataTabs.value.forEach((etapa) => {
@@ -296,6 +280,7 @@ const geraGrupos = () => {
     apostasStore.setGrupos(gruposTabs.value)
     apostasStore.setMatamata(matamataTabs.value)
     apostasStore.setCampeao(campeao.value)
+    
     console.log(campeao.value);
 
 
@@ -385,6 +370,8 @@ const updatePartidaMatamata = ((jogo, fase) => {
         } else {
             console.log('final decidida')
             console.log(winner)
+            
+            apostasStore.setCompleto(true)
             campeao.value[0].team = winner.team
             campeao.value[0].flagurl = winner.flagurl
         }
@@ -418,6 +405,7 @@ const desmarcaFasesSeguintes = ((jogo, numFase) => {
         desmarcaFasesSeguintes(matamataTabs.value[numFase + 1].jogos[jogoindex], numFase + 1)
 
     } else if (numFase === 3) {
+        apostasStore.setCompleto(false)
         campeao.value[0].team = null
         campeao.value[0].flagurl = null
     }
@@ -499,8 +487,8 @@ const ordenaTabela = ((grupoIndex) => {
             }
         }
     })
-    tabela.forEach((time,index) =>{
-        time.colocacao=index+1+'º'
+    tabela.forEach((time, index) => {
+        time.colocacao = index + 1 + 'º'
     })
 
 
@@ -558,10 +546,42 @@ const calculaPontuacao = ((timeIndex, grupoIndex) => {
     gruposTabs.value[grupoIndex].classificacao[timeIndex] = time
 })
 
+const podeCadastrar = (() =>{
+    return  apostasStore.completo
+});
+
 const cadastraApostas = () => {
-    console.log(userStore.authuser.uid);
-     apostasStore.cadastraApostas(userStore.authuser.uid)
+    //  console.log(userStore.authuser.uid);
+    let grupos = []
+    apostasStore.grupos.forEach((grupo) => {
+        let jogos = []
+        let letra = grupo.letra
+        grupo.jogos.forEach(jogo => {
+            jogos.push({ matchNumber: jogo.matchNumber, resultA: jogo.resultA, resultB: jogo.resultB })
+        });
+        grupos.push({ letra: letra, jogos: jogos })
+    });
+    let matamata = []
+    
+    apostasStore.mataMata.forEach((f) => {
+        let jogos = []
+        let fase = f.fase
+        f.jogos.forEach((jogo) => {
+            jogos.push({ matchNumber: jogo.matchNumber, winner: jogo.winner })
+        })
+        matamata.push({ fase:fase, jogos: jogos})
+    });
+
+    
+
+    apostasStore.cadastraApostas(userStore.authuser.uid, grupos,matamata)
 }
+
+const carregarApostas = (() =>{
+    apostasStore.fetchApostaById(userStore.authuser.uid);
+
+    
+});
 
 
 </script>

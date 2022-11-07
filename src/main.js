@@ -54,14 +54,20 @@ const app = createApp(App);
 app.use(router);
 app.use(PrimeVue);
 
+
+
 import DataTable from 'primevue/dataTable';
 import Column from 'primevue/column'
 import Dialog from 'primevue/dialog'
+import ConfirmationService from 'primevue/confirmationservice';
+
+
 app.component('Column', Column)
 app.component('Dialog', Dialog)
 app.component('DataTable', DataTable)
 
 app.use(pinia)
+app.use(ConfirmationService)
 
 
 
