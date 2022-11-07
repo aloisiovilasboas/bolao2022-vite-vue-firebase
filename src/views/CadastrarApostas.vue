@@ -5,10 +5,10 @@
                 <Button label="Limpar Apostas" disabled="disabled" />
             </div>
             <div  style="padding: 10px;">
-                <Button label="Carregar Apostas" />
+                <Button label="Carregar Apostas" disabled="disabled"/>
             </div>
             <div style="padding: 10px;">
-                <Button label="Cadastrar Apostas" disabled="disabled" />
+                <Button label="Cadastrar Apostas"  @click="cadastraApostas"  />
             </div>
             
         </div>
@@ -184,6 +184,7 @@ import jogos from '../assets/jogosdacopa.json';
 import paises from '../assets/nomepaises.json';
 import bandeiras from '../assets/linksBandeiras.json';
 import { useApostasStore } from "../stores/apostas";
+import { useUserStore } from "../stores/user";
 
 
 const todosOsJogos = jogos.jogos;
@@ -194,6 +195,7 @@ const gruposTabs = reactive([])
 const matamataTabs = reactive([])
 const campeao = reactive([])
 //const bandeiras = ref([])
+const userStore = useUserStore()
 const apostasStore = useApostasStore();
 const storage = getStorage();
 
@@ -555,6 +557,11 @@ const calculaPontuacao = ((timeIndex, grupoIndex) => {
     time.sg = Number(time.gp) - Number(time.gc)
     gruposTabs.value[grupoIndex].classificacao[timeIndex] = time
 })
+
+const cadastraApostas = () => {
+    console.log(userStore.authuser.uid);
+     apostasStore.cadastraApostas(userStore.authuser.uid)
+}
 
 
 </script>

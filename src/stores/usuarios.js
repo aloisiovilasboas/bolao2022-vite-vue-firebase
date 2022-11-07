@@ -5,9 +5,11 @@ import { db } from "../services/firebase"
 
 export const useUsuariosStore = defineStore ("usuarios" ,{
         state: () => {
+            const isAdmin = ref(false)
+            const loading = ref(true)
             const usuarios = ref([])
-             const dominio = ref("http://127.0.0.1:5173/#/cadastro/")
-            /* const dominio = ref("https://bolaoafc2022.firebaseapp.com/#/cadastro/") */
+             /* const dominio = ref("http://127.0.0.1:5173/#/cadastro/") */
+            const dominio = ref("https://bolaoafc2022.firebaseapp.com/#/cadastro/")
             const fetchUsuarios = () => {
                 const colRef = collection(db, 'usuarios')
                 getDocs(colRef)
@@ -21,9 +23,11 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
                 })
             }
             return {
+                isAdmin,
                 usuarios,
+                loading,
                 fetchUsuarios,
-                dominio
+                dominio,
             }
         },
         actions:{
@@ -65,7 +69,26 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
                 } catch (e) {
                     console.error("erro ao excluir usuario: ", e);
                 }
-            },        
+            },
+            
+            async getIsAdmin(id){
+                const docRef = doc(db, "admins", id);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    console.log("Document data:", docSnap.data());
+                    this.isAdmin = true
+                    this.loading = false
+                    console.log(docSnap.data())
+                    return true
+                  } else {
+                    this.isAdmin = false
+                    this.loading = false
+                   // this.user.valido = false
+                    // doc.data() will be undefined in this case
+                    console.log("nao existe admin com esse id:"+id);
+                    return false
+                  }
+            }
         }
     });
 

@@ -23,7 +23,7 @@
                   <router-link to="/cadastrarApostas" @click.native="InlineButtonClickHandler"> <Button label="⚽ Cadastrar Apostas" class="p-button-text button-sidebar" icon="pi pi pi-book" v-if="isLoggedIn" /> </router-link> 
                   <router-link to="/regras" @click.native="InlineButtonClickHandler"> <Button label="Regras" class="p-button-text button-sidebar" icon="pi pi pi-book"/> </router-link> 
                   <router-link to="/sobre" @click.native="InlineButtonClickHandler"> <Button label="Sobre" class="p-button-text button-sidebar" icon="pi pi-info-circle"/> </router-link> 
-                  <router-link to="/admin" @click.native="InlineButtonClickHandler"> <Button label="Admin" class="p-button-text button-sidebar" icon="pi pi-check" v-if="isLoggedIn" /> </router-link> 
+                  <router-link to="/admin" @click.native="InlineButtonClickHandler"> <Button label="Admin" class="p-button-text button-sidebar" icon="pi pi-check" v-if="usuariosStore.isAdmin" /> </router-link> 
                   <Button label="Sair" class="p-button-text button-sidebar" icon="pi pi-check" @click="handleSignOut" v-if="isLoggedIn" />  
                 </div>
               </div>
@@ -41,6 +41,7 @@
     import { onMounted, ref } from "vue";
     import { getAuth, onAuthStateChanged, signOut } from "@firebase/auth";
     import { useUserStore } from "./stores/user"
+    import { useUsuariosStore } from "./stores/usuarios"
     import { useLoadingStore } from "./stores/loading"
     import router from "./router";
     import Sidebar from 'primevue/sidebar';
@@ -48,8 +49,8 @@
 
     const visibleLeft = ref(false);
     const isLoggedIn = ref(false);
-    const loading = ref(false);
     const userStore = useUserStore();
+    const usuariosStore = useUsuariosStore();
     const loadingstore = useLoadingStore();
 
 
@@ -64,6 +65,9 @@
       onAuthStateChanged(auth, (user) => {
         if (user) {
           isLoggedIn.value = true;
+            usuariosStore.getIsAdmin(user.uid)
+            console.log('admin: '+usuariosStore.isAdmin);
+
         } else {
           isLoggedIn.value = false;
         }

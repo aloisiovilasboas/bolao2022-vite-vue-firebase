@@ -21,15 +21,15 @@ const router = createRouter({
                 } else {
                     userStore.setAuthUser(null)
                 }
-                
+
             },
             component: () => import("../views/Home.vue")
         },
         {
             path: '/cadastro/:id',
-            beforeEnter: (to, from) => {
+            beforeEnter: async (to, from) => {
                 const userStore = useUserStore();
-                let linkValido = userStore.fetchUsuarioById(to.params.id); 
+                let linkValido = await userStore.fetchUsuarioById(to.params.id);
             },
             component: () => import("../views/confirmarCadastro.vue"),
             meta: {
@@ -38,18 +38,27 @@ const router = createRouter({
         },
         {
             path: "/admin",
-            beforeEnter: (to, from) => {
-                const usuariosStore = useUsuariosStore();
-                console.log(usuariosStore)
+            beforeEnter: async (to, from) => {
                 
-                usuariosStore.fetchUsuarios();
+                const u = await getCurrentUser()
+                if (u != null) {
+                    const userStore = useUserStore();
+                    userStore.setAuthUser(u)
+                    const usuariosStore = useUsuariosStore();
+                    usuariosStore.fetchUsuarios();
+                    console.log('uid: '+u.uid);
+                    usuariosStore.getIsAdmin(u.uid)
+//                    console.log(userStore.authuser)
+                } else {
+                    userStore.setAuthUser(null)
+                }
             },
             component: () => import("../views/Admin.vue"),
             meta: {
                 requiresAuth: true,
             }
         },
-        { path: "/register", component: () => import("../views/Register.vue") },
+        /* { path: "/register", component: () => import("../views/Register.vue") }, */
         {
             path: "/cadastrarApostas",
             meta: {
@@ -60,7 +69,7 @@ const router = createRouter({
         { path: "/sign-in", component: () => import("../views/SignIn.vue") },
         { path: "/Regras", component: () => import("../views/Regras.vue") },
         { path: "/Sobre", component: () => import("../views/Sobre.vue") },
-        {
+        /* {
             path: "/perfil",
             beforeEnter: async (to, from) => {
                 const u = await getCurrentUser()
@@ -71,7 +80,7 @@ const router = createRouter({
             meta: {
                 requiresAuth: true,
             }
-        },
+        }, */
         {
             // path: "*",
             path: "/:catchAll(.*)",
@@ -101,6 +110,9 @@ const getCurrentUser = () => {
         )
     })
 };
+
+
+
 /* 
 const lazyLoadRoute = AsyncView => {
     const AsyncHandler = () => ({
@@ -125,7 +137,10 @@ router.beforeEach(async (to, from, next) => {
     loadingStore.loading = true
     // console.log(loadingStore.loading)
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (await getCurrentUser()) {
+        const u = await getCurrentUser()
+        if (u) {
+            const userStore = useUserStore();
+            userStore.setAuthUser(u)
             next();
         } else {
             alert("Você não está logado");
@@ -138,7 +153,18 @@ router.beforeEach(async (to, from, next) => {
         } else {
             next();
         }
-    } else {
+    }/*  else if (to.matched.some(record => record.meta.admin)) {
+        if (await getCurrentUser()) {
+            if (await getIsUserAdmin()){
+                alert('admin');
+                next();
+            }else {
+                next("/");
+            }
+        } else {
+            next("/");
+        }
+    }  */else {
         next();
     }
 });

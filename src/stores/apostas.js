@@ -1,5 +1,7 @@
 import { ref, computed, watch } from "vue";
 import { defineStore } from "pinia";
+import { setDoc, collection,  getDocs, getDoc, doc, deleteDoc, updateDoc } from "firebase/firestore"; 
+import { db } from "../services/firebase"
 
 export const useApostasStore = defineStore ("apostas" ,{
     state: () => {
@@ -27,6 +29,7 @@ export const useApostasStore = defineStore ("apostas" ,{
             campeao.value = newvalue;
            // console.log(apostas)
         }
+        
         return {
             grupos,
             mataMata,
@@ -35,5 +38,21 @@ export const useApostasStore = defineStore ("apostas" ,{
             setMatamata,
             setCampeao,
         }
+    },
+    actions:{
+        async cadastraApostas(uid){
+            try {
+              const docRef = await setDoc(doc(db, "apostas", uid), {
+                grupos: this.grupos,
+                mataMata: this.mataMata,
+                campeao: this.campeao
+              });
+             // console.log(doc);
+             // console.log("Document written with ID: ", docRef.id);
+              // linkCadastro.value = docRef.id
+            } catch (e) {
+              console.error("Error adding document: ", e);
+            }
+        },
     }
 });

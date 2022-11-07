@@ -24,8 +24,6 @@
                 </template>
 
                 <template #content>
-
-
                     <div class="formularioDiv">
 
                         <InputText class="formulario" id="email" type="text" v-model="emailCadastro"
@@ -54,14 +52,10 @@ import InlineMessage from 'primevue/inlinemessage ';
 import ProgressSpinner from 'primevue/progressspinner';
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
-
-
 import Card from 'primevue/card';
 import Button from 'primevue/button';
 import 'primeflex/primeflex.scss';
 
-import TabView from 'primevue/TabView'
-import TabPanel from 'primevue/TabPanel'
 import { ref, onMounted, onBeforeMount } from 'vue'
 import { useUserStore } from "../stores/user";
 
@@ -69,8 +63,6 @@ import { useUserStore } from "../stores/user";
 import {
     getAuth,
     createUserWithEmailAndPassword,
-    GoogleAuthProvider,
-    signInWithPopup,
 } from "firebase/auth";
 import { useRouter } from "vue-router";
 import { storeToRefs } from 'pinia';
