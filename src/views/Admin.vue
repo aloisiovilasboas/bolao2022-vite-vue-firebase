@@ -25,13 +25,13 @@
             </div>
           </template>
         </Column>
-        <Column field="isAdmin" header="Admin">
+        <!-- <Column field="isAdmin" header="Admin">
           <template #body="slotProps">
             <div>
               {{ slotProps.data.isAdmin }}
             </div>
           </template>
-        </Column>
+        </Column> -->
 
         <Column :exportable="false" style="min-width:8rem">
           <template #body="slotProps">

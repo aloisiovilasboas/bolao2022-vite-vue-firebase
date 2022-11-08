@@ -6,8 +6,14 @@ import { db } from "../services/firebase"
 export const useUsuariosStore = defineStore ("usuarios" ,{
         state: () => {
             const isAdmin = ref(false)
+            const setIsAdmin = ((newvalue) => {
+                isAdmin.value = newvalue
+            })
             const loading = ref(true)
             const usuarios = ref([])
+            const setUsuarios = (newvalue) =>{
+                usuarios.value = newvalue
+            }
              /* const dominio = ref("http://127.0.0.1:5173/#/cadastro/") */
             const dominio = ref("https://bolaoafc2022.firebaseapp.com/#/cadastro/")
             const fetchUsuarios = () => {
@@ -23,12 +29,15 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
                 })
             }
             return {
+                setUsuarios,
                 isAdmin,
+                setIsAdmin,
                 usuarios,
                 loading,
                 fetchUsuarios,
                 dominio,
             }
+            
         },
         actions:{
             async cadastraPlayer(u){
@@ -75,17 +84,17 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
                 const docRef = doc(db, "admins", id);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
-                    console.log("Document data:", docSnap.data());
+       //             console.log("Document data:", docSnap.data());
                     this.isAdmin = true
                     this.loading = false
-                    console.log(docSnap.data())
+      //              console.log(docSnap.data())
                     return true
                   } else {
                     this.isAdmin = false
                     this.loading = false
                    // this.user.valido = false
                     // doc.data() will be undefined in this case
-                    console.log("nao existe admin com esse id:"+id);
+     //               console.log("nao existe admin com esse id:"+id);
                     return false
                   }
             }

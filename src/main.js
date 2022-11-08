@@ -66,6 +66,8 @@ app.component('Column', Column)
 app.component('Dialog', Dialog)
 app.component('DataTable', DataTable)
 
+
+
 app.use(pinia)
 app.use(ConfirmationService)
 

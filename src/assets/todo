@@ -10,11 +10,13 @@
 
 ✓ marcar dois primeiros classificados dos grupos
 
-user admin
+✓ user admin
 
     regras database
 
-cadastrar, ler, limpar apostas na nuvem
+✓ cadastrar, ler, limpar apostas na nuvem
+
+coluna pago
 
 refazer senha
 

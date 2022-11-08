@@ -1,15 +1,15 @@
 
 
 <template>
-    
-    <div >
-        
-        
-        
-  <Card class="inscricao" >
+
+    <div>
+
+
+
+        <Card class="inscricao">
             <template #header>
-                <img src="https://cf.shopee.com.br/file/35c7f1f5f0de28f54931c406432540ba"  />
-            <!--     <img src="../assets/imgs/rascunho.png"  /> -->
+                <img src="https://cf.shopee.com.br/file/35c7f1f5f0de28f54931c406432540ba" />
+                <!--     <img src="../assets/imgs/rascunho.png"  /> -->
             </template>
             <template #title>
                 Bolão do AFC - 2022
@@ -17,59 +17,76 @@
             <!-- <template #subtitle>
                 Bem vindo
             </template> -->
-        <template #content>
-                
-        <div class="col-12">
-            <!--   <Button label="Primary" class="p-button-outlined" /> -->
-            <div v-if="userStore.authuser!=null">
-                <Button   @click="irParaCadastrarApostas" label="⚽ Cadastrar Apostas" />
-            </div>
-            <p></p>
-            <div>
-                <Button @click="irParaRegras" icon="pi pi-book" label="Regras" class="p-button-secondary" style="margin-left: .5em"  />
-            </div>
-            <p></p>
-            <div>
-                <Button @click="irParaSobre" icon="pi pi-info-circle" label="Sobre" class="p-button-secondary" style="margin-left: .5em" />
-            </div>
-        </div>
-                
-        </template>
+            <template #content>
+
+                <div class="col-12">
+                    <!--   <Button label="Primary" class="p-button-outlined" /> -->
+                    <div v-if="userStore.authuser != null && apostasStore.apostasRAW.grupos != null">
+                        <Button @click="irParaApostasCadastradas" label="⚽Ver Suas Apostas" />
+                    </div>
+                    <p></p>
+                    <div v-if="userStore.authuser != null">
+                        <Button @click="irParaCadastrarApostas" label="⚽ Cadastrar Apostas" />
+                    </div>
+                    <p></p>
+                    <div>
+                        <Button @click="irParaRegras" icon="pi pi-book" label="Regras" class="p-button-secondary"
+                            style="margin-left: .5em" />
+                    </div>
+                    <p></p>
+                    <div>
+                        <Button @click="irParaSobre" icon="pi pi-info-circle" label="Sobre" class="p-button-secondary"
+                            style="margin-left: .5em" />
+                    </div>
+                </div>
+
+            </template>
             <template #footer>
                 <!-- <Button icon="pi pi-check" label="Save" />
                 <Button icon="pi pi-times" label="Cancel" class="p-button-secondary" style="margin-left: .5em" />
-        --> </template>
+        -->
+            </template>
         </Card>
     </div>
 
-    
-    
-  
 
-  
+
+
+
+
 
 </template>
 
 <script setup>
-  
-  import Card from 'primevue/card';
-  import Button from 'primevue/button';
-  import Image from 'primevue/image';
-  import { useRouter } from 'vue-router';
+
+import Card from 'primevue/card';
+import Button from 'primevue/button';
+import Image from 'primevue/image';
+import { useRouter } from 'vue-router';
 import { useUserStore } from '../stores/user';
+import { useApostasStore } from '../stores/apostas';
+import { onMounted } from 'vue';
 
-  const router = useRouter();
+onMounted( ()=>{
+    console.log('apstore '+apostasStore.apostasRAW);
+}) 
 
-  const userStore = useUserStore();
+const router = useRouter();
 
-  const irParaRegras = () => {
+const userStore = useUserStore();
+const apostasStore = useApostasStore();
+
+const irParaRegras = () => {
     router.push("/Regras");
-  }
-  const irParaSobre = () => {
+}
+const irParaSobre = () => {
     router.push("/Sobre");
-    }
-    const irParaCadastrarApostas = () => {
+}
+const irParaCadastrarApostas = () => {
     router.push("/CadastrarApostas");
-    }
+}
+const irParaApostasCadastradas = () => {
+    router.push("/ApostasCadastradas");
+}
 
 </script>

@@ -1,19 +1,14 @@
 <template>
-    <div style="display: flex ; flex-direction: column ;">
-        <div style="display: flex ; justify-content: center;  flex-direction: row; padding: 15px">
-             <!-- <div style="padding: 10px;">
-                <Button label="Limpar Apostas" @click="geraGrupos" />
-            </div> -->
-            <!-- <div style="padding: 10px;">
-                <Button label="Carregar Apostas" @click="carregarApostas"  />
-            </div>  -->
-            <div style="padding: 10px;">
-                <Button label="Cadastrar Apostas" :disabled="!apostasStore.completo" @click="cadastraApostas" />
-            </div>
-        </div>
-
+    <!-- <div v-if="!apostasStore.apostaCadastrada">
+        <h1>erro ao carregar apostas</h1>
+    </div>
+-->
+    <div v-if="apostasStore.apostasRAW.grupos === null">
+        <h3>Carregando...</h3>
+        <ProgressSpinner />
+    </div>
+    <div v-else style="display: flex ; flex-direction: column ;">
         <div>
-            <!-- //para o tabview v-model:activeIndex="active2"  -->
             <TabView :scrollable="true">
                 <TabPanel v-for="tab in apostasStore.grupos" :key="tab.letra" :header="tab.completo">
                     <div class="painelDeApostas">
@@ -24,9 +19,6 @@
                                 </div>
                                 <div class="agenda__game__container">
                                     <div class="agenda__game__team--left col-4">
-                                        <!-- <div v-html="'<img src = src/assets/imgs/flags/' + jogo.homeFlag + '.png>'"
-                                            layout="responsive" class="agenda__game__team__shield">
-                                        </div> -->
 
                                         <div v-html="'<img src =' + jogo.homeFlagurl + '>'" layout="responsive"
                                             class="agenda__game__team__shield">
@@ -35,14 +27,14 @@
                                             {{ jogo.homeTeam }}
                                         </div>
                                     </div>
-                                    <div class="agenda__game__info col-4">
-                                        <InputText type="text"
-                                            @change="updatePartida(jogo.homeTeam, jogo.awayTeam, tab.letra)"
-                                            v-model=jogo.resultA class="p-inputtext-sm placar" />
+                                    <div class="agenda__game__info2 col-4">
+                                        <div>
+                                            {{ jogo.resultA }}
+                                        </div>
                                         X
-                                        <InputText type="text"
-                                            @change="updatePartida(jogo.homeTeam, jogo.awayTeam, tab.letra)"
-                                            v-model=jogo.resultB class="p-inputtext-sm placar" />
+                                        <div>
+                                            {{ jogo.resultB }}
+                                        </div>
                                     </div>
                                     <div class="agenda__game__team--right col-4">
                                         <div class="agenda__game__team__shield">
@@ -142,7 +134,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="(tab.fase === 'Final' && apostasStore.campeao[0].flagurl != null)">
+                    <div v-if="(tab.fase === 'Final')">
                         <Panel>
                             <template #header>
                                 Campeão
@@ -169,6 +161,7 @@
 <script setup>
 
 import { getStorage, getDownloadURL } from "firebase/storage";
+import ProgressSpinner from 'primevue/progressspinner';
 import { ref as ref2 } from "firebase/storage"
 import { onBeforeMount, ref, onServerPrefetch, onMounted, reactive } from 'vue';
 import InputText from 'primevue/inputtext';
@@ -193,18 +186,18 @@ const loading = ref(true)
 const gruposTabs = reactive([])
 const matamataTabs = reactive([])
 const campeao = reactive([])
-const completo =ref(false)
+const completo = ref(false)
 //const bandeiras = ref([])
 const userStore = useUserStore()
 const apostasStore = useApostasStore();
 const storage = getStorage();
 
 
-
 onMounted(async () => {
+    //   console.log(apostasStore);
 
-    geraGrupos()
-    
+    mostraGrupos()
+
 
 })
 
@@ -229,13 +222,8 @@ function retira_acentos(str) {
     return novastr;
 }
 
-const zeraApostas = () => {
-    
-}
+const mostraGrupos = () => {
 
-const geraGrupos = () => {
-    
-    
     let letrasGrupos = ['Grupo A', 'Grupo B', 'Grupo C', 'Grupo D', 'Grupo E', 'Grupo F', 'Grupo G', 'Grupo H']
     let nomefases = ['Oitavas', 'Quartas', 'Semifinais', 'Final']
 
@@ -284,63 +272,112 @@ const geraGrupos = () => {
     })
     campeao.value = [{ flagurl: null }]
 
+
+
     apostasStore.setGrupos(gruposTabs.value)
     apostasStore.setMatamata(matamataTabs.value)
     apostasStore.setCampeao(campeao.value)
-    
 
-
-
-
-    
-        gruposTabs.value.forEach(grupo => {
+    console.log(apostasStore.apostasRAW);
+    if (apostasStore.apostasRAW.grupos !== null) {
+         apostasStore.apostasRAW.grupos.forEach(grupo => {
             let grupoIndex = gruposTabs.value.findIndex(g => g.letra === grupo.letra)
-            grupo.jogos.forEach(jogo =>{
-                jogo.resultA = ''
-                jogo.resultB = ''
+            gruposTabs.value[grupoIndex].jogos.forEach(jogo =>{
+                let jogoIndex = grupo.jogos.findIndex(j => j.matchNumber === jogo.matchNumber)
+                jogo.resultA = grupo.jogos[jogoIndex].resultA
+                jogo.resultB = grupo.jogos[jogoIndex].resultB
+                
             })
-            zeraPontuacaoGrupo(grupoIndex)
-            //ordenaTabela(grupoIndex)
+            calculaPontuacaoGrupo(grupoIndex)
+            ordenaTabela(grupoIndex)
             //console.log(gruposTabs.value[grupoIndex].jogos);
         }); 
-        matamataTabs.value.forEach(fase => {
-
-            fase.jogos.forEach(jogo =>{
-                
-               
-                
-                jogo.homeTeam = jogo.inputidhome
-                jogo.awayTeam = jogo.inputidaway
-
-                jogo.winner = null
-                jogo.homeFlag = null
-                jogo.awayFlag = null
-                jogo.homeFlagurl = null
-                jogo.awayFlagurl = null
+        apostasStore.apostasRAW.mataMata.forEach(fase => {
+            let faseIndex = matamataTabs.value.findIndex(f => f.fase === fase.fase)
+            matamataTabs.value[faseIndex].jogos.forEach(jogo =>{
+                let jogoIndex = fase.jogos.findIndex(j => j.matchNumber === jogo.matchNumber)
+                jogo.homeTeam = fase.jogos[jogoIndex].homeTeam
+                jogo.awayTeam = fase.jogos[jogoIndex].awayTeam
+                jogo.winner = fase.jogos[jogoIndex].winner
+        
+                jogo.homeFlag = retira_acentos(jogo.homeTeam);
+                jogo.homeFlag = jogo.homeFlag.replace(/\s/g, '').toLowerCase();
+                jogo.awayFlag = retira_acentos(jogo.awayTeam);
+                jogo.awayFlag = jogo.awayFlag.replace(/\s/g, '').toLowerCase();
+                jogo.homeFlagurl = todasAsBandeiras.find(bandeira => bandeira.pais === jogo.homeFlag).bandeira
+                jogo.awayFlagurl = todasAsBandeiras.find(bandeira => bandeira.pais === jogo.awayFlag).bandeira
             
             })
         })
-     
-            apostasStore.campeao[0].flagurl = null
-            apostasStore.campeao[0].team = null
-            apostasStore.setCompleto(false)
-     
+        let finaltab = matamataTabs.value[matamataTabs.value.length-1].jogos[0]
+        let final = apostasStore.apostasRAW.mataMata[apostasStore.apostasRAW.mataMata.length - 1].jogos[0]
+        if (final.winner =='home'){
+            apostasStore.campeao[0].flagurl = finaltab.homeFlagurl
+            apostasStore.campeao[0].team = finaltab.homeTeam
+        } else {
+            apostasStore.campeao[0].flagurl = finaltab.awayFlagurl
+            apostasStore.campeao[0].team = finaltab.awayTeam
+        }   
+    }
 }
 
-const zeraPontuacaoGrupo = ((grupoIndex) => {
-    let jogos = gruposTabs.value[grupoIndex].jogos
-    //let time = gruposTabs.value[grupoIndex].classificacao[timeIndex]
-    gruposTabs.value[grupoIndex].classificacao.forEach(time => {
-    time.p = 0
-    time.v = 0
-    time.e = 0
-    time.d = 0
-    time.gp = 0
-    time.gc = 0
-    time.sg = 0
-    //gruposTabs.value[grupoIndex].classificacao[timeIndex] = time
+const geraGrupos = () => {
+    let letrasGrupos = ['Grupo A', 'Grupo B', 'Grupo C', 'Grupo D', 'Grupo E', 'Grupo F', 'Grupo G', 'Grupo H']
+    let nomefases = ['Oitavas', 'Quartas', 'Semifinais', 'Final']
+
+    let jogosPorGrupo = { 'Grupo A': [], 'Grupo B': [], 'Grupo C': [], 'Grupo D': [], 'Grupo E': [], 'Grupo F': [], 'Grupo G': [], 'Grupo H': [] }
+    let timesPorGrupo = { 'Grupo A': [], 'Grupo B': [], 'Grupo C': [], 'Grupo D': [], 'Grupo E': [], 'Grupo F': [], 'Grupo G': [], 'Grupo H': [] }
+    let jogosmataMata = { 'Oitavas': [], 'Quartas': [], 'Semifinais': [], 'Final': [] }
+    //console.log(todosOsJogos)   
+    todosOsJogos.forEach(element => {
+        element.homeFlag = retira_acentos(element.homeTeam);
+        element.homeFlag = element.homeFlag.replace(/\s/g, '').toLowerCase();
+        element.awayFlag = retira_acentos(element.awayTeam);
+        element.awayFlag = element.awayFlag.replace(/\s/g, '').toLowerCase();
+        if (element.group) {
+            element.homeFlagurl = todasAsBandeiras.find(bandeira => bandeira.pais === element.homeFlag).bandeira
+            element.awayFlagurl = todasAsBandeiras.find(bandeira => bandeira.pais === element.awayFlag).bandeira
+            jogosPorGrupo[element.group].push(element)
+            if (!timesPorGrupo[element.group].includes(element.homeTeam)) {
+                timesPorGrupo[element.group].push(element.homeTeam)
+            }
+        } else if (element.roundNumber != 'Terceiro') {
+            element.inputidhome = element.homeTeam
+            element.inputidaway = element.awayTeam
+            jogosmataMata[element.roundNumber].push(element)
+
+        }
+    });
+    gruposTabs.value = letrasGrupos.map((nomeGrupo) => {
+        return { letra: nomeGrupo, jogos: {}, classificacao: [] }
     })
-})
+    matamataTabs.value = nomefases.map((nomeFase) => {
+        return { fase: nomeFase, jogos: {} }
+    })
+
+    gruposTabs.value.forEach((grupo) => {
+        grupo.jogos = jogosPorGrupo[grupo.letra]
+        grupo.completo = grupo.letra
+
+        grupo.classificacao = timesPorGrupo[grupo.letra].map((nometime, index) => {
+            let b = nometime.replace(/\s/g, '')
+            return { nome: nometime, colocacao: index + 1 + 'º', bandeira: todasAsBandeiras.find(bandeira => bandeira.pais === retira_acentos(b).replace(/\s/g, '').toLowerCase()).bandeira, p: 0, v: 0, e: 0, d: 0, s: 0, gp: 0, gc: 0 }
+        })
+    })
+    matamataTabs.value.forEach((etapa) => {
+        etapa.jogos = jogosmataMata[etapa.fase]
+        etapa.completo = etapa.fase
+    })
+    campeao.value = [{ flagurl: null }]
+    apostasStore.setGrupos(gruposTabs.value)
+    apostasStore.setMatamata(matamataTabs.value)
+    apostasStore.setCampeao(campeao.value)
+
+    console.log(campeao.value);
+
+
+}
+
 
 const updatePartida = ((nometime1, nometime2, nomegrupo) => {
     // console.log(bandeiras.value)
@@ -425,7 +462,7 @@ const updatePartidaMatamata = ((jogo, fase) => {
         } else {
             console.log('final decidida')
             console.log(winner)
-            
+
             apostasStore.setCompleto(true)
             campeao.value[0].team = winner.team
             campeao.value[0].flagurl = winner.flagurl
@@ -549,6 +586,57 @@ const ordenaTabela = ((grupoIndex) => {
 
 })
 
+const calculaPontuacaoGrupo = ((grupoIndex) => {
+    let jogos = gruposTabs.value[grupoIndex].jogos
+    //let time = gruposTabs.value[grupoIndex].classificacao[timeIndex]
+    gruposTabs.value[grupoIndex].classificacao.forEach(time => {
+    time.p = 0
+    time.v = 0
+    time.e = 0
+    time.d = 0
+    time.gp = 0
+    time.gc = 0
+    time.sg = 0
+    jogos.forEach(partida => {
+        if (((partida.resultA !== '' && partida.resultB !== '') && (partida.resultA !== null && partida.resultB !== null)) && (!isNaN(partida.resultA) && !isNaN(partida.resultB))) {
+            if (time.nome === partida.homeTeam) {
+                time.gp += Number(partida.resultA)
+                time.gc += Number(partida.resultB)
+                if (Number(partida.resultA) > Number(partida.resultB)) {
+                    time.p += 3
+                    time.v += 1
+                } else if (partida.resultA === partida.resultB) {
+                    time.p += 1
+                    time.e += 1
+                } else {
+                    time.d += 1
+                }
+            } else if (time.nome === partida.awayTeam) {
+                time.gp += Number(partida.resultB)
+                time.gc += Number(partida.resultA)
+                if (Number(partida.resultA) < Number(partida.resultB)) {
+                    time.p += 3
+                    time.v += 1
+                } else if (partida.resultA === partida.resultB) {
+                    time.p += 1
+                    time.e += 1
+                } else {
+                    time.d += 1
+                }
+            }
+        } else {
+            if (isNaN(partida.resultA)) {
+                partida.resultA = ''
+            } else if (isNaN(partida.resultB)) {
+                partida.resultB = ''
+            }
+        }
+    })
+    time.sg = Number(time.gp) - Number(time.gc)
+    //gruposTabs.value[grupoIndex].classificacao[timeIndex] = time
+    })
+})
+
 const calculaPontuacao = ((timeIndex, grupoIndex) => {
     let jogos = gruposTabs.value[grupoIndex].jogos
     let time = gruposTabs.value[grupoIndex].classificacao[timeIndex]
@@ -601,6 +689,10 @@ const calculaPontuacao = ((timeIndex, grupoIndex) => {
     gruposTabs.value[grupoIndex].classificacao[timeIndex] = time
 })
 
+const podeCadastrar = (() => {
+    return apostasStore.completo
+});
+
 const cadastraApostas = () => {
     //  console.log(userStore.authuser.uid);
     let grupos = []
@@ -613,28 +705,26 @@ const cadastraApostas = () => {
         grupos.push({ letra: letra, jogos: jogos })
     });
     let matamata = []
-    
+
     apostasStore.mataMata.forEach((f) => {
         let jogos = []
         let fase = f.fase
         f.jogos.forEach((jogo) => {
-            jogos.push({ matchNumber: jogo.matchNumber, homeTeam:jogo.homeTeam, awayTeam:jogo.awayTeam, winner: jogo.winner })
+            jogos.push({ matchNumber: jogo.matchNumber, homeTeam: jogo.homeTeam, awayTeam: jogo.awayTeam, winner: jogo.winner })
         })
-        matamata.push({ fase:fase, jogos: jogos})
+        matamata.push({ fase: fase, jogos: jogos })
     });
 
-    
 
-    apostasStore.cadastraApostas(userStore.authuser.uid, grupos,matamata)
-    /* apostasStore.setCampeao([{ flagurl: null }]) */
-    
+
+    apostasStore.cadastraApostas(userStore.authuser.uid, grupos, matamata)
 }
-/* 
-const carregarApostas = (() =>{
+
+const carregarApostas = (() => {
     apostasStore.fetchApostaById(userStore.authuser.uid);
 
-    
-}); */
+
+});
 
 
 </script>

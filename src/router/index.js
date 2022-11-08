@@ -3,6 +3,7 @@ import { getAuth, onAuthStateChanged } from "@firebase/auth";
 import { useLoadingStore } from "../stores/loading"
 import { useUsuariosStore } from "../stores/usuarios";
 import { useUserStore } from "../stores/user";
+import { useApostasStore } from "../stores/apostas";
 
 //Vue.component('loading',{ template: '<div>Loading!</div>'})
 
@@ -60,11 +61,22 @@ const router = createRouter({
         },
         /* { path: "/register", component: () => import("../views/Register.vue") }, */
         {
+            beforeEnter: async (to, from) => {
+                const apostasStore = useApostasStore();
+                
+            },
             path: "/cadastrarApostas",
             meta: {
                 requiresAuth: true,
             },
             component: () => import("../views/CadastrarApostas.vue")
+        },
+        {
+            path: "/apostasCadastradas",
+            meta: {
+                requiresAuth: true,
+            },
+            component: () => import("../views/apostasCadastradas.vue")
         },
         { path: "/sign-in", component: () => import("../views/SignIn.vue") },
         { path: "/Regras", component: () => import("../views/Regras.vue") },
@@ -139,6 +151,8 @@ router.beforeEach(async (to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         const u = await getCurrentUser()
         if (u) {
+            const apostasStore = useApostasStore();
+            await apostasStore.fetchApostaById(u.uid);
             const userStore = useUserStore();
             userStore.setAuthUser(u)
             next();
