@@ -179,7 +179,7 @@ import RadioButton from 'primevue/radiobutton'
 import TabPanel from 'primevue/TabPanel';
 import Panel from 'primevue/panel'
 import TabView from 'primevue/TabView';
-import jogos from '../assets/jogosdacopa.json';
+import jogos from '../assets/jogosdacopav2.json';
 import paises from '../assets/nomepaises.json';
 import bandeiras from '../assets/linksBandeiras.json';
 import { useApostasStore } from "../stores/apostas";
@@ -256,8 +256,6 @@ const geraGrupos = () => {
                 timesPorGrupo[element.group].push(element.homeTeam)
             }
         } else if (element.roundNumber != 'Terceiro') {
-            element.inputidhome = element.homeTeam
-            element.inputidaway = element.awayTeam
             jogosmataMata[element.roundNumber].push(element)
 
         }
