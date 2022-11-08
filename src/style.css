@@ -150,6 +150,14 @@ button:focus-visible {
   justify-content: center;
   flex-direction: column;
 }
+.card_home {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+ .botao_home{
+  padding: 8px;
+} 
 .agenda__game {
     display: flex;
     flex-direction: column;

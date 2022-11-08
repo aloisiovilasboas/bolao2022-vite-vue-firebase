@@ -24,6 +24,7 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
                     snapshot.docs.forEach((doc) => {
                         usuarios.value.push({...doc.data(), id: doc.id, link: dominio.value+doc.id})
                     })
+                    console.log(usuarios.value);
                 }).catch( err=> {
                     console.log(err.message)
                 })
@@ -40,6 +41,7 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
             
         },
         actions:{
+            
             async cadastraPlayer(u){
                 try {
                   const docRef = await addDoc(collection(db, "usuarios"), {
@@ -79,6 +81,42 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
                     console.error("erro ao excluir usuario: ", e);
                 }
             },
+            /* async pagouUsuario(u) {
+                try {
+                    
+                    db.collection("usuarios").doc(u.id).update({pago: "true"});
+                    // console.log(doc);
+                    // console.log("Document written with ID: ", docRef.id);
+                    // linkCadastro.value = docRef.id
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                }
+            }, */
+            async pagouUsuario(u){
+                try{
+                    const usuarioref = doc(db, "usuarios", u.id);
+                     await updateDoc(usuarioref, {
+                        pago: true
+                    });
+                    let index = this.usuarios.findIndex((user) => user.id == u.id) 
+                    this.usuarios[index].pago = true
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                }
+            },
+            async naoPagouUsuario(u){
+                try{
+                    const usuarioref = doc(db, "usuarios", u.id);
+                     await updateDoc(usuarioref, {
+                        pago: false
+                    }); 
+                    let index = this.usuarios.findIndex((user) => user.id == u.id) 
+                    this.usuarios[index].pago = false
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                }
+            },
+            
             
             async getIsAdmin(id){
                 const docRef = doc(db, "admins", id);

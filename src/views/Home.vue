@@ -19,24 +19,30 @@
             </template> -->
             <template #content>
 
-                <div class="col-12">
+                <div class="col-12 card_home">
                     <!--   <Button label="Primary" class="p-button-outlined" /> -->
-                    <div v-if="userStore.authuser != null && apostasStore.apostasRAW.grupos != null">
-                        <Button @click="irParaApostasCadastradas" label="⚽Ver Suas Apostas" />
+                    <div class="botao_home" v-if="userStore.authuser != null && apostasStore.apostasRAW.grupos != null">
+                        <Button class="col-8 p-button-warning" @click="irParaApostasCadastradas" >
+                            <span class="p-button-icon p-button-icon-left">⚽</span>
+                            <span class="p-button-label">Ver Suas Apostas</span>
+                            
+                        </Button>
                     </div>
-                    <p></p>
-                    <div v-if="userStore.authuser != null">
-                        <Button @click="irParaCadastrarApostas" label="⚽ Cadastrar Apostas" />
+                   
+                    <div class="botao_home" v-if="userStore.authuser != null">
+                        <Button class="col-8" @click="irParaCadastrarApostas" >
+                            <span class="p-button-icon p-button-icon-left">⚽</span>
+                            <span class="p-button-label">Cadastrar Apostas</span>
+                        
+                        </Button>
                     </div>
-                    <p></p>
-                    <div>
-                        <Button @click="irParaRegras" icon="pi pi-book" label="Regras" class="p-button-secondary"
-                            style="margin-left: .5em" />
+                   
+                    <div class="botao_home" >
+                        <Button  @click="irParaRegras" icon="pi pi-book" label="Regras" class="col-8 p-button-secondary"/>
                     </div>
-                    <p></p>
-                    <div>
-                        <Button @click="irParaSobre" icon="pi pi-info-circle" label="Sobre" class="p-button-secondary"
-                            style="margin-left: .5em" />
+                   
+                    <div class="botao_home" >
+                        <Button @click="irParaSobre" icon="pi pi-info-circle" label="Sobre" class="col-8 p-button-secondary"/>
                     </div>
                 </div>
 

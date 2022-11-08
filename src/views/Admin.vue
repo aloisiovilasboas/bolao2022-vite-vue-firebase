@@ -32,15 +32,42 @@
             </div>
           </template>
         </Column> -->
-
-        <Column :exportable="false" style="min-width:8rem">
+        <Column header="Pago" :exportable="false" style="min-width:8rem">
+          <template #body="slotProps">
+            <Button v-if="slotProps.data.pago!=true " icon="pi pi-circle" class="p-button-rounded p-button-warning" @click="confirmPagoUsuario(slotProps.data)" />
+            <Button v-if="slotProps.data.pago==true " icon="pi pi-circle-fill" class="p-button-rounded p-button-warning" @click="confirmNaoPagoUsuario(slotProps.data)" />
+          </template>
+        </Column>
+        <Column header="Excluir" :exportable="false" style="min-width:8rem">
           <template #body="slotProps">
             <Button icon="pi pi-trash" class="p-button-rounded p-button-warning"
               @click="confirmDeleteUsuario(slotProps.data)" />
           </template>
         </Column>
+        
+        
       </DataTable>
     </div>
+    <Dialog v-model:visible="pagoUsuarioDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
+      <div class="confirmation-content">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+        <span>Deseja validar o pagamento de <b>{{ uPago.nome }}</b>?</span>
+      </div>
+      <template #footer>
+        <Button label="No" icon="pi pi-times" class="p-button-text" @click="pagoUsuarioDialog = false" />
+        <Button label="Yes" icon="pi pi-check" class="p-button-text" @click="pagoUsuario" />
+      </template>
+    </Dialog>
+    <Dialog v-model:visible="naoPagoUsuarioDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
+      <div class="confirmation-content">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+        <span>Deseja invalidar o pagamento de <b>{{ uPago.nome }}</b>?</span>
+      </div>
+      <template #footer>
+        <Button label="No" icon="pi pi-times" class="p-button-text" @click="naoPagoUsuarioDialog = false" />
+        <Button label="Yes" icon="pi pi-check" class="p-button-text" @click="naoPagoUsuario" />
+      </template>
+    </Dialog>
 
     <Dialog v-model:visible="deleteUsuarioDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
       <div class="confirmation-content">
@@ -87,7 +114,10 @@ const store = useUsuariosStore();
 const products = ref();
 const nameInput = ref("");
 const deleteUsuarioDialog = ref(false);
+const pagoUsuarioDialog = ref(false)
+const naoPagoUsuarioDialog = ref(false)
 const uDelete = ref({});
+const uPago = ref({});
 
 
 
@@ -102,6 +132,41 @@ const copyLink = (u) => {
     alert('Cannot copy');
   }
 }
+
+const confirmPagoUsuario = (u) => {
+  uPago.value = u;
+  pagoUsuarioDialog.value = true;
+};
+const confirmNaoPagoUsuario = (u) => {
+  uPago.value = u;
+  naoPagoUsuarioDialog.value = true;
+};
+
+const naoPagoUsuario = () => {
+  console.log('usuarioPago')
+  store.naoPagouUsuario(uPago.value)
+  naoPagoUsuarioDialog.value = false
+
+
+  /*  products.value = products.value.filter(val => val.id !== product.value.id);
+   deleteProductDialog.value = false;
+   product.value = {};
+   toast.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000}); */
+};
+
+const pagoUsuario = () => {
+  console.log('usuarioPago')
+  store.pagouUsuario(uPago.value)
+  pagoUsuarioDialog.value = false
+
+
+  /*  products.value = products.value.filter(val => val.id !== product.value.id);
+   deleteProductDialog.value = false;
+   product.value = {};
+   toast.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000}); */
+};
+
+
 
 
 const confirmDeleteUsuario = (u) => {
