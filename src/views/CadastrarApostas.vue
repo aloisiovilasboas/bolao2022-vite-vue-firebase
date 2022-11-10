@@ -83,7 +83,7 @@
                         </Column>
                         <Column field="p" header="P"></Column>
                         <Column field="v" header="V"></Column>
-                        <Column field="s" header="SG"></Column>
+                        <Column field="sg" header="SG"></Column>
                         <Column field="gp" header="GP"></Column>
                     </DataTable>
                     <!--  </div> -->
@@ -273,7 +273,7 @@ const geraGrupos = () => {
 
         grupo.classificacao = timesPorGrupo[grupo.letra].map((nometime, index) => {
             let b = nometime.replace(/\s/g, '')
-            return { nome: nometime, colocacao: index + 1 + 'º', bandeira: todasAsBandeiras.find(bandeira => bandeira.pais === retira_acentos(b).replace(/\s/g, '').toLowerCase()).bandeira, p: 0, v: 0, e: 0, d: 0, s: 0, gp: 0, gc: 0 }
+            return { nome: nometime, colocacao: index + 1 + 'º', bandeira: todasAsBandeiras.find(bandeira => bandeira.pais === retira_acentos(b).replace(/\s/g, '').toLowerCase()).bandeira, p: 0, v: 0, e: 0, d: 0, sg: 0, gp: 0, gc: 0 }
         })
     })
     matamataTabs.value.forEach((etapa) => {
@@ -298,7 +298,7 @@ const geraGrupos = () => {
                 jogo.resultB = ''
             })
             zeraPontuacaoGrupo(grupoIndex)
-            //ordenaTabela(grupoIndex)
+            
             //console.log(gruposTabs.value[grupoIndex].jogos);
         }); 
         matamataTabs.value.forEach(fase => {
@@ -595,7 +595,10 @@ const calculaPontuacao = ((timeIndex, grupoIndex) => {
             }
         }
     })
-    time.sg = Number(time.gp) - Number(time.gc)
+    
+    time.sg = time.gp - time.gc
+    console.log(time);
+    console.log('saldo '+time.sg);
     gruposTabs.value[grupoIndex].classificacao[timeIndex] = time
 })
 
