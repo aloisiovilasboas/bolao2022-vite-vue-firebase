@@ -10,21 +10,23 @@
     <div>
 
       <DataTable :value=store.usuarios>
+        <Column header="#" headerStyle="width:3em">
+        <template #body="slotProps">
+            {{slotProps.index+1}}
+        </template>
+    </Column>
         <Column field="nome" header="nome"></Column>
-        <Column field="email" header="email">
+        <Column  header="email / link">
           <template #body="slotProps">
-            {{ slotProps.data.email }}
-          </template>
-        </Column>
-        <Column field="link" header="link">
-          <template #body="slotProps">
-            <div>
+            <span v-if="slotProps.data.email!='nao cadastrado'" >{{ slotProps.data.email }}</span>
+            <div v-else>
               <!-- <input  type="text" class="linktext" v-model=slotProps.data.link readonly="true" /> -->
               <InputText class="linktext" type="text" v-model=slotProps.data.link readonly="true" />
               <Button icon="pi pi-copy" class="p-button" @click="copyLink(slotProps.data)" />
             </div>
           </template>
         </Column>
+        
         <!-- <Column field="isAdmin" header="Admin">
           <template #body="slotProps">
             <div>

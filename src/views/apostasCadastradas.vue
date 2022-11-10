@@ -105,11 +105,11 @@
                                     </div>
                                     <div class="agenda__game__info2 col-4">
                                         <RadioButton inputId=jogo.inputidhome name=jogo.matchNumber value=home
-                                            :disabled="((jogo.homeFlagurl === undefined) || (jogo.awayFlagurl === undefined) || (jogo.homeFlagurl === null) || (jogo.awayFlagurl === null))"
+                                            :disabled="true"
                                             @change="updatePartidaMatamata(jogo, tab.fase)" v-model="jogo.winner" />
                                         <div>X</div>
                                         <RadioButton inputId=jogo.inputidaway name=jogo.matchNumber value=away
-                                            :disabled="((jogo.homeFlagurl === undefined) || (jogo.awayFlagurl === undefined) || (jogo.homeFlagurl === null) || (jogo.awayFlagurl === null))"
+                                            :disabled="true"
                                             @change="updatePartidaMatamata(jogo, tab.fase)" v-model=jogo.winner />
                                     </div>
                                     <div class="agenda__game__team--right col-4">

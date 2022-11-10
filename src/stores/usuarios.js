@@ -24,7 +24,7 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
                     snapshot.docs.forEach((doc) => {
                         usuarios.value.push({...doc.data(), id: doc.id, link: dominio.value+doc.id})
                     })
-                    console.log(usuarios.value);
+                  //  console.log(usuarios.value);
                 }).catch( err=> {
                     console.log(err.message)
                 })
