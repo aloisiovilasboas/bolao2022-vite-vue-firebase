@@ -48,7 +48,7 @@
                                     <div class="agenda__game__team--right col-4">
                                         <div class="agenda__game__team__shield">
 
-                                            <div v-html="'<img src =' + jogo.awayFlagurl + '>'" layout="responsive"
+                                            <div v-html="'<img src =' + jogo.awayFlagurl + ' class=bandeirinha >'" layout="responsive"
                                                 class="agenda__game__team__shield">
                                             </div>
                                         </div>
@@ -75,7 +75,7 @@
                         <Column header="Classificação" style="min-width:12rem">
                             <template #body="{ data }">
                                 <div class="nomeEbandeira">
-                                    <div v-html="'<img src = ' + data.bandeira + '>'" layout="responsive"
+                                    <div v-html="'<img src = ' + data.bandeira + ' class=bandeirinha >'" layout="responsive"
                                         class="agenda__game__team__shield">
                                     </div>
                                     <span class="image-text agenda__game__team__name">{{ data.nome }}</span>
@@ -100,12 +100,10 @@
 
                                 <div class="agenda__game__container">
                                     <div class="agenda__game__team--left col-4">
-                                        <!-- <div v-html="'<img src = src/assets/imgs/flags/' + jogo.homeFlag + '.png>'"
-                                            layout="responsive" class="agenda__game__team__shield">
-                                        </div> -->
+                                        
 
                                         <div v-if="jogo.homeFlagurl != null"
-                                            v-html="'<img src =' + jogo.homeFlagurl + '>'" layout="responsive"
+                                            v-html="'<img src =' + jogo.homeFlagurl + ' class=bandeirinha >'" layout="responsive"
                                             class="agenda__game__team__shield">
                                         </div>
                                         <div class="agenda__game__team__name">
@@ -125,7 +123,7 @@
                                         <div class="agenda__game__team__shield">
 
                                             <div v-if="jogo.awayFlagurl != null"
-                                                v-html="'<img src =' + jogo.awayFlagurl + '>'" layout="responsive"
+                                                v-html="'<img src =' + jogo.awayFlagurl + ' class=bandeirinha >'" layout="responsive"
                                                 class="agenda__game__team__shield">
                                             </div>
                                         </div>
@@ -150,7 +148,7 @@
                             </template>
                             <div class="campeao">
                                 <div class="agenda__game__team__shield__center">
-                                    <div v-html="'<img src =' + apostasStore.campeao[0].flagurl + '>'"
+                                    <div v-html="'<img src =' + apostasStore.campeao[0].flagurl + ' class=bandeirinha >'"
                                         layout="responsive" class="agenda__game__team__shield">
                                     </div>
                                 </div>
