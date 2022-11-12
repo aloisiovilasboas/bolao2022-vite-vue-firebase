@@ -123,6 +123,9 @@ button:focus-visible {
   flex-direction: row;
   align-items: center;
 }
+.bandeirinha{
+  width: 32px;
+}
 
 .painelDeApostas {
   /* padding: 20px; */

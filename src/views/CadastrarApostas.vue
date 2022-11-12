@@ -1,7 +1,7 @@
 <template>
     <div style="display: flex ; flex-direction: column ;">
         <div style="display: flex ; justify-content: center;  flex-direction: row; padding: 15px">
-             <!-- <div style="padding: 10px;">
+            <!-- <div style="padding: 10px;">
                 <Button label="Limpar Apostas" @click="geraGrupos" />
             </div> -->
             <!-- <div style="padding: 10px;">
@@ -24,11 +24,12 @@
                                 </div>
                                 <div class="agenda__game__container">
                                     <div class="agenda__game__team--left col-4">
-                                        <!-- <div v-html="'<img src = src/assets/imgs/flags/' + jogo.homeFlag + '.png>'"
-                                            layout="responsive" class="agenda__game__team__shield">
-                                        </div> -->
 
-                                        <div v-html="'<img src =' + jogo.homeFlagurl + '>'" layout="responsive"
+                                        
+                                            
+                                        
+
+                                        <div v-html="'<img src =' + jogo.homeFlagurl + ' class=bandeirinha >'" layout="responsive"
                                             class="agenda__game__team__shield">
                                         </div>
                                         <div class="agenda__game__team__name">
@@ -193,7 +194,7 @@ const loading = ref(true)
 const gruposTabs = reactive([])
 const matamataTabs = reactive([])
 const campeao = reactive([])
-const completo =ref(false)
+const completo = ref(false)
 //const bandeiras = ref([])
 const userStore = useUserStore()
 const apostasStore = useApostasStore();
@@ -204,7 +205,7 @@ const storage = getStorage();
 onMounted(async () => {
 
     geraGrupos()
-    
+
 
 })
 
@@ -230,12 +231,12 @@ function retira_acentos(str) {
 }
 
 const zeraApostas = () => {
-    
+
 }
 
 const geraGrupos = () => {
-    
-    
+
+
     let letrasGrupos = ['Grupo A', 'Grupo B', 'Grupo C', 'Grupo D', 'Grupo E', 'Grupo F', 'Grupo G', 'Grupo H']
     let nomefases = ['Oitavas', 'Quartas', 'Semifinais', 'Final']
 
@@ -285,58 +286,58 @@ const geraGrupos = () => {
     apostasStore.setGrupos(gruposTabs.value)
     apostasStore.setMatamata(matamataTabs.value)
     apostasStore.setCampeao(campeao.value)
-    
 
 
 
 
-    
-        gruposTabs.value.forEach(grupo => {
-            let grupoIndex = gruposTabs.value.findIndex(g => g.letra === grupo.letra)
-            grupo.jogos.forEach(jogo =>{
-                jogo.resultA = ''
-                jogo.resultB = ''
-            })
-            zeraPontuacaoGrupo(grupoIndex)
-            
-            //console.log(gruposTabs.value[grupoIndex].jogos);
-        }); 
-        matamataTabs.value.forEach(fase => {
 
-            fase.jogos.forEach(jogo =>{
-                
-               
-                
-                jogo.homeTeam = jogo.inputidhome
-                jogo.awayTeam = jogo.inputidaway
 
-                jogo.winner = null
-                jogo.homeFlag = null
-                jogo.awayFlag = null
-                jogo.homeFlagurl = null
-                jogo.awayFlagurl = null
-            
-            })
+    gruposTabs.value.forEach(grupo => {
+        let grupoIndex = gruposTabs.value.findIndex(g => g.letra === grupo.letra)
+        grupo.jogos.forEach(jogo => {
+            jogo.resultA = ''
+            jogo.resultB = ''
         })
-     
-            apostasStore.campeao[0].flagurl = null
-            apostasStore.campeao[0].team = null
-            apostasStore.setCompleto(false)
-     
+        zeraPontuacaoGrupo(grupoIndex)
+
+        //console.log(gruposTabs.value[grupoIndex].jogos);
+    });
+    matamataTabs.value.forEach(fase => {
+
+        fase.jogos.forEach(jogo => {
+
+
+
+            jogo.homeTeam = jogo.inputidhome
+            jogo.awayTeam = jogo.inputidaway
+
+            jogo.winner = null
+            jogo.homeFlag = null
+            jogo.awayFlag = null
+            jogo.homeFlagurl = null
+            jogo.awayFlagurl = null
+
+        })
+    })
+
+    apostasStore.campeao[0].flagurl = null
+    apostasStore.campeao[0].team = null
+    apostasStore.setCompleto(false)
+
 }
 
 const zeraPontuacaoGrupo = ((grupoIndex) => {
     let jogos = gruposTabs.value[grupoIndex].jogos
     //let time = gruposTabs.value[grupoIndex].classificacao[timeIndex]
     gruposTabs.value[grupoIndex].classificacao.forEach(time => {
-    time.p = 0
-    time.v = 0
-    time.e = 0
-    time.d = 0
-    time.gp = 0
-    time.gc = 0
-    time.sg = 0
-    //gruposTabs.value[grupoIndex].classificacao[timeIndex] = time
+        time.p = 0
+        time.v = 0
+        time.e = 0
+        time.d = 0
+        time.gp = 0
+        time.gc = 0
+        time.sg = 0
+        //gruposTabs.value[grupoIndex].classificacao[timeIndex] = time
     })
 })
 
@@ -423,7 +424,7 @@ const updatePartidaMatamata = ((jogo, fase) => {
         } else {
             console.log('final decidida')
             console.log(winner)
-            
+
             apostasStore.setCompleto(true)
             campeao.value[0].team = winner.team
             campeao.value[0].flagurl = winner.flagurl
@@ -595,10 +596,10 @@ const calculaPontuacao = ((timeIndex, grupoIndex) => {
             }
         }
     })
-    
+
     time.sg = time.gp - time.gc
     console.log(time);
-    console.log('saldo '+time.sg);
+    console.log('saldo ' + time.sg);
     gruposTabs.value[grupoIndex].classificacao[timeIndex] = time
 })
 
@@ -614,21 +615,21 @@ const cadastraApostas = () => {
         grupos.push({ letra: letra, jogos: jogos })
     });
     let matamata = []
-    
+
     apostasStore.mataMata.forEach((f) => {
         let jogos = []
         let fase = f.fase
         f.jogos.forEach((jogo) => {
-            jogos.push({ matchNumber: jogo.matchNumber, homeTeam:jogo.homeTeam, awayTeam:jogo.awayTeam, winner: jogo.winner })
+            jogos.push({ matchNumber: jogo.matchNumber, homeTeam: jogo.homeTeam, awayTeam: jogo.awayTeam, winner: jogo.winner })
         })
-        matamata.push({ fase:fase, jogos: jogos})
+        matamata.push({ fase: fase, jogos: jogos })
     });
 
-    
 
-    apostasStore.cadastraApostas(userStore.authuser.uid, grupos,matamata)
+
+    apostasStore.cadastraApostas(userStore.authuser.uid, grupos, matamata)
     /* apostasStore.setCampeao([{ flagurl: null }]) */
-    
+
 }
 /* 
 const carregarApostas = (() =>{
