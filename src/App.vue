@@ -48,6 +48,8 @@
                 class="p-button-text button-sidebar" icon="pi pi-info-circle" /> </router-link>
             <router-link to="/admin" @click.native="InlineButtonClickHandler"> <Button label="Admin"
                 class="p-button-text button-sidebar" icon="pi pi-check" v-if="usuariosStore.isAdmin" /> </router-link>
+            <router-link to="/gabarito" @click.native="InlineButtonClickHandler"> <Button label="Gabarito"
+                class="p-button-text button-sidebar" icon="pi pi-check" v-if="usuariosStore.isAdmin" /> </router-link>
             <Button label="Sair" class="p-button-text button-sidebar" icon="pi pi-check" @click="handleSignOut"
               v-if="isLoggedIn" />
           </div>

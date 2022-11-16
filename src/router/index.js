@@ -59,6 +59,28 @@ const router = createRouter({
                 requiresAuth: true,
             }
         },
+        {
+            path: "/gabarito",
+            beforeEnter: async (to, from) => {
+                
+                const u = await getCurrentUser()
+                if (u != null) {
+                    const userStore = useUserStore();
+                    userStore.setAuthUser(u)
+                    const usuariosStore = useUsuariosStore();
+                    usuariosStore.fetchUsuarios();
+                    console.log('uid: '+u.uid);
+                    usuariosStore.getIsAdmin(u.uid)
+//                    console.log(userStore.authuser)
+                } else {
+                    userStore.setAuthUser(null)
+                }
+            },
+            component: () => import("../views/Gabarito.vue"),
+            meta: {
+                requiresAuth: true,
+            }
+        },
         /* { path: "/register", component: () => import("../views/Register.vue") }, */
         {
             beforeEnter: async (to, from) => {

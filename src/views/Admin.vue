@@ -11,14 +11,14 @@
 
       <DataTable :value=store.usuarios>
         <Column header="#" headerStyle="width:3em">
-        <template #body="slotProps">
-            {{slotProps.index+1}}
-        </template>
-    </Column>
-        <Column field="nome" header="nome"></Column>
-        <Column  header="email / link">
           <template #body="slotProps">
-            <span v-if="slotProps.data.email!='nao cadastrado'" >{{ slotProps.data.email }}</span>
+            {{ slotProps.index + 1 }}
+          </template>
+        </Column>
+        <Column field="nome" header="nome"></Column>
+        <Column header="email / link">
+          <template #body="slotProps">
+            <span v-if="slotProps.data.email != 'nao cadastrado'">{{ slotProps.data.email }}</span>
             <div v-else>
               <!-- <input  type="text" class="linktext" v-model=slotProps.data.link readonly="true" /> -->
               <InputText class="linktext" type="text" v-model=slotProps.data.link readonly="true" />
@@ -26,7 +26,7 @@
             </div>
           </template>
         </Column>
-        
+
         <!-- <Column field="isAdmin" header="Admin">
           <template #body="slotProps">
             <div>
@@ -36,8 +36,10 @@
         </Column> -->
         <Column header="Pago" :exportable="false" style="min-width:8rem">
           <template #body="slotProps">
-            <Button v-if="slotProps.data.pago!=true " icon="pi pi-circle" class="p-button-rounded p-button-warning" @click="confirmPagoUsuario(slotProps.data)" />
-            <Button v-if="slotProps.data.pago==true " icon="pi pi-circle-fill" class="p-button-rounded p-button-warning" @click="confirmNaoPagoUsuario(slotProps.data)" />
+            <Button v-if="slotProps.data.pago != true" icon="pi pi-circle" class="p-button-rounded p-button-warning"
+              @click="confirmPagoUsuario(slotProps.data)" />
+            <Button v-if="slotProps.data.pago == true" icon="pi pi-circle-fill"
+              class="p-button-rounded p-button-warning" @click="confirmNaoPagoUsuario(slotProps.data)" />
           </template>
         </Column>
         <Column header="Excluir" :exportable="false" style="min-width:8rem">
@@ -46,9 +48,23 @@
               @click="confirmDeleteUsuario(slotProps.data)" />
           </template>
         </Column>
-        
-        
+
+
       </DataTable>
+
+      <div style="display: flex; flex-direction: row;">
+          
+          <div class="col-3">
+            Total de inscrições: {{store.usuarios.length}}
+        </div>
+        <div class="col-3">
+          Cadastros completos: {{store.cadastrados}}
+        </div>
+        <div class="col-3">
+          Pagos: {{store.pagos}}
+        </div>
+
+      </div>
     </div>
     <Dialog v-model:visible="pagoUsuarioDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
       <div class="confirmation-content">
@@ -97,7 +113,7 @@
     <!-- <button @click ="cadastraPlayer">Cadastrar</button> -->
     <div></div>
   </div>
-  
+
 
   <!-- <button @click ="handleFetchUsers">handleFetchUsers</button> -->
 

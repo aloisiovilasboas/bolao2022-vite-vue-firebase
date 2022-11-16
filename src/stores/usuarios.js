@@ -11,6 +11,8 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
             })
             const loading = ref(true)
             const usuarios = ref([])
+            const pagos = ref(0)
+            const cadastrados = ref(0)
             const setUsuarios = (newvalue) =>{
                 usuarios.value = newvalue
             }
@@ -22,7 +24,15 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
                 .then((snapshot) => {
                     usuarios.value = []
                     snapshot.docs.forEach((doc) => {
-                        usuarios.value.push({...doc.data(), id: doc.id, link: dominio.value+doc.id})
+                        let unovo = {...doc.data(), id: doc.id, link: dominio.value+doc.id}
+                        usuarios.value.push(unovo)
+                        console.log(unovo);
+                        if (unovo.pago){
+                            pagos.value = pagos.value+1
+                        }
+                        if (unovo.email != 'nao cadastrado'){
+                            cadastrados.value = cadastrados.value+1
+                        }
                     })
                   //  console.log(usuarios.value);
                 }).catch( err=> {
@@ -30,6 +40,8 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
                 })
             }
             return {
+                pagos,
+                cadastrados,
                 setUsuarios,
                 isAdmin,
                 setIsAdmin,
@@ -100,6 +112,8 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
                     });
                     let index = this.usuarios.findIndex((user) => user.id == u.id) 
                     this.usuarios[index].pago = true
+                    this.pagos++
+                    console.log(this.pagos);
                 } catch (e) {
                     console.error("Error adding document: ", e);
                 }
@@ -112,6 +126,7 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
                     }); 
                     let index = this.usuarios.findIndex((user) => user.id == u.id) 
                     this.usuarios[index].pago = false
+                    this.pagos--
                 } catch (e) {
                     console.error("Error adding document: ", e);
                 }
