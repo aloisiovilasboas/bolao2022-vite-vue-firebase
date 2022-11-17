@@ -4,6 +4,7 @@ import { useLoadingStore } from "../stores/loading"
 import { useUsuariosStore } from "../stores/usuarios";
 import { useUserStore } from "../stores/user";
 import { useApostasStore } from "../stores/apostas";
+import { useGabaritoStore } from "../stores/gabarito";
 
 //Vue.component('loading',{ template: '<div>Loading!</div>'})
 
@@ -71,6 +72,7 @@ const router = createRouter({
                     usuariosStore.fetchUsuarios();
                     console.log('uid: '+u.uid);
                     usuariosStore.getIsAdmin(u.uid)
+                    const gabaritoStore = useGabaritoStore();
 //                    console.log(userStore.authuser)
                 } else {
                     userStore.setAuthUser(null)
@@ -174,7 +176,9 @@ router.beforeEach(async (to, from, next) => {
         const u = await getCurrentUser()
         if (u) {
             const apostasStore = useApostasStore();
+            const gabaritoStore = useGabaritoStore();
             await apostasStore.fetchApostaById(u.uid);
+            await gabaritoStore.fetchGabarito();
             const userStore = useUserStore();
             userStore.setAuthUser(u)
             next();

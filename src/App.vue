@@ -74,12 +74,14 @@ import router from "./router";
 import Sidebar from 'primevue/sidebar';
 import Button from 'primevue/button';
 import { useApostasStore } from './stores/apostas';
+//import { useGabaritoStore } from './stores/apostas';
 
 const visibleLeft = ref(false);
 const isLoggedIn = ref(false);
 const userStore = useUserStore();
 const usuariosStore = useUsuariosStore();
 const apostasStore = useApostasStore();
+//const gabaritoStore = useGabaritoStore();
 const loadingstore = useLoadingStore();
 
 
