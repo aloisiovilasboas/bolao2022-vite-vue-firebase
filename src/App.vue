@@ -46,6 +46,8 @@
                 class="p-button-text button-sidebar" icon="pi pi pi-book" /> </router-link>
             <router-link to="/sobre" @click.native="InlineButtonClickHandler"> <Button label="Sobre"
                 class="p-button-text button-sidebar" icon="pi pi-info-circle" /> </router-link>
+            <router-link to="/ranking" @click.native="InlineButtonClickHandler"> <Button label="Ranking"
+                class="p-button-text button-sidebar" icon="pi pi-check" v-if="usuariosStore.isAdmin" /> </router-link>
             <router-link to="/admin" @click.native="InlineButtonClickHandler"> <Button label="Admin"
                 class="p-button-text button-sidebar" icon="pi pi-check" v-if="usuariosStore.isAdmin" /> </router-link>
             <router-link to="/gabarito" @click.native="InlineButtonClickHandler"> <Button label="Gabarito"

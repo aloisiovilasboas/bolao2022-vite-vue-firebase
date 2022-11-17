@@ -1,23 +1,31 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../services/firebase";
 
-export const useRankingStore = defineStore ("ranking" ,{
-    state: () => {
-        
-        const gabarito =ref()
-        const loading = ref(false)
-        const ranking = ref([])
-        
-        const setGabarito = (newvalue) => {
-            gabarito.value = newvalue;
-        }
-        const setLoading = (newvalue) => {
-            loading.value = newvalue;
-        }
-        return {
-            ranking,
-            gabarito,
-            setGabarito
-        }
-    }
+export const useRankingStore = defineStore("ranking", {
+  state: () => {
+    const ranking = ref([]);
+    const fetchRanking = () => {
+      const colRef = collection(db, "ranking");
+      getDocs(colRef)
+        .then((snapshot) => {
+          ranking.value = [];
+          snapshot.docs.forEach((doc) => {
+            let unovo = { ...doc.data(), id: doc.id };
+            ranking.value.push(unovo);
+            console.log(unovo);
+          });
+
+          console.log(ranking.value);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    };
+    return {
+      ranking,
+      fetchRanking,
+    };
+  },
 });

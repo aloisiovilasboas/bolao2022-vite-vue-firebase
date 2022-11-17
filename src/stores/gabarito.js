@@ -62,7 +62,7 @@ export const useGabaritoStore = defineStore("gabarito", {
     actions: {
         async cadastraGabarito(grupos, mataMata) {
             try {
-                const docRef = await setDoc(doc(db, "gabarito", '1'), { grupos: grupos, mataMata: mataMata });
+                const docRef = await setDoc(doc(db, "gabarito", '0'), { grupos: grupos, mataMata: mataMata });
                 this.setApostasRAW({ grupos: grupos, mataMata: mataMata })
                 alert("Gabarito cadastrado!");
                 router.push('/')
@@ -74,11 +74,11 @@ export const useGabaritoStore = defineStore("gabarito", {
             }
         },
         async fetchGabarito() {
-            const docRef = doc(db, "gabarito", '1');
+            const docRef = doc(db, "gabarito", '0');
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
                 console.log("Document data:", docSnap.data());
-                let d = { ...docSnap.data(), id: '1' }
+                let d = { ...docSnap.data(), id: '0' }
                 console.log('gabarito:');
                 console.log(d)
                 this.setApostasRAW(d)
