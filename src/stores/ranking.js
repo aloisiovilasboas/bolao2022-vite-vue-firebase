@@ -6,8 +6,9 @@ import router from "../router";
 
 export const useRankingStore = defineStore("ranking", {
   state: () => {
+    const ultimoJogo = ref({homePais:{pais:'',bandeira:''},awayPais:{pais:'',bandeira:''},resultA:'',resultB:''})
     const ranking = ref([{
-      ultimojogo:{},
+     // ultimojogo:{homePais:{pais:'',bandeira:''},awayPais:{pais:'',bandeira:''},resultA:'',resultB:''},
       jogadores: [{
         idUsuario:'-',
         pos: 0,
@@ -24,22 +25,28 @@ export const useRankingStore = defineStore("ranking", {
     const setRanking = (newvalue) => {
       ranking.value = newvalue
     }
+    const setUltimoJogo = (newvalue) => {
+      ultimoJogo.value = newvalue
+    }
 
 
 
     
     return {
       ranking,
-      setRanking
+      setRanking,
+      ultimoJogo,
+      setUltimoJogo
     };
   },
   actions:{
-    async cadastraRanking(jogs) {
+    async cadastraRanking(jogs,uj) {
       try {
-          const docRef = await setDoc(doc(db, "ranking", '0'), { jogadores: jogs });
+          const docRef = await setDoc(doc(db, "ranking", '0'), { jogadores: jogs, ultimoJogo: uj });
           this.setRanking([{jogadores: jogs}])
-          console.log('cadastraRanking');
-          console.log(this.ranking);
+          this.setUltimoJogo(uj)
+    //      console.log('cadastraRanking');
+    //      console.log(this.ranking);
           alert("Ranking cadastrado!");
           router.push('/ranking')
           // console.log(doc);
@@ -56,12 +63,13 @@ export const useRankingStore = defineStore("ranking", {
           this.ranking = [];
           snapshot.docs.forEach((doc) => {
         //    console.log(doc.data().jogadores)
-            let unovo = { jogadores: doc.data().jogadores, idRodada: doc.id };
-            this.ranking.push(unovo);
+            let unovo = { jogadores: doc.data().jogadores,  idRodada: doc.id };
+            this.setRanking([unovo]);
+            this.setUltimoJogo(doc.data().ultimoJogo)
          //   console.log(unovo);
           });
-          console.log('fetch ranking');
-          console.log(this.ranking);
+          /* console.log('fetch ranking');
+          console.log(this.ranking); */
         })
         .catch((err) => {
           console.log(err.message);

@@ -43,6 +43,21 @@ const router = createRouter({
       },
     },
     {
+      path: "/jogador/:id",
+      beforeEnter: async (to, from) => {
+        const rankingStore = useRankingStore();
+        await rankingStore.fetchRanking();
+        const apostasStore = useApostasStore();
+        await apostasStore.fetchApostaById(to.params.id);
+        
+        
+      },
+      component: () => import("../views/jogador.vue"),
+      meta: {
+        requiresAuth: false,
+      },
+    },
+    {
       path: "/admin",
       beforeEnter: async (to, from) => {
         const u = await getCurrentUser();
@@ -81,6 +96,8 @@ const router = createRouter({
         if (u != null) {
           const userStore = useUserStore();
           userStore.setAuthUser(u);
+          const rankingStore = useRankingStore();
+          await rankingStore.fetchRanking();
           const usuariosStore = useUsuariosStore();
           await usuariosStore.fetchUsuarios();
          // console.log("uid: " + u.uid);
@@ -98,7 +115,6 @@ const router = createRouter({
         requiresAuth: true,
       },
     },
-    /* { path: "/register", component: () => import("../views/Register.vue") }, */
     {
       beforeEnter: async (to, from) => {
         const apostasStore = useApostasStore();
@@ -119,20 +135,8 @@ const router = createRouter({
     { path: "/sign-in", component: () => import("../views/SignIn.vue") },
     { path: "/Regras", component: () => import("../views/Regras.vue") },
     { path: "/Sobre", component: () => import("../views/Sobre.vue") },
-    /* {
-            path: "/perfil",
-            beforeEnter: async (to, from) => {
-                const u = await getCurrentUser()
-                console.log(u)
-                
-            },
-            component: () => import("../views/Perfil.vue"),
-            meta: {
-                requiresAuth: true,
-            }
-        }, */
     {
-      // path: "*",
+      
       path: "/:catchAll(.*)",
       name: "NotFound",
       component: () => import("../views/naoEncontrado.vue"),
@@ -140,11 +144,7 @@ const router = createRouter({
         requiresAuth: false,
       },
     },
-    /* {
-            path: "/:pathmatch(.*)*",
-            name: 'naoEncontrado',
-            component: () => import("../views/naoEncontrado.vue")
-        } */
+    
   ],
 });
 

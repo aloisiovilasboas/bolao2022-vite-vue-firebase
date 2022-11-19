@@ -11,7 +11,12 @@ export const useLoadingStore = defineStore ("loading" ,{
         }
         return {
             loading,
-            setLoading
+            
+        }
+    },
+    actions:{
+        async setLoading (newvalue)  {
+            this.loading = newvalue;
         }
     }
 });

@@ -8,7 +8,7 @@ import router from "../router";
 export const useGabaritoStore = defineStore("gabarito", {
     state: () => {
 
-        const ultimoJogo = ref()
+      /*   const ultimoJogo = ref() */
         const completo = ref(false)
         const campeao = ref([])
         const mataMata = ref([])
@@ -58,7 +58,7 @@ export const useGabaritoStore = defineStore("gabarito", {
 
             gabaritoRAW,
             setGabaritoRAW,
-            ultimoJogo,
+          /*   ultimoJogo, */
             grupos,
             mataMata,
             campeao,
