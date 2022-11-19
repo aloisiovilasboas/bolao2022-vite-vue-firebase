@@ -11,6 +11,7 @@ import { useApostasStore } from "../stores/apostas";
 import { useGabaritoStore } from "../stores/gabarito";
 import { useRankingStore } from "../stores/ranking";
 
+
 //Vue.component('loading',{ template: '<div>Loading!</div>'})
 
 const router = createRouter({
@@ -23,7 +24,7 @@ const router = createRouter({
         const u = await getCurrentUser();
         if (u != null) {
           userStore.setAuthUser(u);
-          console.log(userStore.authuser);
+        //  console.log(userStore.authuser);
         } else {
           userStore.setAuthUser(null);
         }
@@ -49,7 +50,7 @@ const router = createRouter({
           const userStore = useUserStore();
           userStore.setAuthUser(u);
           const usuariosStore = useUsuariosStore();
-          usuariosStore.fetchUsuarios();
+          await usuariosStore.fetchUsuarios();
           console.log("uid: " + u.uid);
           usuariosStore.getIsAdmin(u.uid);
           //                    console.log(userStore.authuser)
@@ -81,10 +82,12 @@ const router = createRouter({
           const userStore = useUserStore();
           userStore.setAuthUser(u);
           const usuariosStore = useUsuariosStore();
-          usuariosStore.fetchUsuarios();
-          console.log("uid: " + u.uid);
+          await usuariosStore.fetchUsuarios();
+         // console.log("uid: " + u.uid);
           usuariosStore.getIsAdmin(u.uid);
           const gabaritoStore = useGabaritoStore();
+          await gabaritoStore.fetchApostas();
+          await gabaritoStore.fetchGabarito();
           //                    console.log(userStore.authuser)
         } else {
           userStore.setAuthUser(null);
@@ -183,9 +186,7 @@ router.beforeEach(async (to, from, next) => {
     const u = await getCurrentUser();
     if (u) {
       const apostasStore = useApostasStore();
-      const gabaritoStore = useGabaritoStore();
       await apostasStore.fetchApostaById(u.uid);
-      await gabaritoStore.fetchGabarito();
       const userStore = useUserStore();
       userStore.setAuthUser(u);
       next();

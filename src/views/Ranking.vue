@@ -7,13 +7,21 @@
   <div>
     <div>
 
-      <DataTable :value=store.ranking>
-        <Column header="#" headerStyle="width:3em">
+      <DataTable :value=store.ranking[0].jogadores responsiveLayout="stack" breakpoint="2">
+        <!-- <Column header="#" headerStyle="width:3em">
           <template #body="slotProps">
             {{ slotProps.index + 1 }}
           </template>
-        </Column>
-        <Column field="nome" header="nome"></Column>
+        </Column> -->
+        <Column field="pos" header="Pos"></Column>
+        <Column field="nome" header="Nome"></Column>
+        <Column field="pontuacao" header="Pontos"></Column>
+        <!-- <Column field="grupos" header="Grupos"></Column>
+        <Column field="oitavas" header="Oitavas"></Column>
+        <Column field="quartas" header="Quartas"></Column>
+        <Column field="semis" header="Semis"></Column>
+        <Column field="final" header="Final"></Column>
+        <Column field="campeao" header="Campeão"></Column> -->
 
 
 

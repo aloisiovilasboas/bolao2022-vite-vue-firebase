@@ -18,7 +18,7 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
             }
              /* const dominio = ref("http://127.0.0.1:5173/#/cadastro/") */
             const dominio = ref("https://bolaoafc2022.firebaseapp.com/#/cadastro/")
-            const fetchUsuarios = () => {
+            /* const fetchUsuarios = () => {
                 const colRef = collection(db, 'usuarios')
                 getDocs(colRef)
                 .then((snapshot) => {
@@ -38,7 +38,7 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
                 }).catch( err=> {
                     console.log(err.message)
                 })
-            }
+            } */
             return {
                 pagos,
                 cadastrados,
@@ -47,12 +47,34 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
                 setIsAdmin,
                 usuarios,
                 loading,
-                fetchUsuarios,
+                //fetchUsuarios,
                 dominio,
             }
             
         },
         actions:{
+
+            async fetchUsuarios () {
+                const colRef = collection(db, 'usuarios')
+                getDocs(colRef)
+                .then((snapshot) => {
+                    this.usuarios = []
+                    snapshot.docs.forEach((doc) => {
+                        let unovo = {...doc.data(), id: doc.id, link: this.dominio+doc.id}
+                        this.usuarios.push(unovo)
+                     ///   console.log(unovo);
+                        if (unovo.pago){
+                            this.pagos = this.pagos+1
+                        }
+                        if (unovo.email != 'nao cadastrado'){
+                            this.cadastrados = this.cadastrados+1
+                        }
+                    })
+                  //  console.log(usuarios.value);
+                }).catch( err=> {
+                    console.log(err.message)
+                })
+            },
             
             async cadastraPlayer(u){
                 try {
@@ -60,8 +82,8 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
                     nome: u.nome,
                     email: u.email
                   });
-                  console.log(docRef);
-                  console.log("Document written with ID: ", docRef.id);
+              //    console.log(docRef);
+              //    console.log("Document written with ID: ", docRef.id);
                   this.usuarios.push({nome: u.nome, email: u.email, id: docRef.id, link: this.dominio+docRef.id })
                   // linkCadastro.value = docRef.id
                 } catch (e) {
@@ -82,7 +104,7 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
             },
 
             async deleteUsuario(u){
-                console.log("delete: "+u.id+" "+u.nome)
+             //   console.log("delete: "+u.id+" "+u.nome)
                 try{
                     //const usuarioref = doc(db, "usuarios", this.user.id);
                     await deleteDoc(doc(db, "usuarios", u.id))
@@ -113,7 +135,7 @@ export const useUsuariosStore = defineStore ("usuarios" ,{
                     let index = this.usuarios.findIndex((user) => user.id == u.id) 
                     this.usuarios[index].pago = true
                     this.pagos++
-                    console.log(this.pagos);
+                    //console.log(this.pagos);
                 } catch (e) {
                     console.error("Error adding document: ", e);
                 }

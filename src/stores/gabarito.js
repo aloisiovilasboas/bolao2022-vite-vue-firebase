@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import { setDoc, getDoc, doc } from "firebase/firestore";
+import { setDoc, getDoc, collection, getDocs, doc } from "firebase/firestore";
 import { db } from "../services/firebase"
 import router from "../router";
 
@@ -8,12 +8,18 @@ import router from "../router";
 export const useGabaritoStore = defineStore("gabarito", {
     state: () => {
 
-
+        const ultimoJogo = ref()
         const completo = ref(false)
         const campeao = ref([])
         const mataMata = ref([])
         const grupos = ref([{ letra: 'a' }])
-        const apostasRAW = ref({ grupos: null })
+        const gabaritoRAW = ref({ grupos: null })
+
+
+        const todasAsApostas = ref([{ grupos: [], mataMata: [] }])
+
+
+
 
         //const apostas = ref([{letra:'',jogos:[],classificacao:[]}])
         /* 
@@ -22,8 +28,8 @@ export const useGabaritoStore = defineStore("gabarito", {
         
         
         */
-        const setApostasRAW = (newvalue) => {
-            apostasRAW.value = newvalue;
+        const setGabaritoRAW = (newvalue) => {
+            gabaritoRAW.value = newvalue;
             // console.log(apostas)
         }
 
@@ -43,12 +49,16 @@ export const useGabaritoStore = defineStore("gabarito", {
             completo.value = newvalue;
             // console.log(apostas)
         }
+        const setTodasAsApostas = (newvalue) => {
+            todasAsApostas.value = newvalue;
+            // console.log(apostas)
+        }
 
         return {
 
-            apostasRAW,
-            setApostasRAW,
-
+            gabaritoRAW,
+            setGabaritoRAW,
+            ultimoJogo,
             grupos,
             mataMata,
             campeao,
@@ -56,16 +66,18 @@ export const useGabaritoStore = defineStore("gabarito", {
             setGrupos,
             setMatamata,
             setCampeao,
-            setCompleto
+            setCompleto,
+            todasAsApostas,
+            setTodasAsApostas
         }
     },
     actions: {
         async cadastraGabarito(grupos, mataMata) {
             try {
                 const docRef = await setDoc(doc(db, "gabarito", '0'), { grupos: grupos, mataMata: mataMata });
-                this.setApostasRAW({ grupos: grupos, mataMata: mataMata })
+              //  this.setGabaritoRAW({ grupos: grupos, mataMata: mataMata })
                 alert("Gabarito cadastrado!");
-                router.push('/')
+             //   router.push('/')
                 // console.log(doc);
                 // console.log("Document written with ID: ", docRef.id);
                 // linkCadastro.value = docRef.id
@@ -73,15 +85,39 @@ export const useGabaritoStore = defineStore("gabarito", {
                 console.error("Error adding document: ", e);
             }
         },
+
+        async fetchApostas() {
+            const colRef = collection(db, "apostas");
+            
+            try{
+            getDocs(colRef)
+                .then((snapshot) => {
+                    let apos = []
+                    snapshot.docs.forEach((doc) => {
+                  //      console.log('apostas')
+                        let unovo = { ...doc.data(), idUsuario: doc.id };
+                        apos.push(unovo);
+                    });
+                    this.setTodasAsApostas(apos);
+                 //   console.log(this.todasAsApostas);
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                });
+            } catch(e){
+                console.error("Error fetching apostas: ", e);
+            }
+        },
+
         async fetchGabarito() {
             const docRef = doc(db, "gabarito", '0');
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
-                console.log("Document data:", docSnap.data());
+                /* console.log("Document data:", docSnap.data()); */
                 let d = { ...docSnap.data(), id: '0' }
-                console.log('gabarito:');
-                console.log(d)
-                this.setApostasRAW(d)
+               /*  console.log('gabarito:');
+                console.log(d) */
+                this.setGabaritoRAW(d)
                 //      this.geraGrupos()
                 return d
             } else {

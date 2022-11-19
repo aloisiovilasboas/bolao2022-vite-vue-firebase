@@ -74,7 +74,7 @@ import { useApostasStore } from '../stores/apostas';
 import { onMounted } from 'vue';
 
 onMounted( ()=>{
-    console.log('apstore '+apostasStore.apostasRAW);
+ //   console.log('apstore '+apostasStore.apostasRAW);
 }) 
 
 const router = useRouter();

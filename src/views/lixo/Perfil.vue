@@ -1,10 +1,10 @@
 <script setup>
 import { ref } from 'vue'
 import { addDoc, collection } from "firebase/firestore"; 
-import { db } from "../services/firebase"
+import { db } from "../../services/firebase"
 
 
-import { useUserStore } from "../stores/user";
+import { useUserStore } from "../../stores/user";
 
 defineProps({
   msg: String

@@ -8,7 +8,7 @@
                 <Button label="Carregar Apostas" @click="carregarApostas"  />
             </div>  -->
             <div style="padding: 10px;">
-                <Button label="Cadastrar Gabarito" @click="cadastraApostas" />
+                <Button label="Cadastrar Gabarito" @click="cadastraGabarito" />
             </div>
             <div style="padding: 10px;">
                 <Button label="Zerar Gabarito" @click="geraGrupos" />
@@ -190,6 +190,8 @@ import bandeiras from '../assets/linksBandeiras.json';
 import { useGabaritoStore } from "../stores/gabarito";
 import { useRankingStore } from "../stores/ranking";
 import { useUserStore } from "../stores/user";
+import { useUsuariosStore } from "../stores/usuarios";
+
 
 
 const todosOsJogos = jogos.jogos;
@@ -204,15 +206,15 @@ const completo = ref(false)
 const userStore = useUserStore()
 //const apostasStore = useApostasStore();
 const gabaritoStore = useGabaritoStore();
-
+const usuariosStore = useUsuariosStore();
 const rankingStore = useRankingStore();
 const storage = getStorage();
 
 
 
 onMounted(async () => {
-
-    mostraGrupos()
+  //  geraGrupos()
+     mostraGrupos()
 
 
 })
@@ -291,7 +293,7 @@ const geraGrupos = () => {
     })
     campeao.value = [{ flagurl: null }]
 
-    
+
     console.log(gruposTabs.value);
     gabaritoStore.setGrupos(gruposTabs.value)
     gabaritoStore.setMatamata(matamataTabs.value)
@@ -332,9 +334,9 @@ const geraGrupos = () => {
     gabaritoStore.campeao[0].flagurl = null
     gabaritoStore.campeao[0].team = null
     gabaritoStore.setCompleto(false)
-    
+
 }
- 
+
 
 const mostraGrupos = () => {
 
@@ -392,9 +394,9 @@ const mostraGrupos = () => {
     gabaritoStore.setMatamata(matamataTabs.value)
     gabaritoStore.setCampeao(campeao.value)
 
-    console.log(gabaritoStore.apostasRAW);
-    if (gabaritoStore.apostasRAW.grupos !== null) {
-        gabaritoStore.apostasRAW.grupos.forEach(grupo => {
+    //console.log(gabaritoStore.apostasRAW);
+    if (gabaritoStore.gabaritoRAW.grupos !== null) {
+        gabaritoStore.gabaritoRAW.grupos.forEach(grupo => {
             let grupoIndex = gruposTabs.value.findIndex(g => g.letra === grupo.letra)
             gruposTabs.value[grupoIndex].jogos.forEach(jogo => {
                 let jogoIndex = grupo.jogos.findIndex(j => j.matchNumber === jogo.matchNumber)
@@ -406,7 +408,7 @@ const mostraGrupos = () => {
             ordenaTabela(grupoIndex)
             //console.log(gruposTabs.value[grupoIndex].jogos);
         });
-        gabaritoStore.apostasRAW.mataMata.forEach(fase => {
+        gabaritoStore.gabaritoRAW.mataMata.forEach(fase => {
             let faseIndex = matamataTabs.value.findIndex(f => f.fase === fase.fase)
             matamataTabs.value[faseIndex].jogos.forEach(jogo => {
                 let jogoIndex = fase.jogos.findIndex(j => j.matchNumber === jogo.matchNumber)
@@ -420,16 +422,16 @@ const mostraGrupos = () => {
                 jogo.awayFlag = jogo.awayFlag.replace(/\s/g, '').toLowerCase();
                 let b1 = todasAsBandeiras.find(bandeira => bandeira.pais === jogo.homeFlag)
                 let b2 = todasAsBandeiras.find(bandeira => bandeira.pais === jogo.awayFlag)
-                if(b1){
+                if (b1) {
                     jogo.homeFlagurl = b1.bandeira
                 }
-                if(b2){
+                if (b2) {
                     jogo.awayFlagurl = b2.bandeira
                 }
             })
         })
         let finaltab = matamataTabs.value[matamataTabs.value.length - 1].jogos[0]
-        let final = gabaritoStore.apostasRAW.mataMata[gabaritoStore.apostasRAW.mataMata.length - 1].jogos[0]
+        let final = gabaritoStore.gabaritoRAW.mataMata[gabaritoStore.gabaritoRAW.mataMata.length - 1].jogos[0]
         if (final.winner == 'home') {
             gabaritoStore.campeao[0].flagurl = finaltab.homeFlagurl
             gabaritoStore.campeao[0].team = finaltab.homeTeam
@@ -632,50 +634,50 @@ const calculaPontuacaoGrupo = ((grupoIndex) => {
     let jogos = gruposTabs.value[grupoIndex].jogos
     //let time = gruposTabs.value[grupoIndex].classificacao[timeIndex]
     gruposTabs.value[grupoIndex].classificacao.forEach(time => {
-    time.p = 0
-    time.v = 0
-    time.e = 0
-    time.d = 0
-    time.gp = 0
-    time.gc = 0
-    time.sg = 0
-    jogos.forEach(partida => {
-        if (((partida.resultA !== '' && partida.resultB !== '') && (partida.resultA !== null && partida.resultB !== null)) && (!isNaN(partida.resultA) && !isNaN(partida.resultB))) {
-            if (time.nome === partida.homeTeam) {
-                time.gp += Number(partida.resultA)
-                time.gc += Number(partida.resultB)
-                if (Number(partida.resultA) > Number(partida.resultB)) {
-                    time.p += 3
-                    time.v += 1
-                } else if (partida.resultA === partida.resultB) {
-                    time.p += 1
-                    time.e += 1
-                } else {
-                    time.d += 1
+        time.p = 0
+        time.v = 0
+        time.e = 0
+        time.d = 0
+        time.gp = 0
+        time.gc = 0
+        time.sg = 0
+        jogos.forEach(partida => {
+            if (((partida.resultA !== '' && partida.resultB !== '') && (partida.resultA !== null && partida.resultB !== null)) && (!isNaN(partida.resultA) && !isNaN(partida.resultB))) {
+                if (time.nome === partida.homeTeam) {
+                    time.gp += Number(partida.resultA)
+                    time.gc += Number(partida.resultB)
+                    if (Number(partida.resultA) > Number(partida.resultB)) {
+                        time.p += 3
+                        time.v += 1
+                    } else if (partida.resultA === partida.resultB) {
+                        time.p += 1
+                        time.e += 1
+                    } else {
+                        time.d += 1
+                    }
+                } else if (time.nome === partida.awayTeam) {
+                    time.gp += Number(partida.resultB)
+                    time.gc += Number(partida.resultA)
+                    if (Number(partida.resultA) < Number(partida.resultB)) {
+                        time.p += 3
+                        time.v += 1
+                    } else if (partida.resultA === partida.resultB) {
+                        time.p += 1
+                        time.e += 1
+                    } else {
+                        time.d += 1
+                    }
                 }
-            } else if (time.nome === partida.awayTeam) {
-                time.gp += Number(partida.resultB)
-                time.gc += Number(partida.resultA)
-                if (Number(partida.resultA) < Number(partida.resultB)) {
-                    time.p += 3
-                    time.v += 1
-                } else if (partida.resultA === partida.resultB) {
-                    time.p += 1
-                    time.e += 1
-                } else {
-                    time.d += 1
+            } else {
+                if (isNaN(partida.resultA)) {
+                    partida.resultA = ''
+                } else if (isNaN(partida.resultB)) {
+                    partida.resultB = ''
                 }
             }
-        } else {
-            if (isNaN(partida.resultA)) {
-                partida.resultA = ''
-            } else if (isNaN(partida.resultB)) {
-                partida.resultB = ''
-            }
-        }
-    })
-    time.sg = Number(time.gp) - Number(time.gc)
-    //gruposTabs.value[grupoIndex].classificacao[timeIndex] = time
+        })
+        time.sg = Number(time.gp) - Number(time.gc)
+        //gruposTabs.value[grupoIndex].classificacao[timeIndex] = time
     })
 })
 
@@ -770,9 +772,9 @@ const calculaPontuacao = ((timeIndex, grupoIndex) => {
     gruposTabs.value[grupoIndex].classificacao[timeIndex] = time
 })
 
-const cadastraApostas = () => {
+const cadastraGabarito = () => {
     //  console.log(userStore.authuser.uid);
-    let grupos2 = []
+    let grupos = []
 
     //apostasStore.grupos.forEach((grupo) => {
     //  console.log(gabaritoStore.grupos);
@@ -782,7 +784,7 @@ const cadastraApostas = () => {
         grupo.jogos.forEach(jogo => {
             jogos.push({ matchNumber: jogo.matchNumber, resultA: jogo.resultA, resultB: jogo.resultB })
         });
-        grupos2.push({ letra: letra, jogos: jogos })
+        grupos.push({ letra: letra, jogos: jogos })
     });
     let matamata = []
 
@@ -796,12 +798,103 @@ const cadastraApostas = () => {
         matamata.push({ fase: fase, jogos: jogos })
     });
 
+    gabaritoStore.setGabaritoRAW({ grupos: grupos, mataMata: matamata })
 
-    gabaritoStore.cadastraGabarito(grupos2, matamata)
+    gabaritoStore.cadastraGabarito(grupos, matamata)
+    calculaRanking();
     // apostasStore.cadastraApostas(userStore.authuser.uid, grupos, matamata)
     /* apostasStore.setCampeao([{ flagurl: null }]) */
 
 }
+
+const calculaRanking = () => {
+    let jogadores = []
+    gabaritoStore.todasAsApostas.forEach(aposta => {
+        let u = usuariosStore.usuarios.find((user) => user.uid == aposta.idUsuario)
+        let jogador = {
+            gruposRaw: aposta.grupos,
+            mataMataRaw: aposta.mataMata,
+            //   idUsuario: u.uid,
+            pos: 0,
+            nome: u.nome,
+            pontuacao: 0,
+            grupos: 0,
+            oitavas: 0,
+            quartas: 0,
+            semis: 0,
+            final: 0,
+            campeao: 0
+        }
+        //calcula pontuacao grupos
+        jogador.gruposRaw.forEach(grupoJog => {
+            let grupoGaba = gabaritoStore.gabaritoRAW.grupos.find((gGaba) => gGaba.letra === grupoJog.letra)
+            grupoJog.jogos.forEach(partJogador => {
+                let partGaba = grupoGaba.jogos.find((pGaba) => pGaba.matchNumber === partJogador.matchNumber)
+                if (partGaba.resultA != "") {
+                    jogador.grupos += calculaPontuacaoJogadorPartida(partJogador, partGaba)
+                }
+            });
+        });
+        jogador.pontuacao = jogador.grupos + jogador.oitavas + jogador.quartas + jogador.semis + jogador.final + jogador.campeao;
+
+        jogadores.push({
+            pos: 0,
+            nome: jogador.nome,
+            pontuacao: jogador.pontuacao,
+            grupos: jogador.grupos,
+            oitavas: jogador.oitavas,
+            quartas: jogador.quartas,
+            semis: jogador.semis,
+            final: jogador.final,
+            campeao: jogador.campeao
+        })
+    });
+    // console.log(gabaritoStore.gabaritoRAW)
+
+    //console.log(jogadores);
+    jogadores.sort(function (a, b) {
+        if (a.pontuacao < b.pontuacao) {
+            return 1;
+        }
+        if (a.pontuacao > b.pontuacao) {
+            return -1;
+        }
+        // a must be equal to b
+        return 0;
+    });
+    let pontuacaoAnterior = 1000
+    let pos = 0;
+    for (let index = 0; index < jogadores.length; index++) {
+        const jogador = jogadores[index];
+        if (jogador.pontuacao<pontuacaoAnterior) {
+            pontuacaoAnterior=jogador.pontuacao
+            pos=index+1
+            jogador.pos = pos
+        } else if (jogador.pontuacao === pontuacaoAnterior) {
+            jogador.pos = pos
+        }
+        
+    }
+
+    rankingStore.cadastraRanking(jogadores)
+
+
+}
+
+const calculaPontuacaoJogadorPartida = (partidaJogador, partidaGabarito) => {
+    let pontuacao = 0
+    let jogador = Number(partidaJogador.resultA) - Number(partidaJogador.resultB)
+    let gabarito = Number(partidaGabarito.resultA) - Number(partidaGabarito.resultB)
+    if ((jogador > 0 && gabarito > 0) || (jogador < 0 && gabarito < 0) || (jogador === 0 && gabarito === 0)) {
+        if (Number(partidaJogador.resultA) === Number(partidaGabarito.resultA) && Number(partidaJogador.resultB) === Number(partidaGabarito.resultB)) {
+            pontuacao = 5
+        } else {
+            pontuacao = 1
+        }
+    }
+    return pontuacao
+}
+
 /* 
 const carregarApostas = (() =>{
     apostasStore.fetchApostaById(userStore.authuser.uid);
