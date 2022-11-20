@@ -16,6 +16,7 @@
                             <div v-for="jogo in tab.jogos" :key="jogo.matchNumber" class="agenda__game">
                                 <div class="nomeDoJogo">
                                     <span>{{ jogo.stadium }}</span>
+                                    <!-- <span>{{ jogo.matchNumber }}</span> -->
                                 </div>
                                 <div class="agenda__game__container">
                                     <div class="agenda__game__team--left col-4">
@@ -276,7 +277,7 @@ const mostraGrupos = () => {
     apostasStore.setMatamata(matamataTabs.value)
     apostasStore.setCampeao(campeao.value)
 
-    console.log(apostasStore.apostasRAW);
+    //console.log(apostasStore.apostasRAW);
     if (apostasStore.apostasRAW.grupos !== null) {
          apostasStore.apostasRAW.grupos.forEach(grupo => {
             let grupoIndex = gruposTabs.value.findIndex(g => g.letra === grupo.letra)

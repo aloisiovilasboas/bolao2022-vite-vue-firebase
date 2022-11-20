@@ -49,13 +49,13 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        {{apos}}
+                                                                        {{todosOsJogos[0].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
                                                                         <b>
 
-                                                                            1
+                                                                            {{apostasStore.grupos[0].jogos[0].resultA}}
                                                                         </b>
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:8.85pt;;padding:0cm 3.5pt;height:15pt"
@@ -66,29 +66,29 @@
                                                                         width="13">
                                                                         <b>
 
-                                                                            2
+                                                                            {{apostasStore.grupos[0].jogos[0].resultB}}
                                                                         </b>
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        México
+                                                                        {{todosOsJogos[0].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
 
-                                                                        11/6
+                                                                        {{todosOsJogos[0].date.slice(0, 5)}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Argentina
+                                                                        {{todosOsJogos[1].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
                                                                         <b>
 
-                                                                            2
+                                                                            {{apostasStore.grupos[1].jogos[0].resultA}}
                                                                         </b>
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:8.85pt;;padding:0cm 3.5pt;height:15pt"
@@ -97,22 +97,22 @@
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
                                                                         <b>
-                                                                            2
+                                                                            {{apostasStore.grupos[1].jogos[0].resultB}}
                                                                         </b>
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
-                                                                        Nigéria
+                                                                        {{todosOsJogos[1].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
-                                                                        12/6
+                                                                        {{todosOsJogos[1].date.slice(0, 5)}}
                                                                     </td>
                                                                 </tr>
                                                                 <tr style="height:14.1pt">
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
-                                                                        Uruguai
+                                                                        {{todosOsJogos[2].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -132,7 +132,7 @@
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
-                                                                        França
+                                                                        {{todosOsJogos[2].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -140,7 +140,7 @@
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
-                                                                        Córeia do Sul
+                                                                        {{todosOsJogos[3].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -162,7 +162,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Grécia
+                                                                        {{todosOsJogos[3].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -174,7 +174,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        África do Sul
+                                                                        {{todosOsJogos[17].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -197,7 +197,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Uruguai
+                                                                        {{todosOsJogos[17].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -207,7 +207,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Argentina
+                                                                        {{todosOsJogos[16].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -230,7 +230,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Córeia do Sul
+                                                                        {{todosOsJogos[16].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -242,7 +242,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        França
+                                                                        {{todosOsJogos[18].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -265,7 +265,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        México
+                                                                        {{todosOsJogos[18].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -275,7 +275,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Grécia
+                                                                        {{todosOsJogos[19].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -298,7 +298,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Nigéria
+                                                                        {{todosOsJogos[19].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -310,7 +310,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        França
+                                                                        {{todosOsJogos[32].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -333,7 +333,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        África do Sul
+                                                                        {{todosOsJogos[32].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -343,7 +343,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Grécia
+                                                                        {{todosOsJogos[34].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -366,7 +366,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Argentina
+                                                                        {{todosOsJogos[34].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -378,7 +378,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium 1pt 1pt;border-style:none none solid solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        México
+                                                                        {{todosOsJogos[33].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;border-width:medium medium 1pt medium;border-style:none none solid none;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -401,7 +401,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt 1pt medium;border-style:none solid solid none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Uruguai
+                                                                        {{todosOsJogos[33].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:14.1pt"
                                                                         width="53">
@@ -411,7 +411,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium 1pt 1pt;border-style:none none solid solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Nigéria
+                                                                        {{todosOsJogos[35].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;border-width:medium medium 1pt medium;border-style:none none solid none;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -434,7 +434,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt 1pt medium;border-style:none solid solid none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Córeia do Sul
+                                                                        {{todosOsJogos[35].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:14.1pt"
                                                                         width="53">
@@ -473,7 +473,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Inglaterra
+                                                                        {{todosOsJogos[4].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -496,7 +496,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Estados Unidos
+                                                                        {{todosOsJogos[4].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -506,7 +506,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Alemanha
+                                                                        {{todosOsJogos[5].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -529,7 +529,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Austrália
+                                                                        {{todosOsJogos[5].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -541,7 +541,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Argélia
+                                                                        {{todosOsJogos[6].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -564,7 +564,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Eslovênia
+                                                                        {{todosOsJogos[6].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -574,7 +574,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Sérvia
+                                                                        {{todosOsJogos[7].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -597,7 +597,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Gana
+                                                                        {{todosOsJogos[7].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -609,7 +609,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Inglaterra
+                                                                        {{todosOsJogos[21].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -632,7 +632,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Argélia
+                                                                        {{todosOsJogos[21].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -642,7 +642,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Alemanha
+                                                                        {{todosOsJogos[20].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -665,7 +665,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Sérvia
+                                                                        {{todosOsJogos[20].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -677,7 +677,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Eslovênia
+                                                                        {{todosOsJogos[23].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -700,7 +700,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Estados Unidos
+                                                                        {{todosOsJogos[23].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -710,7 +710,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Gana
+                                                                        {{todosOsJogos[22].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -733,7 +733,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Austrália
+                                                                        {{todosOsJogos[22].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -745,7 +745,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Eslovênia
+                                                                        {{todosOsJogos[38].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -768,7 +768,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Inglaterra
+                                                                        {{todosOsJogos[38].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -778,7 +778,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium medium 1pt;border-style:none none none solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Gana
+                                                                        {{todosOsJogos[36].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -801,7 +801,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt medium medium;border-style:none solid none none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Alemanha
+                                                                        {{todosOsJogos[36].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:15pt"
                                                                         width="53">
@@ -813,7 +813,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium 1pt 1pt;border-style:none none solid solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Estados Unidos
+                                                                        {{todosOsJogos[39].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;border-width:medium medium 1pt medium;border-style:none none solid none;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -836,7 +836,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt 1pt medium;border-style:none solid solid none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Argélia
+                                                                        {{todosOsJogos[39].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:14.1pt"
                                                                         width="53">
@@ -846,7 +846,7 @@
                                                                     <td style="font-size:12pt;text-align:right;width:130.85pt;;border-width:medium medium 1pt 1pt;border-style:none none solid solid;padding:0cm 3.5pt;height:15pt"
                                                                         width="142">
 
-                                                                        Austrália
+                                                                        {{todosOsJogos[37].homeTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:center;width:10pt;;border-width:medium medium 1pt medium;border-style:none none solid none;padding:0cm 3.5pt;height:15pt"
                                                                         width="13">
@@ -869,7 +869,7 @@
                                                                     <td style="font-size:12pt;text-align:left;width:130.85pt;;border-width:medium 1pt 1pt medium;border-style:none solid solid none;padding:0cm 3.5pt;height:15pt"
                                                                         width="174">
 
-                                                                        Sérvia
+                                                                        {{todosOsJogos[37].awayTeam}}
                                                                     </td>
                                                                     <td style="font-size:12pt;text-align:left;width:39.55pt;padding:0cm 3.5pt;height:14.1pt"
                                                                         width="53">
@@ -2248,8 +2248,9 @@ const storage = getStorage();
 
 onMounted(async () => {
     //   console.log(apostasStore);
-
+    
     mostraGrupos()
+    console.log(todosOsJogos);
 
 
 })

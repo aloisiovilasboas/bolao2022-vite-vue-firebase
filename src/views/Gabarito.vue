@@ -834,8 +834,8 @@ const calculaPontuacao = ((timeIndex, grupoIndex) => {
     })
 
     time.sg = time.gp - time.gc
-    console.log(time);
-    console.log('saldo ' + time.sg);
+   // console.log(time);
+   // console.log('saldo ' + time.sg);
     gruposTabs.value[grupoIndex].classificacao[timeIndex] = time
 })
 
@@ -918,7 +918,7 @@ const calculaRanking = () => {
                 campeao: jogador.campeao
             })
         } else{
-            console.log('apostado e nao pago');
+       //     console.log('apostado e nao pago');
             console.log(u.nome);
         }
     });

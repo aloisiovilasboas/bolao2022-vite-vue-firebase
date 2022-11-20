@@ -115,7 +115,7 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
       },
-    },
+    },/* 
     {
       beforeEnter: async (to, from) => {
         const apostasStore = useApostasStore();
@@ -125,14 +125,14 @@ const router = createRouter({
         requiresAuth: true,
       },
       component: () => import("../views/CadastrarApostas.vue"),
-    },
+    }, *//* 
     {
       path: "/vimpressao",
       meta: {
         requiresAuth: true,
       },
       component: () => import("../views/vimpressao.vue"),
-    },
+    }, */
     {
       path: "/apostasCadastradas",
       meta: {
@@ -191,7 +191,7 @@ router.beforeEach(async (to, from, next) => {
   loadingStore.loading = true;
   // console.log(loadingStore.loading)
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    console.log('requiresauth');
+    //console.log('requiresauth');
     const u = await getCurrentUser();
     if (u) {
       const apostasStore = useApostasStore();

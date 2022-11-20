@@ -6,7 +6,7 @@
 
   <div v-else>
     <div>
-      <Panel>
+      <Panel v-if="store.ultimoJogo.homePais.bandeira!=''">
         <template #header>
           <h3>Último Jogo</h3>
         </template>
