@@ -20,16 +20,22 @@
             <template #content>
 
                 <div class="col-12 card_home">
+                    <div class="botao_home" >
+                        <Button class="col-8 p-button-warning"  @click="irParaRanking" >
+                            <span class="p-button-icon p-button-icon-left">⚽</span>
+                            <span class="p-button-label">Ranking do Bolão</span>
+                        
+                        </Button>
+                    </div>
                     <!--   <Button label="Primary" class="p-button-outlined" /> -->
                     <div class="botao_home" v-if="userStore.authuser != null && apostasStore.apostasRAW.grupos != null">
-                        <Button class="col-8 p-button-warning" @click="irParaApostasCadastradas" >
+                        <Button class="col-8 " @click="irParaApostasCadastradas" >
                             <span class="p-button-icon p-button-icon-left">⚽</span>
                             <span class="p-button-label">Ver Suas Apostas</span>
-                            
                         </Button>
                     </div>
                    
-                    <div class="botao_home" v-if="userStore.authuser != null">
+                    <div class="botao_home" v-if="userStore.authuser != null && false" >
                         <Button class="col-8" @click="irParaCadastrarApostas" >
                             <span class="p-button-icon p-button-icon-left">⚽</span>
                             <span class="p-button-label">Cadastrar Apostas</span>
@@ -90,6 +96,9 @@ const irParaSobre = () => {
 }
 const irParaCadastrarApostas = () => {
     router.push("/CadastrarApostas");
+}
+const irParaRanking = () => {
+    router.push("/ranking");
 }
 const irParaApostasCadastradas = () => {
     router.push("/ApostasCadastradas");

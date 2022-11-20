@@ -23,7 +23,10 @@ const router = createRouter({
         const userStore = useUserStore();
         const u = await getCurrentUser();
         if (u != null) {
+          
           userStore.setAuthUser(u);
+          const apostasStore = useApostasStore();
+          await apostasStore.fetchApostaById(u.uid);
         //  console.log(userStore.authuser);
         } else {
           userStore.setAuthUser(null);
@@ -48,14 +51,12 @@ const router = createRouter({
         const rankingStore = useRankingStore();
         await rankingStore.fetchRanking();
         const apostasStore = useApostasStore();
-        await apostasStore.fetchApostaById(to.params.id);
-        
-        
+        await apostasStore.fetchApostaById(to.params.id);        
       },
       component: () => import("../views/jogador.vue"),
-      meta: {
+      /* meta: {
         requiresAuth: false,
-      },
+      }, */
     },
     {
       path: "/admin",
@@ -126,6 +127,13 @@ const router = createRouter({
       component: () => import("../views/CadastrarApostas.vue"),
     },
     {
+      path: "/vimpressao",
+      meta: {
+        requiresAuth: true,
+      },
+      component: () => import("../views/vimpressao.vue"),
+    },
+    {
       path: "/apostasCadastradas",
       meta: {
         requiresAuth: true,
@@ -183,6 +191,7 @@ router.beforeEach(async (to, from, next) => {
   loadingStore.loading = true;
   // console.log(loadingStore.loading)
   if (to.matched.some((record) => record.meta.requiresAuth)) {
+    console.log('requiresauth');
     const u = await getCurrentUser();
     if (u) {
       const apostasStore = useApostasStore();

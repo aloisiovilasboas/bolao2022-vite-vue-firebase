@@ -22,19 +22,35 @@
             <!-- <router-link to="/" @click.native="InlineButtonClickHandler"> <Button label="Home" class="p-button-text button-sidebar" icon="pi pi-check"/> </router-link> -->
             <!--  <router-link to="/perfil"> <Button label="Perfil" class="p-button-text button-sidebar" icon="pi pi-check" v-if="isLoggedIn"/> </router-link>   -->
             <!-- <router-link to="/register"> <Button label="Register" class="p-button-text button-sidebar" icon="pi pi-check" v-if="!isLoggedIn"/> </router-link>   -->
+            <router-link to="/" @click.native="InlineButtonClickHandler">
+              <Button class="p-button-text button-sidebar">
+                <span class="p-button-icon p-button-icon-left"><img src="./assets/iconeCopa4.png"></span>
+                <span class="p-button-label">Bolão do AFC 2022</span>
+              </Button>
 
+            </router-link>
+
+
+            <router-link to="/ranking" @click.native="InlineButtonClickHandler">
+              <Button class="p-button-text button-sidebar">
+                <span class="p-button-icon p-button-icon-left">⚽</span>
+                <span class="p-button-label">Ranking do Bolão</span>
+              </Button>
+
+            </router-link>
+
+
+            <!-- <router-link to="/ranking" @click.native="InlineButtonClickHandler"> 
+              <Button label="Ranking" class="p-button-text button-sidebar" icon="pi pi-check" v-if="usuariosStore.isAdmin" /> </router-link> -->
             <router-link to="/sign-in" @click.native="InlineButtonClickHandler"> <Button label="Login"
                 class="p-button-text button-sidebar" icon="pi pi-check" v-if="!isLoggedIn" /> </router-link>
             <router-link to="/apostasCadastradas" @click.native="InlineButtonClickHandler">
               <Button class="p-button-text button-sidebar" v-if="isLoggedIn && apostasStore.apostasRAW.grupos != null">
-
                 <span class="p-button-icon p-button-icon-left">⚽</span>
                 <span class="p-button-label">Ver Suas Apostas</span>
-
-
               </Button>
             </router-link>
-            <router-link to="/cadastrarApostas" @click.native="InlineButtonClickHandler">
+            <router-link to="/cadastrarApostas" @click.native="InlineButtonClickHandler" v-if="false">
               <Button class="p-button-text button-sidebar" v-if="isLoggedIn">
                 <span class="p-button-icon p-button-icon-left">⚽</span>
                 <span class="p-button-label">Cadastrar Apostas</span>
@@ -46,8 +62,7 @@
                 class="p-button-text button-sidebar" icon="pi pi pi-book" /> </router-link>
             <router-link to="/sobre" @click.native="InlineButtonClickHandler"> <Button label="Sobre"
                 class="p-button-text button-sidebar" icon="pi pi-info-circle" /> </router-link>
-            <router-link to="/ranking" @click.native="InlineButtonClickHandler"> <Button label="Ranking"
-                class="p-button-text button-sidebar" icon="pi pi-check" v-if="usuariosStore.isAdmin" /> </router-link>
+
             <router-link to="/admin" @click.native="InlineButtonClickHandler"> <Button label="Admin"
                 class="p-button-text button-sidebar" icon="pi pi-check" v-if="usuariosStore.isAdmin" /> </router-link>
             <router-link to="/gabarito" @click.native="InlineButtonClickHandler"> <Button label="Gabarito"
@@ -98,7 +113,7 @@ onMounted(() => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       isLoggedIn.value = true;
-      apostasStore.fetchApostaById(user.uid)
+      //  apostasStore.fetchApostaById(user.uid)
       usuariosStore.getIsAdmin(user.uid)
       //      console.log('admin: '+usuariosStore.isAdmin);
 

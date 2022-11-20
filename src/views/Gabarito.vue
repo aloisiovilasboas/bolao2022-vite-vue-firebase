@@ -16,57 +16,61 @@
         </div>
 
         <Panel>
-        <template #header>
-          Último Jogo
-        </template>
+            <template #header>
+                Último Jogo
+            </template>
 
 
-        <div class="campeao">
+            <div class="campeao">
 
-          <div class="painelDeApostas">
-            <div class="agenda">
-              <div class="agenda__game">
-                <div class="agenda__game__container">
-                  <div class="agenda__game__team--left col-4">
+                <div class="painelDeApostas">
+                    <div class="agenda">
+                        <div class="agenda__game">
+                            <div class="agenda__game__container">
+                                <div class="agenda__game__team--left col-4">
 
-                    
-                    
-                      <Dropdown v-model="ultimojogo.homePais" :options="todasAsBandeiras2" optionLabel="pais"  placeholder="Países" />
-                    
-                  </div>
-                  <div class="agenda__game__info2 col-4">
-                    <div>
-                      
-                       <InputText type="text" v-model=ultimojogo.resultA class="p-inputtext-sm placar" /> 
+
+
+                                    <Dropdown v-model="ultimojogo.homePais" :options="todasAsBandeiras2"
+                                        optionLabel="pais" placeholder="Países" />
+
+                                </div>
+                                <div class="agenda__game__info2 col-4">
+                                    <div>
+
+                                        <InputText type="text" v-model=ultimojogo.resultA
+                                            class="p-inputtext-sm placar" />
+                                    </div>
+                                    X
+                                    <div>
+                                        <InputText type="text" v-model=ultimojogo.resultB
+                                            class="p-inputtext-sm placar" />
+                                    </div>
+                                </div>
+                                <div class="agenda__game__team--right col-4">
+
+                                    <Dropdown v-model="ultimojogo.awayPais" :options="todasAsBandeiras2"
+                                        optionLabel="pais" placeholder="Países" />
+
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                    X
-                    <div>
-                        <InputText type="text" v-model=ultimojogo.resultB class="p-inputtext-sm placar" />
-                    </div>
-                  </div>
-                  <div class="agenda__game__team--right col-4">
-                    
-                        <Dropdown v-model="ultimojogo.awayPais" :options="todasAsBandeiras2" optionLabel="pais" placeholder="Países" />
-                    
-                  </div>
                 </div>
-                
-              </div>
-            </div>
-          </div>
 
 
 
-          <!--  <div class="agenda__game__team__shield__center">
+                <!--  <div class="agenda__game__team__shield__center">
                                     <div v-html="'<img src =' + apostasStore.campeao[0].flagurl + ' class=bandeirinha >'"
                                         layout="responsive" class="agenda__game__team__shield">
                                     </div>
                                 </div>
                                 <div class="agenda__game__team__name"> {{ apostasStore.campeao[0].team }}
                                 </div> -->
-        </div>
-      </Panel>
-      <p></p>
+            </div>
+        </Panel>
+        <p></p>
 
         <div>
             <!-- //para o tabview v-model:activeIndex="active2"  -->
@@ -267,13 +271,13 @@ const gabaritoStore = useGabaritoStore();
 const usuariosStore = useUsuariosStore();
 const rankingStore = useRankingStore();
 const storage = getStorage();
-const ultimojogo =ref({homePais:{pais:'',bandeira:''},awayPais:{pais:'',bandeira:''},resultA:'',resultB:''})
+const ultimojogo = ref({ homePais: { pais: '', bandeira: '' }, awayPais: { pais: '', bandeira: '' }, resultA: '', resultB: '' })
 
 
 
 onMounted(async () => {
-  //  geraGrupos()
-     mostraGrupos()
+    //  geraGrupos()
+    mostraGrupos()
 
 
 })
@@ -500,7 +504,7 @@ const mostraGrupos = () => {
         }
     }
     console.log(rankingStore);
-    if(rankingStore.ranking[0].ultimojogo!=null){
+    if (rankingStore.ranking[0].ultimojogo != null) {
         ultimojogo.value = rankingStore.ranking[0].ultimojogo
     }
 }
@@ -874,44 +878,49 @@ const calculaRanking = () => {
     let jogadores = []
     gabaritoStore.todasAsApostas.forEach(aposta => {
         let u = usuariosStore.usuarios.find((user) => user.uid == aposta.idUsuario)
-        let jogador = {
-            gruposRaw: aposta.grupos,
-            mataMataRaw: aposta.mataMata,
-            idUsuario: u.uid,
-            pos: 0,
-            nome: u.nome,
-            pontuacao: 0,
-            grupos: 0,
-            oitavas: 0,
-            quartas: 0,
-            semis: 0,
-            final: 0,
-            campeao: 0
-        }
-        //calcula pontuacao grupos
-        jogador.gruposRaw.forEach(grupoJog => {
-            let grupoGaba = gabaritoStore.gabaritoRAW.grupos.find((gGaba) => gGaba.letra === grupoJog.letra)
-            grupoJog.jogos.forEach(partJogador => {
-                let partGaba = grupoGaba.jogos.find((pGaba) => pGaba.matchNumber === partJogador.matchNumber)
-                if (partGaba.resultA != "") {
-                    jogador.grupos += calculaPontuacaoJogadorPartida(partJogador, partGaba)
-                }
+        if (u.pago) {
+            let jogador = {
+                gruposRaw: aposta.grupos,
+                mataMataRaw: aposta.mataMata,
+                idUsuario: u.uid,
+                pos: 0,
+                nome: u.nome,
+                pontuacao: 0,
+                grupos: 0,
+                oitavas: 0,
+                quartas: 0,
+                semis: 0,
+                final: 0,
+                campeao: 0
+            }
+            //calcula pontuacao grupos
+            jogador.gruposRaw.forEach(grupoJog => {
+                let grupoGaba = gabaritoStore.gabaritoRAW.grupos.find((gGaba) => gGaba.letra === grupoJog.letra)
+                grupoJog.jogos.forEach(partJogador => {
+                    let partGaba = grupoGaba.jogos.find((pGaba) => pGaba.matchNumber === partJogador.matchNumber)
+                    if (partGaba.resultA != "") {
+                        jogador.grupos += calculaPontuacaoJogadorPartida(partJogador, partGaba)
+                    }
+                });
             });
-        });
-        jogador.pontuacao = jogador.grupos + jogador.oitavas + jogador.quartas + jogador.semis + jogador.final + jogador.campeao;
+            jogador.pontuacao = jogador.grupos + jogador.oitavas + jogador.quartas + jogador.semis + jogador.final + jogador.campeao;
 
-        jogadores.push({
-            pos: 0,
-            nome: jogador.nome,
-            pontuacao: jogador.pontuacao,
-            idUsuario: jogador.idUsuario,
-            grupos: jogador.grupos,
-            oitavas: jogador.oitavas,
-            quartas: jogador.quartas,
-            semis: jogador.semis,
-            final: jogador.final,
-            campeao: jogador.campeao
-        })
+            jogadores.push({
+                pos: 0,
+                nome: jogador.nome,
+                pontuacao: jogador.pontuacao,
+                idUsuario: jogador.idUsuario,
+                grupos: jogador.grupos,
+                oitavas: jogador.oitavas,
+                quartas: jogador.quartas,
+                semis: jogador.semis,
+                final: jogador.final,
+                campeao: jogador.campeao
+            })
+        } else{
+            console.log('apostado e nao pago');
+            console.log(u.nome);
+        }
     });
     // console.log(gabaritoStore.gabaritoRAW)
 
@@ -930,18 +939,18 @@ const calculaRanking = () => {
     let pos = 0;
     for (let index = 0; index < jogadores.length; index++) {
         const jogador = jogadores[index];
-        if (jogador.pontuacao<pontuacaoAnterior) {
-            pontuacaoAnterior=jogador.pontuacao
-            pos=index+1
+        if (jogador.pontuacao < pontuacaoAnterior) {
+            pontuacaoAnterior = jogador.pontuacao
+            pos = index + 1
             jogador.pos = pos
         } else if (jogador.pontuacao === pontuacaoAnterior) {
             jogador.pos = pos
         }
-        
+
     }
-   // console.log('cadastrarank');
-   // console.log(ultimojogo.value);
-    rankingStore.cadastraRanking(jogadores,ultimojogo.value)
+    // console.log('cadastrarank');
+    // console.log(ultimojogo.value);
+    rankingStore.cadastraRanking(jogadores, ultimojogo.value)
 
 
 }
