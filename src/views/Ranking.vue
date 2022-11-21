@@ -112,8 +112,8 @@ const store = useRankingStore();
 const loadingStore = useLoadingStore();
 const selectedCustomer1 = ref();
 const rowClick = (event) => {
-  console.log('row');
-  console.log(event);
+  /* console.log('row');
+  console.log(event); */
   router.push("/jogador/" + event.data.idUsuario);
 }
 

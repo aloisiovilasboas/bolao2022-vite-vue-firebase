@@ -16,6 +16,7 @@ import bandeiras from "../assets/linksBandeiras.json";
 
 export const useApostasStore = defineStore("apostas", {
   state: () => {
+    const estatistica = ref([{ selecao: 'placeholder', Oitavas: 0, Quartas: 0, Semifinais: 0, Final: 0, Campeao: 0 }]);
     const completo = ref(false);
     const campeao = ref([]);
     const mataMata = ref([]);
@@ -33,6 +34,9 @@ export const useApostasStore = defineStore("apostas", {
       apostasRAW.value = newvalue;
       // console.log(apostas)
     };
+    const setEstatistica = (newvalue) => {
+      estatistica.value = newvalue
+    }
 
     const setGrupos = (newvalue) => {
       grupos.value = newvalue;
@@ -54,7 +58,8 @@ export const useApostasStore = defineStore("apostas", {
     return {
       apostasRAW,
       setApostasRAW,
-
+      estatistica,
+      setEstatistica,
       grupos,
       mataMata,
       campeao,
@@ -99,6 +104,114 @@ export const useApostasStore = defineStore("apostas", {
         //      console.log("nao existe aposta com esse id:" + id);
         return false;
       }
+    },
+    async fetchTodasAsApostas() {
+      const colRef = collection(db, 'apostas')
+      getDocs(colRef)
+        .then((snapshot) => {
+          let selecoes = [
+            "Catar",
+            "Inglaterra",
+            "Senegal",
+            "Estados Unidos",
+            "Argentina",
+            "Dinamarca",
+            "México",
+            "França",
+            "Marrocos",
+            "Alemanha",
+            "Espanha",
+            "Bélgica",
+            "Suíça",
+            "Uruguai",
+            "Portugal",
+            "Brasil",
+            "País de Gales",
+            "Holanda",
+            "Tunísia",
+            "Polônia",
+            "Japão",
+            "Croácia",
+            "Camarões",
+            "Coreia do Sul",
+            "Equador",
+            "Irã",
+            "Austrália",
+            "Arábia Saudita",
+            "Canada",
+            "Costa Rica",
+            "Gana",
+            "Sérvia"
+          ]
+          let estatistica = selecoes.map(sel => {
+            return { selecao: sel, Oitavas: 0, Quartas: 0, Semifinais: 0, Final: 0, Campeao: 0 };
+          });
+
+          //this.todasAsApostasRAW = []
+          let numapostas = 0
+          snapshot.docs.forEach((doc) => {
+            let aposta = { ...doc.data(), id: doc.id }
+            if (aposta.id != 'quO8YsEEnTcQntegLK4ZZggZYsm2' && aposta.id != 'UFIKikDGUiQZiVi59fz4pwkPLtP2') {
+              numapostas++
+              
+
+
+              aposta.mataMata.forEach(fase => {
+
+                //console.log(fase.fase); 
+                fase.jogos.forEach((jogo) => {
+                  let homeIndex = estatistica.findIndex(linha => linha.selecao === jogo.homeTeam)
+                  let awayIndex = estatistica.findIndex(linha2 => linha2.selecao === jogo.awayTeam)
+                  /*  console.log(jogo.homeTeam)
+                   console.log(estatistica[homeIndex][fase.fase])
+                   console.log(jogo.awayTeam)
+                   console.log(estatistica[awayIndex][fase.fase]) */
+                  estatistica[homeIndex][fase.fase]++
+                  estatistica[awayIndex][fase.fase]++
+                  if (fase.fase === 'Final') {
+                    if (jogo.winner === 'home') {
+                      estatistica[homeIndex]['Campeao']++
+                    } else {
+                      estatistica[awayIndex]['Campeao']++
+                    }
+                  }
+                  //console.log(jogo.homeTeam);
+                  //console.log(jogo.awayTeam);
+                })
+
+              })
+            }
+            
+            estatistica.sort(function (a, b) {
+              if (b.Campeao - a.Campeao !== 0) {
+                return b.Campeao - a.Campeao
+              } else {
+                if (b.Final - a.Final !== 0) {
+                  return b.Final - a.Final
+                } else {
+                  if (b.Semifinais - a.Semifinais !== 0) {
+                    return b.Semifinais - a.Semifinais
+                  } else {
+                    if (b.Quartas - a.Quartas !== 0) {
+                      return b.Quartas - a.Quartas
+                    } else {
+                      return b.Oitavas - a.Oitavas
+                    }
+                  }
+                }
+              }
+            });
+            
+
+            //console.log(estatistica);
+          })
+          this.setEstatistica(estatistica)
+          console.log(numapostas);
+          console.log(JSON.stringify(estatistica))
+          //  console.log(usuarios.value);
+        }).catch(err => {
+          console.log(err.message)
+        })
     },
     retira_acentos(str) {
       let com_acento =

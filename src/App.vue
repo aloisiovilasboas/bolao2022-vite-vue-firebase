@@ -50,14 +50,20 @@
                 <span class="p-button-label">Ver Suas Apostas</span>
               </Button>
             </router-link>
-            <router-link to="/cadastrarApostas" @click.native="InlineButtonClickHandler" v-if="false">
+            <router-link to="/estatisticas" @click.native="InlineButtonClickHandler">
+              <Button class="p-button-text button-sidebar">
+                <span class="p-button-icon p-button-icon-left">⚽</span>
+                <span class="p-button-label">Ver Estatísticas</span>
+              </Button>
+            </router-link>
+            <!-- <router-link to="/cadastrarApostas" @click.native="InlineButtonClickHandler" v-if="false">
               <Button class="p-button-text button-sidebar" v-if="isLoggedIn">
                 <span class="p-button-icon p-button-icon-left">⚽</span>
                 <span class="p-button-label">Cadastrar Apostas</span>
 
               </Button>
 
-            </router-link>
+            </router-link> -->
             <router-link to="/regras" @click.native="InlineButtonClickHandler"> <Button label="Regras"
                 class="p-button-text button-sidebar" icon="pi pi pi-book" /> </router-link>
             <router-link to="/sobre" @click.native="InlineButtonClickHandler"> <Button label="Sobre"

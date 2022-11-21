@@ -10,6 +10,9 @@
             <div style="padding: 10px;">
                 <Button label="Cadastrar Gabarito" @click="cadastraGabarito" />
             </div>
+            <!-- <div style="padding: 10px;">
+                <Button label="Log pagos e nao cadastrados" @click="calculaPagosENaoCadastrados" />
+            </div> -->
             <div style="padding: 10px;">
                 <Button label="Zerar Gabarito" @click="geraGrupos" />
             </div>
@@ -874,11 +877,23 @@ const cadastraGabarito = () => {
 
 }
 
+const calculaPagosENaoCadastrados = () => {
+    usuariosStore.usuarios.forEach(user => {
+        let apindex = gabaritoStore.todasAsApostas.findIndex((aposta) => user.uid == aposta.idUsuario)
+      if (apindex === -1){
+        if(user.pago){
+            console.log(user.nome);
+        }
+        
+      }
+    })
+}
+
 const calculaRanking = () => {
     let jogadores = []
     gabaritoStore.todasAsApostas.forEach(aposta => {
         let u = usuariosStore.usuarios.find((user) => user.uid == aposta.idUsuario)
-        if (u.pago) {
+        if (u && u.pago) {
             let jogador = {
                 gruposRaw: aposta.grupos,
                 mataMataRaw: aposta.mataMata,
@@ -917,9 +932,11 @@ const calculaRanking = () => {
                 final: jogador.final,
                 campeao: jogador.campeao
             })
-        } else{
+        } else if (u){
        //     console.log('apostado e nao pago');
             console.log(u.nome);
+        } else {
+            console.log(aposta.idUsuario);
         }
     });
     // console.log(gabaritoStore.gabaritoRAW)

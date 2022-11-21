@@ -1,0 +1,260 @@
+{
+    "estatistica": [
+        {
+            "selecao": "Brasil",
+            "Oitavas": 144,
+            "Quartas": 144,
+            "Semifinais": 137,
+            "Final": 114,
+            "Campeao": 108
+        },
+        {
+            "selecao": "Argentina",
+            "Oitavas": 145,
+            "Quartas": 137,
+            "Semifinais": 116,
+            "Final": 22,
+            "Campeao": 18
+        },
+        {
+            "selecao": "França",
+            "Oitavas": 142,
+            "Quartas": 107,
+            "Semifinais": 61,
+            "Final": 38,
+            "Campeao": 6
+        },
+        {
+            "selecao": "Holanda",
+            "Oitavas": 145,
+            "Quartas": 135,
+            "Semifinais": 25,
+            "Final": 6,
+            "Campeao": 3
+        },
+        {
+            "selecao": "Inglaterra",
+            "Oitavas": 142,
+            "Quartas": 134,
+            "Semifinais": 70,
+            "Final": 45,
+            "Campeao": 2
+        },
+        {
+            "selecao": "Bélgica",
+            "Oitavas": 140,
+            "Quartas": 61,
+            "Semifinais": 38,
+            "Final": 13,
+            "Campeao": 2
+        },
+        {
+            "selecao": "Alemanha",
+            "Oitavas": 143,
+            "Quartas": 117,
+            "Semifinais": 28,
+            "Final": 10,
+            "Campeao": 2
+        },
+        {
+            "selecao": "Espanha",
+            "Oitavas": 140,
+            "Quartas": 89,
+            "Semifinais": 28,
+            "Final": 8,
+            "Campeao": 2
+        },
+        {
+            "selecao": "Portugal",
+            "Oitavas": 140,
+            "Quartas": 93,
+            "Semifinais": 35,
+            "Final": 16,
+            "Campeao": 1
+        },
+        {
+            "selecao": "Uruguai",
+            "Oitavas": 133,
+            "Quartas": 29,
+            "Semifinais": 9,
+            "Final": 5,
+            "Campeao": 1
+        },
+        {
+            "selecao": "Dinamarca",
+            "Oitavas": 139,
+            "Quartas": 32,
+            "Semifinais": 14,
+            "Final": 7,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Croácia",
+            "Oitavas": 138,
+            "Quartas": 21,
+            "Semifinais": 8,
+            "Final": 3,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Sérvia",
+            "Oitavas": 68,
+            "Quartas": 11,
+            "Semifinais": 4,
+            "Final": 2,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Estados Unidos",
+            "Oitavas": 76,
+            "Quartas": 6,
+            "Semifinais": 1,
+            "Final": 1,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Equador",
+            "Oitavas": 77,
+            "Quartas": 4,
+            "Semifinais": 2,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Suíça",
+            "Oitavas": 57,
+            "Quartas": 10,
+            "Semifinais": 1,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Catar",
+            "Oitavas": 21,
+            "Quartas": 3,
+            "Semifinais": 1,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Gana",
+            "Oitavas": 13,
+            "Quartas": 2,
+            "Semifinais": 1,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Japão",
+            "Oitavas": 5,
+            "Quartas": 1,
+            "Semifinais": 1,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "México",
+            "Oitavas": 74,
+            "Quartas": 7,
+            "Semifinais": 0,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Polônia",
+            "Oitavas": 68,
+            "Quartas": 7,
+            "Semifinais": 0,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "País de Gales",
+            "Oitavas": 61,
+            "Quartas": 6,
+            "Semifinais": 0,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Senegal",
+            "Oitavas": 47,
+            "Quartas": 1,
+            "Semifinais": 0,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Camarões",
+            "Oitavas": 21,
+            "Quartas": 1,
+            "Semifinais": 0,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Irã",
+            "Oitavas": 11,
+            "Quartas": 1,
+            "Semifinais": 0,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Canada",
+            "Oitavas": 6,
+            "Quartas": 1,
+            "Semifinais": 0,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Austrália",
+            "Oitavas": 7,
+            "Quartas": 0,
+            "Semifinais": 0,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Marrocos",
+            "Oitavas": 6,
+            "Quartas": 0,
+            "Semifinais": 0,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Coreia do Sul",
+            "Oitavas": 4,
+            "Quartas": 0,
+            "Semifinais": 0,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Arábia Saudita",
+            "Oitavas": 3,
+            "Quartas": 0,
+            "Semifinais": 0,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Costa Rica",
+            "Oitavas": 2,
+            "Quartas": 0,
+            "Semifinais": 0,
+            "Final": 0,
+            "Campeao": 0
+        },
+        {
+            "selecao": "Tunísia",
+            "Oitavas": 2,
+            "Quartas": 0,
+            "Semifinais": 0,
+            "Final": 0,
+            "Campeao": 0
+        }
+    ]
+}

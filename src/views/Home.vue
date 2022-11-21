@@ -34,14 +34,21 @@
                             <span class="p-button-label">Ver Suas Apostas</span>
                         </Button>
                     </div>
+                       <div class="botao_home"  >
+                        <Button class="col-8 p-button-help" @click="irParaEstatisticas" icon="pi pi-chart-bar" label="Ver estatísticas"  />
+                            <!-- <span class="p-button-icon p-button-icon-left">⚽</span>
+                            <span class="p-button-label">Ver times mais escolhidos</span>
+                        
+                        </Button> -->
+                    </div>
                    
-                    <div class="botao_home" v-if="userStore.authuser != null && false" >
+                  <!--   <div class="botao_home" v-if="userStore.authuser != null && false" >
                         <Button class="col-8" @click="irParaCadastrarApostas" >
                             <span class="p-button-icon p-button-icon-left">⚽</span>
                             <span class="p-button-label">Cadastrar Apostas</span>
                         
                         </Button>
-                    </div>
+                    </div> -->
                    
                     <div class="botao_home" >
                         <Button  @click="irParaRegras" icon="pi pi-book" label="Regras" class="col-8 p-button-secondary"/>
@@ -102,6 +109,9 @@ const irParaRanking = () => {
 }
 const irParaApostasCadastradas = () => {
     router.push("/ApostasCadastradas");
+}
+const irParaEstatisticas = () => {
+    router.push("/Estatisticas");
 }
 
 </script>

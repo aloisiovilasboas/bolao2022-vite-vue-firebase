@@ -91,6 +91,17 @@ const router = createRouter({
       },
     },
     {
+      path: "/estatisticas",
+      /* beforeEnter: async (to, from) => {
+        const apostasStore = useApostasStore();
+        await apostasStore.fetchTodasAsApostas();
+      }, */
+      component: () => import("../views/Estatisticas.vue"),
+      meta: {
+        requiresAuth: false,
+      },
+    },
+    {
       path: "/gabarito",
       beforeEnter: async (to, from) => {
         const u = await getCurrentUser();
