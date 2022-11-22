@@ -11,7 +11,6 @@ import { useApostasStore } from "../stores/apostas";
 import { useGabaritoStore } from "../stores/gabarito";
 import { useRankingStore } from "../stores/ranking";
 
-
 //Vue.component('loading',{ template: '<div>Loading!</div>'})
 
 const router = createRouter({
@@ -23,11 +22,10 @@ const router = createRouter({
         const userStore = useUserStore();
         const u = await getCurrentUser();
         if (u != null) {
-          
           userStore.setAuthUser(u);
           const apostasStore = useApostasStore();
           await apostasStore.fetchApostaById(u.uid);
-        //  console.log(userStore.authuser);
+          //  console.log(userStore.authuser);
         } else {
           userStore.setAuthUser(null);
         }
@@ -51,7 +49,7 @@ const router = createRouter({
         const rankingStore = useRankingStore();
         await rankingStore.fetchRanking();
         const apostasStore = useApostasStore();
-        await apostasStore.fetchApostaById(to.params.id);        
+        await apostasStore.fetchApostaById(to.params.id);
       },
       component: () => import("../views/jogador.vue"),
       /* meta: {
@@ -92,7 +90,7 @@ const router = createRouter({
     },
     {
       path: "/estatisticas",
-      /* beforeEnter: async (to, from) => {
+      /*  beforeEnter: async (to, from) => {
         const apostasStore = useApostasStore();
         await apostasStore.fetchTodasAsApostas();
       }, */
@@ -112,7 +110,7 @@ const router = createRouter({
           await rankingStore.fetchRanking();
           const usuariosStore = useUsuariosStore();
           await usuariosStore.fetchUsuarios();
-         // console.log("uid: " + u.uid);
+          // console.log("uid: " + u.uid);
           usuariosStore.getIsAdmin(u.uid);
           const gabaritoStore = useGabaritoStore();
           await gabaritoStore.fetchApostas();
@@ -126,7 +124,7 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
       },
-    },/* 
+    } /* 
     {
       beforeEnter: async (to, from) => {
         const apostasStore = useApostasStore();
@@ -136,14 +134,14 @@ const router = createRouter({
         requiresAuth: true,
       },
       component: () => import("../views/CadastrarApostas.vue"),
-    }, *//* 
+    }, */ /* 
     {
       path: "/vimpressao",
       meta: {
         requiresAuth: true,
       },
       component: () => import("../views/vimpressao.vue"),
-    }, */
+    }, */,
     {
       path: "/apostasCadastradas",
       meta: {
@@ -155,7 +153,6 @@ const router = createRouter({
     { path: "/Regras", component: () => import("../views/Regras.vue") },
     { path: "/Sobre", component: () => import("../views/Sobre.vue") },
     {
-      
       path: "/:catchAll(.*)",
       name: "NotFound",
       component: () => import("../views/naoEncontrado.vue"),
@@ -163,7 +160,6 @@ const router = createRouter({
         requiresAuth: false,
       },
     },
-    
   ],
 });
 
