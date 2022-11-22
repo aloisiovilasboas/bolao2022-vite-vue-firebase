@@ -172,6 +172,7 @@ import TabPanel from 'primevue/TabPanel';
 import Panel from 'primevue/panel'
 import TabView from 'primevue/TabView';
 import jogos from '../assets/jogosdacopa.json';
+import jogos2 from '../assets/jogosdacopav3.json';
 import paises from '../assets/nomepaises.json';
 import bandeiras from '../assets/linksBandeiras.json';
 import { useApostasStore } from "../stores/apostas";
@@ -180,11 +181,13 @@ import { useRankingStore } from "../stores/ranking";
 
 
 const todosOsJogos = jogos.jogos;
+const todosOsJogos2 = jogos2.jogos;
 const todosOsPaises = paises.paises
 const todasAsBandeiras = bandeiras.bandeiras
 const loading = ref(true)
 const gruposTabs = reactive([])
 const matamataTabs = ref([{}])
+const matamataTabs2 = ref([{}])
 const campeao = reactive([])
 const completo = ref(false)
 //const bandeiras = ref([])
@@ -238,7 +241,21 @@ const mostraGrupos = () => {
     let jogosPorGrupo = { 'Grupo A': [], 'Grupo B': [], 'Grupo C': [], 'Grupo D': [], 'Grupo E': [], 'Grupo F': [], 'Grupo G': [], 'Grupo H': [] }
     let timesPorGrupo = { 'Grupo A': [], 'Grupo B': [], 'Grupo C': [], 'Grupo D': [], 'Grupo E': [], 'Grupo F': [], 'Grupo G': [], 'Grupo H': [] }
     let jogosmataMata = { 'Oitavas': [], 'Quartas': [], 'Semifinais': [], 'Final': [] }
-    //console.log(todosOsJogos)   
+    let jogosmataMata2 = { 'Oitavas': [] }
+
+    //   console.log(todosOsJogos2)
+    todosOsJogos2.forEach(element => {
+        element.homeFlag = retira_acentos(element.homeTeam);
+        element.homeFlag = element.homeFlag.replace(/\s/g, '').toLowerCase();
+        element.awayFlag = retira_acentos(element.awayTeam);
+        element.awayFlag = element.awayFlag.replace(/\s/g, '').toLowerCase();
+        if (!element.group) {
+            if (element.roundNumber === 'Oitavas') {
+                //     console.log(element.inputidhome);
+                jogosmataMata2[element.roundNumber].push(element)
+            }
+        }
+    });
     todosOsJogos.forEach(element => {
         element.homeFlag = retira_acentos(element.homeTeam);
         element.homeFlag = element.homeFlag.replace(/\s/g, '').toLowerCase();
@@ -252,8 +269,8 @@ const mostraGrupos = () => {
                 timesPorGrupo[element.group].push(element.homeTeam)
             }
         } else if (element.roundNumber != 'Terceiro') {
-            element.inputidhome = element.homeTeam
-            element.inputidaway = element.awayTeam
+            element.inputidhome = (' ' + element.homeTeam).slice(1)
+            element.inputidaway = (' ' + element.awayTeam).slice(1)
             jogosmataMata[element.roundNumber].push(element)
 
         }
@@ -262,6 +279,9 @@ const mostraGrupos = () => {
         return { letra: nomeGrupo, jogos: {}, classificacao: [] }
     })
     matamataTabs.value = nomefases.map((nomeFase) => {
+        return { fase: nomeFase, jogos: {} }
+    })
+    matamataTabs2.value = nomefases.map((nomeFase) => {
         return { fase: nomeFase, jogos: {} }
     })
 
@@ -278,6 +298,9 @@ const mostraGrupos = () => {
         etapa.jogos = jogosmataMata[etapa.fase]
         etapa.completo = etapa.fase
     })
+    matamataTabs2.value.forEach((etapa) => {
+        etapa.jogos = jogosmataMata2[etapa.fase]
+    })
     campeao.value = [{ flagurl: null }]
 
 
@@ -292,8 +315,13 @@ const mostraGrupos = () => {
             let faseIndex = matamataTabs.value.findIndex(f => f.fase === fase.fase)
             matamataTabs.value[faseIndex].jogos.forEach(jogo => {
                 let jogoIndex = fase.jogos.findIndex(j => j.matchNumber === jogo.matchNumber)
-                jogo.homeTeam = fase.jogos[jogoIndex].homeTeam
-                jogo.awayTeam = fase.jogos[jogoIndex].awayTeam
+                /*     if (fase.fase === 'Oitavas') {
+                        console.log(jogo.inputidhome);
+                        console.log(jogo.inputidaway);
+                    } */
+
+                jogo.homeTeam = (' ' + fase.jogos[jogoIndex].homeTeam).slice(1)
+                jogo.awayTeam = (' ' + fase.jogos[jogoIndex].awayTeam).slice(1)
                 jogo.winner = fase.jogos[jogoIndex].winner
 
                 jogo.homeFlag = retira_acentos(jogo.homeTeam);
@@ -338,29 +366,36 @@ const corrigeEmpates = ((grupoIndex) => {
     let grupo = gruposTabs.value[grupoIndex]
     let letra = grupo.letra
 
-    /* console.log(apostasStore.apostasRAW.mataMata[0].jogos);
-    console.log(apostasStore.mataMata[0].jogos);
-    console.log(grupo.classificacao[0]);
- */
-    let jogoindex1 = apostasStore.mataMata[0].jogos.findIndex((jogo) => jogo.homeFlagurl === grupo.classificacao[0].bandeira);
-    let jogoindex2 = apostasStore.mataMata[0].jogos.findIndex((jogo) => jogo.awayFlagurl === grupo.classificacao[1].bandeira);
+    let jogoindex1 = matamataTabs2.value[0].jogos.findIndex((jogo) => jogo.inputidhome.slice(-1) === letra.slice(-1));
+    let jogoindex2 = matamataTabs2.value[0].jogos.findIndex((jogo) => jogo.inputidaway.slice(-1) === letra.slice(-1));
+   // console.log(jogoindex1);
+   // console.log(jogoindex2);
 
-    /* console.log(jogoindex1);
-    console.log(jogoindex2); */
-    // console.log('loggrupos');
-
+    let timeserrados = 0
     if (grupo.classificacao[0].nome != apostasStore.apostasRAW.mataMata[0].jogos[jogoindex1].homeTeam) {
+        timeserrados++
         console.log(grupo.classificacao[0].nome);
     }
     if (grupo.classificacao[1].nome != apostasStore.apostasRAW.mataMata[0].jogos[jogoindex2].awayTeam) {
+        timeserrados++
         console.log(grupo.classificacao[1].nome);
     }
-
-
-
-
+    if (timeserrados === 2){
+        trocaTimes (0,1,grupoIndex)
+    } else if (timeserrados === 1){
+        trocaTimes (1,2,grupoIndex)
+    }
 })
 
+const trocaTimes =((i1,i2,grupoIndex) => {
+    let tabela = gruposTabs.value[grupoIndex].classificacao
+    let timeAux = JSON.parse(JSON.stringify(tabela[i1]))
+    tabela[i1] = JSON.parse(JSON.stringify(tabela[i2]))
+    tabela[i2] = JSON.parse(JSON.stringify(timeAux))
+    tabela.forEach((time, index) => {
+        time.colocacao = index + 1 + 'º'
+    })
+})
 
 const ordenaTabela = ((grupoIndex) => {
     let partidas = gruposTabs.value[grupoIndex].jogos
