@@ -1,12 +1,12 @@
 <template>
-  <div v-if="store.ranking[0].jogadores.length<3">
+  <div v-if="store.ranking[0].jogadores.length < 3">
     <h3>Carregando...</h3>
     <ProgressSpinner />
   </div>
 
   <div v-else>
     <div>
-      <Panel v-if="store.ultimoJogo.homePais.bandeira!=''">
+      <Panel v-if="store.ultimoJogo.homePais.bandeira != ''">
         <template #header>
           <h3>Último Jogo</h3>
         </template>
@@ -20,8 +20,8 @@
                 <div class="agenda__game__container">
                   <div class="agenda__game__team--left col-4">
 
-                    <div v-html="'<img src =' + store.ultimoJogo.homePais.bandeira + ' class=bandeirinha >'" layout="responsive"
-                      class="agenda__game__team__shield">
+                    <div v-html="'<img src =' + store.ultimoJogo.homePais.bandeira + ' class=bandeirinha >'"
+                      layout="responsive" class="agenda__game__team__shield">
                     </div>
                     <div class="agenda__game__team__name">
                       {{ store.ultimoJogo.homePais.pais }}
@@ -39,8 +39,8 @@
                   <div class="agenda__game__team--right col-4">
                     <div class="agenda__game__team__shield">
 
-                      <div v-html="'<img src =' + store.ultimoJogo.awayPais.bandeira + ' class=bandeirinha >'" layout="responsive"
-                        class="agenda__game__team__shield">
+                      <div v-html="'<img src =' + store.ultimoJogo.awayPais.bandeira + ' class=bandeirinha >'"
+                        layout="responsive" class="agenda__game__team__shield">
                       </div>
                     </div>
                     <div class="agenda__game__team__name"> {{ store.ultimoJogo.awayPais.pais }}
@@ -48,7 +48,7 @@
                   </div>
                 </div>
                 <div class="col-10">
-                  
+
                 </div>
               </div>
             </div>
@@ -56,15 +56,16 @@
 
 
 
-          
+
         </div>
       </Panel>
     </div>
     <p></p>
     <div>
 
-      <DataTable :value=store.ranking[0].jogadores responsiveLayout="stack" breakpoint="2"
-        v-model:selection="selectedCustomer1" selectionMode="single" dataKey="idUsuario" @row-click="rowClick($event)">
+      <DataTable :scrollable="true" scrollHeight="400px" class="p-datatable-sm" scrollDirection="horizontal"
+        :value=store.ranking[0].jogadores v-model:selection="selectedCustomer1" selectionMode="single"
+        dataKey="idUsuario" @row-click="rowClick($event)">
         <!-- <Column header="#" headerStyle="width:3em">
           <template #body="slotProps">
             {{ slotProps.data.idUsuario }}
@@ -72,14 +73,14 @@
         </Column> -->
         <Column field="pos" header="Pos" headerStyle="width:3em"></Column>
 
-        <Column field="nome" header="Nome"></Column>
-        <Column field="pontuacao" header="Pontos" headerStyle="width:3em"></Column>
-        <!-- <Column field="grupos" header="Grupos"></Column>
-        <Column field="oitavas" header="Oitavas"></Column>
-        <Column field="quartas" header="Quartas"></Column>
-        <Column field="semis" header="Semis"></Column>
-        <Column field="final" header="Final"></Column>
-        <Column field="campeao" header="Campeão"></Column> -->
+        <Column field="nome" header="Nome" style="min-width:8rem"></Column>
+        <Column field="pontuacao" header="P"></Column>
+        <Column field="grupos" header="G"></Column>
+        <Column field="Oitavas" header="O"></Column>
+        <!--  <Column field="Quartas" header="Q"></Column>
+        <Column field="Semifinais" header="S"></Column>
+        <Column field="Final" header="F"></Column>
+        <Column field="Campeao" header="C"></Column> -->
 
 
 
@@ -89,6 +90,27 @@
 
     </div>
 
+    <p></p>
+    <div>
+      <Panel>
+        <template #header>
+          <span>Legenda</span>
+        </template>
+        <div class="legenda">
+          <span>P: Total de Pontos</span>
+          <span>G: Fase de grupos</span>
+          <span>O: Oitavas</span>
+          <!--  <span>Q: Quartas</span>
+          <span>S: Semifinais</span>
+          <span>F: Final</span>
+          <span>C: Campeão</span> -->
+
+        </div>
+
+
+
+      </Panel>
+    </div>
   </div>
 
 
@@ -107,7 +129,7 @@ import { ref, onMounted } from 'vue';
 import router from "../router";
 
 
-const ultimoJogo = ref({resultA:'',resultB:'', homePais:{pais:'',bandeira:''},awayPais:{pais:'',bandeira:''}})
+const ultimoJogo = ref({ resultA: '', resultB: '', homePais: { pais: '', bandeira: '' }, awayPais: { pais: '', bandeira: '' } })
 const store = useRankingStore();
 const loadingStore = useLoadingStore();
 const selectedCustomer1 = ref();
@@ -130,7 +152,7 @@ const uPago = ref({}); */
 onMounted(async () => {
   //  geraGrupos()
   ultimoJogo.value = store.ranking[0].ultimojogo
-     //console.log(store.ranking[0].ultimojogo);
+  //console.log(store.ranking[0].ultimojogo);
 
 
 

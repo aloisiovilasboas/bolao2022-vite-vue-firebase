@@ -224,8 +224,16 @@ button:focus-visible {
   height: 0;
   padding: 0;
 }
+.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td {
+  font-size: small;
+}
 
-
+.legenda {
+  font-size: small;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .agenda__game__team__shield {
   display: flex;
   width: 32px;

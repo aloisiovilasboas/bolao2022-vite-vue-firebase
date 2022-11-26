@@ -837,8 +837,8 @@ const calculaPontuacao = ((timeIndex, grupoIndex) => {
     })
 
     time.sg = time.gp - time.gc
-   // console.log(time);
-   // console.log('saldo ' + time.sg);
+    // console.log(time);
+    // console.log('saldo ' + time.sg);
     gruposTabs.value[grupoIndex].classificacao[timeIndex] = time
 })
 
@@ -880,17 +880,32 @@ const cadastraGabarito = () => {
 const calculaPagosENaoCadastrados = () => {
     usuariosStore.usuarios.forEach(user => {
         let apindex = gabaritoStore.todasAsApostas.findIndex((aposta) => user.uid == aposta.idUsuario)
-      if (apindex === -1){
-        if(user.pago){
-            console.log(user.nome);
+        if (apindex === -1) {
+            if (user.pago) {
+                console.log(user.nome);
+            }
+
         }
-        
-      }
     })
 }
 
 const calculaRanking = () => {
     let jogadores = []
+    let gabaritoTimeFases = { Oitavas: [], Quartas: [], Semifinais: [], Final: [], Campeao: '' }
+    gabaritoStore.gabaritoRAW.mataMata.forEach((f) => {
+        f.jogos.forEach((jogo) => {
+            gabaritoTimeFases[f.fase].push(jogo.homeTeam)
+            gabaritoTimeFases[f.fase].push(jogo.awayTeam)
+        })
+        if (f.fase === 'Final') {
+            if (f.jogos[0].winner === 'home') {
+                gabaritoTimeFases.Campeao = jogo.homeTeam
+            } else if (f.jogos[0].winner === 'away') {
+                gabaritoTimeFases.Campeao = jogo.awayTeam
+            }
+        }
+    });
+    console.log(gabaritoTimeFases);
     gabaritoStore.todasAsApostas.forEach(aposta => {
         let u = usuariosStore.usuarios.find((user) => user.uid == aposta.idUsuario)
         if (u && u.pago) {
@@ -902,11 +917,11 @@ const calculaRanking = () => {
                 nome: u.nome,
                 pontuacao: 0,
                 grupos: 0,
-                oitavas: 0,
-                quartas: 0,
-                semis: 0,
-                final: 0,
-                campeao: 0
+                Oitavas: 0,
+                Quartas: 0,
+                Semifinais: 0,
+                Final: 0,
+                Campeao: 0
             }
             //calcula pontuacao grupos
             jogador.gruposRaw.forEach(grupoJog => {
@@ -918,7 +933,28 @@ const calculaRanking = () => {
                     }
                 });
             });
-            jogador.pontuacao = jogador.grupos + jogador.oitavas + jogador.quartas + jogador.semis + jogador.final + jogador.campeao;
+            //calcula pontuacao mataMata
+            let pontuacao = { Oitavas: '8', Quartas: '10', Semifinais: '15', Final: '20', Campeao: '30' }
+            jogador.mataMataRaw.forEach((f) => {
+                f.jogos.forEach((jogo) => {
+                    if (gabaritoTimeFases[f.fase].includes(jogo.homeTeam)) {
+                        jogador[f.fase] += pontuacao[f.fase]
+                    }
+                })
+                if (f.fase === 'Final') {
+                    if (f.jogos[0].winner === 'home') {
+                        if(gabaritoTimeFases.Campeao === f.jogos[0].homeTeam ){
+                            jogador.Campeao = 30
+                        }
+                    } else if (f.jogos[0].winner === 'away') {
+                        if(gabaritoTimeFases.Campeao === f.jogos[0].awayTeam ){
+                            jogador.Campeao = 30
+                        }
+                    }
+                }
+            })
+            console.log(jogador.mataMataRaw);
+            jogador.pontuacao = jogador.grupos + jogador.Oitavas + jogador.Quartas + jogador.Semifinais + jogador.Final + jogador.Campeao;
 
             jogadores.push({
                 pos: 0,
@@ -926,14 +962,14 @@ const calculaRanking = () => {
                 pontuacao: jogador.pontuacao,
                 idUsuario: jogador.idUsuario,
                 grupos: jogador.grupos,
-                oitavas: jogador.oitavas,
-                quartas: jogador.quartas,
-                semis: jogador.semis,
-                final: jogador.final,
-                campeao: jogador.campeao
+                Oitavas: jogador.Oitavas,
+                Quartas: jogador.Quartas,
+                Semifinais: jogador.Semifinais,
+                Final: jogador.Final,
+                Campeao: jogador.Campeao
             })
-        } else if (u){
-       //     console.log('apostado e nao pago');
+        } else if (u) {
+            //     console.log('apostado e nao pago');
             console.log(u.nome);
         } else {
             console.log(aposta.idUsuario);

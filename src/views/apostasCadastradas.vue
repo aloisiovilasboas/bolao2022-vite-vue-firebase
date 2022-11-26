@@ -21,8 +21,8 @@
                                 <div class="agenda__game__container">
                                     <div class="agenda__game__team--left col-4">
 
-                                        <div v-html="'<img src =' + jogo.homeFlagurl +  ' class=bandeirinha >'" layout="responsive"
-                                            class="agenda__game__team__shield">
+                                        <div v-html="'<img src =' + jogo.homeFlagurl + ' class=bandeirinha >'"
+                                            layout="responsive" class="agenda__game__team__shield">
                                         </div>
                                         <div class="agenda__game__team__name">
                                             {{ jogo.homeTeam }}
@@ -40,8 +40,8 @@
                                     <div class="agenda__game__team--right col-4">
                                         <div class="agenda__game__team__shield">
 
-                                            <div v-html="'<img src =' + jogo.awayFlagurl + ' class=bandeirinha >'" layout="responsive"
-                                                class="agenda__game__team__shield">
+                                            <div v-html="'<img src =' + jogo.awayFlagurl + ' class=bandeirinha >'"
+                                                layout="responsive" class="agenda__game__team__shield">
                                             </div>
                                         </div>
                                         <div class="agenda__game__team__name"> {{ jogo.awayTeam }}
@@ -67,8 +67,8 @@
                         <Column header="Classificação" style="min-width:12rem">
                             <template #body="{ data }">
                                 <div class="nomeEbandeira">
-                                    <div v-html="'<img src = ' + data.bandeira +  ' class=bandeirinha >'" layout="responsive"
-                                        class="agenda__game__team__shield">
+                                    <div v-html="'<img src = ' + data.bandeira + ' class=bandeirinha >'"
+                                        layout="responsive" class="agenda__game__team__shield">
                                     </div>
                                     <span class="image-text agenda__game__team__name">{{ data.nome }}</span>
                                 </div>
@@ -92,11 +92,11 @@
 
                                 <div class="agenda__game__container">
                                     <div class="agenda__game__team--left col-4">
-                                        
+
 
                                         <div v-if="jogo.homeFlagurl != null"
-                                            v-html="'<img src =' + jogo.homeFlagurl + ' class=bandeirinha >'" layout="responsive"
-                                            class="agenda__game__team__shield">
+                                            v-html="'<img src =' + jogo.homeFlagurl + ' class=bandeirinha >'"
+                                            layout="responsive" class="agenda__game__team__shield">
                                         </div>
                                         <div class="agenda__game__team__name">
                                             {{ jogo.homeTeam }}
@@ -104,19 +104,19 @@
                                     </div>
                                     <div class="agenda__game__info2 col-4">
                                         <RadioButton inputId=jogo.inputidhome name=jogo.matchNumber value=home
-                                            :disabled="true"
-                                            @change="updatePartidaMatamata(jogo, tab.fase)" v-model="jogo.winner" />
+                                            :disabled="true" @change="updatePartidaMatamata(jogo, tab.fase)"
+                                            v-model="jogo.winner" />
                                         <div>X</div>
                                         <RadioButton inputId=jogo.inputidaway name=jogo.matchNumber value=away
-                                            :disabled="true"
-                                            @change="updatePartidaMatamata(jogo, tab.fase)" v-model=jogo.winner />
+                                            :disabled="true" @change="updatePartidaMatamata(jogo, tab.fase)"
+                                            v-model=jogo.winner />
                                     </div>
                                     <div class="agenda__game__team--right col-4">
                                         <div class="agenda__game__team__shield">
 
                                             <div v-if="jogo.awayFlagurl != null"
-                                                v-html="'<img src =' + jogo.awayFlagurl + ' class=bandeirinha >'" layout="responsive"
-                                                class="agenda__game__team__shield">
+                                                v-html="'<img src =' + jogo.awayFlagurl + ' class=bandeirinha >'"
+                                                layout="responsive" class="agenda__game__team__shield">
                                             </div>
                                         </div>
                                         <div class="agenda__game__team__name"> {{ jogo.awayTeam }}
@@ -176,10 +176,12 @@ import paises from '../assets/nomepaises.json';
 import bandeiras from '../assets/linksBandeiras.json';
 import { useApostasStore } from "../stores/apostas";
 import { useUserStore } from "../stores/user";
+import jogos2 from '../assets/jogosdacopav3.json';
 
-
+const todosOsJogos2 = jogos2.jogos;
 const todosOsJogos = jogos.jogos;
 const todosOsPaises = paises.paises
+const matamataTabs2 = ref([{}])
 const todasAsBandeiras = bandeiras.bandeiras
 const loading = ref(true)
 const gruposTabs = reactive([])
@@ -229,7 +231,21 @@ const mostraGrupos = () => {
     let jogosPorGrupo = { 'Grupo A': [], 'Grupo B': [], 'Grupo C': [], 'Grupo D': [], 'Grupo E': [], 'Grupo F': [], 'Grupo G': [], 'Grupo H': [] }
     let timesPorGrupo = { 'Grupo A': [], 'Grupo B': [], 'Grupo C': [], 'Grupo D': [], 'Grupo E': [], 'Grupo F': [], 'Grupo G': [], 'Grupo H': [] }
     let jogosmataMata = { 'Oitavas': [], 'Quartas': [], 'Semifinais': [], 'Final': [] }
-    //console.log(todosOsJogos)   
+    let jogosmataMata2 = { 'Oitavas': [] }
+
+    //   console.log(todosOsJogos2)
+    todosOsJogos2.forEach(element => {
+        element.homeFlag = retira_acentos(element.homeTeam);
+        element.homeFlag = element.homeFlag.replace(/\s/g, '').toLowerCase();
+        element.awayFlag = retira_acentos(element.awayTeam);
+        element.awayFlag = element.awayFlag.replace(/\s/g, '').toLowerCase();
+        if (!element.group) {
+            if (element.roundNumber === 'Oitavas') {
+                //     console.log(element.inputidhome);
+                jogosmataMata2[element.roundNumber].push(element)
+            }
+        }
+    });
     todosOsJogos.forEach(element => {
         element.homeFlag = retira_acentos(element.homeTeam);
         element.homeFlag = element.homeFlag.replace(/\s/g, '').toLowerCase();
@@ -243,8 +259,8 @@ const mostraGrupos = () => {
                 timesPorGrupo[element.group].push(element.homeTeam)
             }
         } else if (element.roundNumber != 'Terceiro') {
-            element.inputidhome = element.homeTeam
-            element.inputidaway = element.awayTeam
+            element.inputidhome = (' ' + element.homeTeam).slice(1)
+            element.inputidaway = (' ' + element.awayTeam).slice(1)
             jogosmataMata[element.roundNumber].push(element)
 
         }
@@ -253,6 +269,9 @@ const mostraGrupos = () => {
         return { letra: nomeGrupo, jogos: {}, classificacao: [] }
     })
     matamataTabs.value = nomefases.map((nomeFase) => {
+        return { fase: nomeFase, jogos: {} }
+    })
+    matamataTabs2.value = nomefases.map((nomeFase) => {
         return { fase: nomeFase, jogos: {} }
     })
 
@@ -269,6 +288,9 @@ const mostraGrupos = () => {
         etapa.jogos = jogosmataMata[etapa.fase]
         etapa.completo = etapa.fase
     })
+    matamataTabs2.value.forEach((etapa) => {
+        etapa.jogos = jogosmataMata2[etapa.fase]
+    })
     campeao.value = [{ flagurl: null }]
 
 
@@ -277,105 +299,91 @@ const mostraGrupos = () => {
     apostasStore.setMatamata(matamataTabs.value)
     apostasStore.setCampeao(campeao.value)
 
-    //console.log(apostasStore.apostasRAW);
+    //   console.log(apostasStore.apostasRAW);
     if (apostasStore.apostasRAW.grupos !== null) {
-         apostasStore.apostasRAW.grupos.forEach(grupo => {
-            let grupoIndex = gruposTabs.value.findIndex(g => g.letra === grupo.letra)
-            gruposTabs.value[grupoIndex].jogos.forEach(jogo =>{
-                let jogoIndex = grupo.jogos.findIndex(j => j.matchNumber === jogo.matchNumber)
-                jogo.resultA = grupo.jogos[jogoIndex].resultA
-                jogo.resultB = grupo.jogos[jogoIndex].resultB
-                
-            })
-            calculaPontuacaoGrupo(grupoIndex)
-            ordenaTabela(grupoIndex)
-            //console.log(gruposTabs.value[grupoIndex].jogos);
-        }); 
         apostasStore.apostasRAW.mataMata.forEach(fase => {
             let faseIndex = matamataTabs.value.findIndex(f => f.fase === fase.fase)
-            matamataTabs.value[faseIndex].jogos.forEach(jogo =>{
+            matamataTabs.value[faseIndex].jogos.forEach(jogo => {
                 let jogoIndex = fase.jogos.findIndex(j => j.matchNumber === jogo.matchNumber)
-                jogo.homeTeam = fase.jogos[jogoIndex].homeTeam
-                jogo.awayTeam = fase.jogos[jogoIndex].awayTeam
+                /*     if (fase.fase === 'Oitavas') {
+                        console.log(jogo.inputidhome);
+                        console.log(jogo.inputidaway);
+                    } */
+
+                jogo.homeTeam = (' ' + fase.jogos[jogoIndex].homeTeam).slice(1)
+                jogo.awayTeam = (' ' + fase.jogos[jogoIndex].awayTeam).slice(1)
                 jogo.winner = fase.jogos[jogoIndex].winner
-        
+
                 jogo.homeFlag = retira_acentos(jogo.homeTeam);
                 jogo.homeFlag = jogo.homeFlag.replace(/\s/g, '').toLowerCase();
                 jogo.awayFlag = retira_acentos(jogo.awayTeam);
                 jogo.awayFlag = jogo.awayFlag.replace(/\s/g, '').toLowerCase();
                 jogo.homeFlagurl = todasAsBandeiras.find(bandeira => bandeira.pais === jogo.homeFlag).bandeira
                 jogo.awayFlagurl = todasAsBandeiras.find(bandeira => bandeira.pais === jogo.awayFlag).bandeira
-            
+
             })
         })
-        let finaltab = matamataTabs.value[matamataTabs.value.length-1].jogos[0]
+        let finaltab = matamataTabs.value[matamataTabs.value.length - 1].jogos[0]
         let final = apostasStore.apostasRAW.mataMata[apostasStore.apostasRAW.mataMata.length - 1].jogos[0]
-        if (final.winner =='home'){
+        if (final.winner == 'home') {
             apostasStore.campeao[0].flagurl = finaltab.homeFlagurl
             apostasStore.campeao[0].team = finaltab.homeTeam
         } else {
             apostasStore.campeao[0].flagurl = finaltab.awayFlagurl
             apostasStore.campeao[0].team = finaltab.awayTeam
-        }   
-    }
-}
-
-const geraGrupos = () => {
-    let letrasGrupos = ['Grupo A', 'Grupo B', 'Grupo C', 'Grupo D', 'Grupo E', 'Grupo F', 'Grupo G', 'Grupo H']
-    let nomefases = ['Oitavas', 'Quartas', 'Semifinais', 'Final']
-
-    let jogosPorGrupo = { 'Grupo A': [], 'Grupo B': [], 'Grupo C': [], 'Grupo D': [], 'Grupo E': [], 'Grupo F': [], 'Grupo G': [], 'Grupo H': [] }
-    let timesPorGrupo = { 'Grupo A': [], 'Grupo B': [], 'Grupo C': [], 'Grupo D': [], 'Grupo E': [], 'Grupo F': [], 'Grupo G': [], 'Grupo H': [] }
-    let jogosmataMata = { 'Oitavas': [], 'Quartas': [], 'Semifinais': [], 'Final': [] }
-    //console.log(todosOsJogos)   
-    todosOsJogos.forEach(element => {
-        element.homeFlag = retira_acentos(element.homeTeam);
-        element.homeFlag = element.homeFlag.replace(/\s/g, '').toLowerCase();
-        element.awayFlag = retira_acentos(element.awayTeam);
-        element.awayFlag = element.awayFlag.replace(/\s/g, '').toLowerCase();
-        if (element.group) {
-            element.homeFlagurl = todasAsBandeiras.find(bandeira => bandeira.pais === element.homeFlag).bandeira
-            element.awayFlagurl = todasAsBandeiras.find(bandeira => bandeira.pais === element.awayFlag).bandeira
-            jogosPorGrupo[element.group].push(element)
-            if (!timesPorGrupo[element.group].includes(element.homeTeam)) {
-                timesPorGrupo[element.group].push(element.homeTeam)
-            }
-        } else if (element.roundNumber != 'Terceiro') {
-            element.inputidhome = element.homeTeam
-            element.inputidaway = element.awayTeam
-            jogosmataMata[element.roundNumber].push(element)
-
         }
-    });
-    gruposTabs.value = letrasGrupos.map((nomeGrupo) => {
-        return { letra: nomeGrupo, jogos: {}, classificacao: [] }
-    })
-    matamataTabs.value = nomefases.map((nomeFase) => {
-        return { fase: nomeFase, jogos: {} }
-    })
+    }
+    apostasStore.apostasRAW.grupos.forEach(grupo => {
+        let grupoIndex = gruposTabs.value.findIndex(g => g.letra === grupo.letra)
+        gruposTabs.value[grupoIndex].jogos.forEach(jogo => {
+            let jogoIndex = grupo.jogos.findIndex(j => j.matchNumber === jogo.matchNumber)
+            jogo.resultA = grupo.jogos[jogoIndex].resultA
+            jogo.resultB = grupo.jogos[jogoIndex].resultB
 
-    gruposTabs.value.forEach((grupo) => {
-        grupo.jogos = jogosPorGrupo[grupo.letra]
-        grupo.completo = grupo.letra
-
-        grupo.classificacao = timesPorGrupo[grupo.letra].map((nometime, index) => {
-            let b = nometime.replace(/\s/g, '')
-            return { nome: nometime, colocacao: index + 1 + 'º', bandeira: todasAsBandeiras.find(bandeira => bandeira.pais === retira_acentos(b).replace(/\s/g, '').toLowerCase()).bandeira, p: 0, v: 0, e: 0, d: 0, sg: 0, gp: 0, gc: 0 }
         })
-    })
-    matamataTabs.value.forEach((etapa) => {
-        etapa.jogos = jogosmataMata[etapa.fase]
-        etapa.completo = etapa.fase
-    })
-    campeao.value = [{ flagurl: null }]
-    apostasStore.setGrupos(gruposTabs.value)
-    apostasStore.setMatamata(matamataTabs.value)
-    apostasStore.setCampeao(campeao.value)
+        calculaPontuacaoGrupo(grupoIndex)
+        ordenaTabela(grupoIndex)
+        corrigeEmpates(grupoIndex)
 
-    console.log(campeao.value);
-
+        //console.log(gruposTabs.value[grupoIndex].jogos);
+    });
 
 }
+
+const corrigeEmpates = ((grupoIndex) => {
+    let grupo = gruposTabs.value[grupoIndex]
+    let letra = grupo.letra
+
+    let jogoindex1 = matamataTabs2.value[0].jogos.findIndex((jogo) => jogo.inputidhome.slice(-1) === letra.slice(-1));
+    let jogoindex2 = matamataTabs2.value[0].jogos.findIndex((jogo) => jogo.inputidaway.slice(-1) === letra.slice(-1));
+   // console.log(jogoindex1);
+   // console.log(jogoindex2);
+
+    let timeserrados = 0
+    if (grupo.classificacao[0].nome != apostasStore.apostasRAW.mataMata[0].jogos[jogoindex1].homeTeam) {
+        timeserrados++
+        console.log(grupo.classificacao[0].nome);
+    }
+    if (grupo.classificacao[1].nome != apostasStore.apostasRAW.mataMata[0].jogos[jogoindex2].awayTeam) {
+        timeserrados++
+        console.log(grupo.classificacao[1].nome);
+    }
+    if (timeserrados === 2){
+        trocaTimes (0,1,grupoIndex)
+    } else if (timeserrados === 1){
+        trocaTimes (1,2,grupoIndex)
+    }
+})
+
+const trocaTimes =((i1,i2,grupoIndex) => {
+    let tabela = gruposTabs.value[grupoIndex].classificacao
+    let timeAux = JSON.parse(JSON.stringify(tabela[i1]))
+    tabela[i1] = JSON.parse(JSON.stringify(tabela[i2]))
+    tabela[i2] = JSON.parse(JSON.stringify(timeAux))
+    tabela.forEach((time, index) => {
+        time.colocacao = index + 1 + 'º'
+    })
+})
 
 
 const updatePartida = ((nometime1, nometime2, nomegrupo) => {
@@ -589,50 +597,50 @@ const calculaPontuacaoGrupo = ((grupoIndex) => {
     let jogos = gruposTabs.value[grupoIndex].jogos
     //let time = gruposTabs.value[grupoIndex].classificacao[timeIndex]
     gruposTabs.value[grupoIndex].classificacao.forEach(time => {
-    time.p = 0
-    time.v = 0
-    time.e = 0
-    time.d = 0
-    time.gp = 0
-    time.gc = 0
-    time.sg = 0
-    jogos.forEach(partida => {
-        if (((partida.resultA !== '' && partida.resultB !== '') && (partida.resultA !== null && partida.resultB !== null)) && (!isNaN(partida.resultA) && !isNaN(partida.resultB))) {
-            if (time.nome === partida.homeTeam) {
-                time.gp += Number(partida.resultA)
-                time.gc += Number(partida.resultB)
-                if (Number(partida.resultA) > Number(partida.resultB)) {
-                    time.p += 3
-                    time.v += 1
-                } else if (partida.resultA === partida.resultB) {
-                    time.p += 1
-                    time.e += 1
-                } else {
-                    time.d += 1
+        time.p = 0
+        time.v = 0
+        time.e = 0
+        time.d = 0
+        time.gp = 0
+        time.gc = 0
+        time.sg = 0
+        jogos.forEach(partida => {
+            if (((partida.resultA !== '' && partida.resultB !== '') && (partida.resultA !== null && partida.resultB !== null)) && (!isNaN(partida.resultA) && !isNaN(partida.resultB))) {
+                if (time.nome === partida.homeTeam) {
+                    time.gp += Number(partida.resultA)
+                    time.gc += Number(partida.resultB)
+                    if (Number(partida.resultA) > Number(partida.resultB)) {
+                        time.p += 3
+                        time.v += 1
+                    } else if (partida.resultA === partida.resultB) {
+                        time.p += 1
+                        time.e += 1
+                    } else {
+                        time.d += 1
+                    }
+                } else if (time.nome === partida.awayTeam) {
+                    time.gp += Number(partida.resultB)
+                    time.gc += Number(partida.resultA)
+                    if (Number(partida.resultA) < Number(partida.resultB)) {
+                        time.p += 3
+                        time.v += 1
+                    } else if (partida.resultA === partida.resultB) {
+                        time.p += 1
+                        time.e += 1
+                    } else {
+                        time.d += 1
+                    }
                 }
-            } else if (time.nome === partida.awayTeam) {
-                time.gp += Number(partida.resultB)
-                time.gc += Number(partida.resultA)
-                if (Number(partida.resultA) < Number(partida.resultB)) {
-                    time.p += 3
-                    time.v += 1
-                } else if (partida.resultA === partida.resultB) {
-                    time.p += 1
-                    time.e += 1
-                } else {
-                    time.d += 1
+            } else {
+                if (isNaN(partida.resultA)) {
+                    partida.resultA = ''
+                } else if (isNaN(partida.resultB)) {
+                    partida.resultB = ''
                 }
             }
-        } else {
-            if (isNaN(partida.resultA)) {
-                partida.resultA = ''
-            } else if (isNaN(partida.resultB)) {
-                partida.resultB = ''
-            }
-        }
-    })
-    time.sg = Number(time.gp) - Number(time.gc)
-    //gruposTabs.value[grupoIndex].classificacao[timeIndex] = time
+        })
+        time.sg = Number(time.gp) - Number(time.gc)
+        //gruposTabs.value[grupoIndex].classificacao[timeIndex] = time
     })
 })
 

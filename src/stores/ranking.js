@@ -7,6 +7,7 @@ import router from "../router";
 export const useRankingStore = defineStore("ranking", {
   state: () => {
     const ultimoJogo = ref({homePais:{pais:'',bandeira:''},awayPais:{pais:'',bandeira:''},resultA:'',resultB:''})
+    const ultimoJogo1 = ref({homePais:{pais:'',bandeira:''},awayPais:{pais:'',bandeira:''},resultA:'',resultB:''})
     const ranking = ref([{
      // ultimojogo:{homePais:{pais:'',bandeira:''},awayPais:{pais:'',bandeira:''},resultA:'',resultB:''},
       jogadores: [{
@@ -36,13 +37,14 @@ export const useRankingStore = defineStore("ranking", {
       ranking,
       setRanking,
       ultimoJogo,
+      ultimoJogo1,
       setUltimoJogo
     };
   },
   actions:{
     async cadastraRanking(jogs,uj) {
       try {
-          const docRef = await setDoc(doc(db, "ranking", '0'), { jogadores: jogs, ultimoJogo: uj });
+          const docRef = await setDoc(doc(db, "ranking1", '0'), { jogadores: jogs, ultimoJogo: uj });
           this.setRanking([{jogadores: jogs}])
           this.setUltimoJogo(uj)
     //      console.log('cadastraRanking');
@@ -57,19 +59,20 @@ export const useRankingStore = defineStore("ranking", {
       }
   },
     async fetchRanking () {
-      const colRef = collection(db, "ranking");
+      const colRef = collection(db, "ranking1");
       getDocs(colRef)
         .then((snapshot) => {
-          this.ranking = [];
+          //this.ranking = [];
+          this.setRanking([]);
           snapshot.docs.forEach((doc) => {
         //    console.log(doc.data().jogadores)
             let unovo = { jogadores: doc.data().jogadores,  idRodada: doc.id };
-            this.setRanking([unovo]);
+            this.ranking.push(unovo);
             this.setUltimoJogo(doc.data().ultimoJogo)
          //   console.log(unovo);
           });
-          /* console.log('fetch ranking');
-          console.log(this.ranking); */
+          console.log('fetch ranking');
+          console.log(this.ranking); 
         })
         .catch((err) => {
           console.log(err.message);
