@@ -934,7 +934,7 @@ const calculaRanking = () => {
                 });
             });
             //calcula pontuacao mataMata
-            let pontuacao = { Oitavas: '8', Quartas: '10', Semifinais: '15', Final: '20', Campeao: '30' }
+            let pontuacao = { Oitavas: 8, Quartas: 10, Semifinais: 15, Final: 20, Campeao: 30 }
             jogador.mataMataRaw.forEach((f) => {
                 f.jogos.forEach((jogo) => {
                     if (gabaritoTimeFases[f.fase].includes(jogo.homeTeam)) {
@@ -954,6 +954,7 @@ const calculaRanking = () => {
                 }
             })
             console.log(jogador.mataMataRaw);
+            //jogador.pontuacao = Number(jogador.grupos) + Number(jogador.Oitavas) + Number(jogador.Quartas) + Number(jogador.Semifinais) + Number(jogador.Final) + Number(jogador.Campeao);
             jogador.pontuacao = jogador.grupos + jogador.Oitavas + jogador.Quartas + jogador.Semifinais + jogador.Final + jogador.Campeao;
 
             jogadores.push({

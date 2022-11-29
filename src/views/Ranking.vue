@@ -60,10 +60,11 @@
         </div>
       </Panel>
     </div>
+    <!-- scrollHeight="400px" scrollDirection="horizontal" -->
     <p></p>
     <div>
 
-      <DataTable :scrollable="true" scrollHeight="400px" class="p-datatable-sm" scrollDirection="horizontal"
+      <DataTable :scrollable="true"  class="p-datatable-sm"  
         :value=store.ranking[0].jogadores v-model:selection="selectedCustomer1" selectionMode="single"
         dataKey="idUsuario" @row-click="rowClick($event)">
         <!-- <Column header="#" headerStyle="width:3em">
@@ -71,12 +72,12 @@
             {{ slotProps.data.idUsuario }}
           </template>
         </Column> -->
-        <Column field="pos" header="Pos" headerStyle="width:3em"></Column>
+        <Column field="pos" header="Pos" style="max-width:3em"></Column>
 
-        <Column field="nome" header="Nome" style="min-width:8rem"></Column>
-        <Column field="pontuacao" header="P"></Column>
-        <Column field="grupos" header="G"></Column>
-        <Column field="Oitavas" header="O"></Column>
+        <Column field="nome" header="Nome" header-style="min-width:10rem" style="min-width:10rem"></Column>
+        <Column field="pontuacao" header="P" header-style="max-width:5rem" style="max-width:5rem" ></Column>
+        <Column field="grupos" header="G" header-style="max-width:5rem" style="max-width:5rem"></Column>
+        <Column field="Oitavas" header="O" header-style="max-width:5rem" style="max-width:5rem"></Column>
         <!--  <Column field="Quartas" header="Q"></Column>
         <Column field="Semifinais" header="S"></Column>
         <Column field="Final" header="F"></Column>
