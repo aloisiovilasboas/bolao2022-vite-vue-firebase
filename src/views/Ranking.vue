@@ -78,10 +78,10 @@
         <Column field="pontuacao" header="P" header-style="max-width:5rem" style="max-width:5rem" ></Column>
         <Column field="grupos" header="G" header-style="max-width:5rem" style="max-width:5rem"></Column>
         <Column field="Oitavas" header="O" header-style="max-width:5rem" style="max-width:5rem"></Column>
-        <!--  <Column field="Quartas" header="Q"></Column>
-        <Column field="Semifinais" header="S"></Column>
-        <Column field="Final" header="F"></Column>
-        <Column field="Campeao" header="C"></Column> -->
+          <Column field="Quartas" header="Q" header-style="max-width:5rem" style="max-width:5rem"></Column>
+         <Column field="Semifinais" header="S" header-style="max-width:5rem" style="max-width:5rem"></Column>
+        <!-- <Column field="Final" header="F" header-style="max-width:5rem" style="max-width:5rem"></Column>
+        <Column field="Campeao" header="C" header-style="max-width:5rem" style="max-width:5rem"></Column> -->
 
 
 
@@ -101,10 +101,10 @@
           <span>P: Total de Pontos</span>
           <span>G: Fase de grupos</span>
           <span>O: Oitavas</span>
-          <!--  <span>Q: Quartas</span>
+            <span>Q: Quartas</span>
           <span>S: Semifinais</span>
           <span>F: Final</span>
-          <span>C: Campeão</span> -->
+          <span>C: Campeão</span>
 
         </div>
 

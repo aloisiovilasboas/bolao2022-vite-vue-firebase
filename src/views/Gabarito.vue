@@ -892,18 +892,21 @@ const calculaPagosENaoCadastrados = () => {
 const calculaRanking = () => {
     let jogadores = []
     let gabaritoTimeFases = { Oitavas: [], Quartas: [], Semifinais: [], Final: [], Campeao: '' }
+
     gabaritoStore.gabaritoRAW.mataMata.forEach((f) => {
+
         f.jogos.forEach((jogo) => {
             gabaritoTimeFases[f.fase].push(jogo.homeTeam)
             gabaritoTimeFases[f.fase].push(jogo.awayTeam)
-        })
-        if (f.fase === 'Final') {
-            if (f.jogos[0].winner === 'home') {
-                gabaritoTimeFases.Campeao = jogo.homeTeam
-            } else if (f.jogos[0].winner === 'away') {
-                gabaritoTimeFases.Campeao = jogo.awayTeam
+            if (f.fase === 'Final') {
+                if (f.jogos[0].winner === 'home') {
+
+                    gabaritoTimeFases['Campeao'] = jogo.homeTeam
+                } else if (f.jogos[0].winner === 'away') {
+                    gabaritoTimeFases['Campeao'] = jogo.awayTeam
+                }
             }
-        }
+        })
     });
     console.log(gabaritoTimeFases);
     gabaritoStore.todasAsApostas.forEach(aposta => {
@@ -938,20 +941,24 @@ const calculaRanking = () => {
             jogador.mataMataRaw.forEach((f) => {
                 f.jogos.forEach((jogo) => {
                     if (gabaritoTimeFases[f.fase].includes(jogo.homeTeam)) {
-                        jogador[f.fase] += pontuacao[f.fase]
+                        jogador[f.fase] = jogador[f.fase] + pontuacao[f.fase]
+                    }
+                    if (gabaritoTimeFases[f.fase].includes(jogo.awayTeam)) {
+                        jogador[f.fase] = jogador[f.fase] + pontuacao[f.fase]
+                    }
+                    if (f.fase === 'Final') {
+                        if (f.jogos[0].winner === 'home') {
+                            if (gabaritoTimeFases['Campeao'] === f.jogos[0].homeTeam) {
+                                jogador['Campeao'] = 30
+                            }
+                        } else if (f.jogos[0].winner === 'away') {
+                            if (gabaritoTimeFases['Campeao'] === f.jogos[0].awayTeam) {
+                                jogador['Campeao'] = 30
+                            }
+                        }
                     }
                 })
-                if (f.fase === 'Final') {
-                    if (f.jogos[0].winner === 'home') {
-                        if(gabaritoTimeFases.Campeao === f.jogos[0].homeTeam ){
-                            jogador.Campeao = 30
-                        }
-                    } else if (f.jogos[0].winner === 'away') {
-                        if(gabaritoTimeFases.Campeao === f.jogos[0].awayTeam ){
-                            jogador.Campeao = 30
-                        }
-                    }
-                }
+
             })
             console.log(jogador.mataMataRaw);
             //jogador.pontuacao = Number(jogador.grupos) + Number(jogador.Oitavas) + Number(jogador.Quartas) + Number(jogador.Semifinais) + Number(jogador.Final) + Number(jogador.Campeao);
