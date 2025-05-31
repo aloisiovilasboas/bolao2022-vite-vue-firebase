@@ -1,6 +1,6 @@
 # ⚽ World Cup 2022 Pool
 
-A lightweight web app for managing a **World Cup 2022 betting pool**, built with **Vite**, **Vue.js** and **Firebase**. Participants can submit their match predictions, track scores, and view leaderboards — all in real time and hosted on the web.
+A lightweight web app for managing a **World Cup 2022 guessing pool**, built with **Vite**, **Vue.js** and **Firebase**. Participants can submit their match predictions, track scores, and view leaderboards — all in real time and hosted on the web.
 
 ---
 
