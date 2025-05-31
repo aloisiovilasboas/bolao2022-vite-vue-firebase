@@ -4,6 +4,8 @@ A lightweight web app for managing a **World Cup 2022 betting pool**, built with
 
 ---
 
+🌐 **Live demo:** [bolaoafc2022.firebaseapp.com](https://bolaoafc2022.firebaseapp.com/#/)
+
 ## 🚀 Tech Stack
 
 - ⚡ **Vite** for fast frontend development
